@@ -33,9 +33,18 @@ nav {
   border-right: solid 10px @moonDarkGray;
   font-size: 18px;
   padding-top: 25px;
-  .navigation-item {
-    padding-top: 10px;
+  
+  .navigation-items {
+    list-style-type: none;
 
+    .navigation-item {
+      padding-top: 10px;
+    }
+
+    .navigation-item a {
+      text-decoration: none; 
+      color: @richBlack; 
+    }
   }
 }
 
@@ -133,16 +142,6 @@ footer {
 }
 
 
-
-
-.navigation-items {
-  list-style-type: none;
-
-  .navigation-item a {
-    text-decoration: none; 
-    color: @richBlack; 
-  }
-}
 
 
 
