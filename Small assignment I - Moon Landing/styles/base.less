@@ -73,8 +73,6 @@ main {
       background-size: cover;
       background-position: center;
       border: 10px solid @oxfordBlue;    // ATH
-
-      margin-right: 40px;
     }
 
   
@@ -83,16 +81,16 @@ main {
   .gallery {
     background-color: @ultraViolet;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     padding-top: 50px;
     padding-bottom: 50px;
-
     row-gap: 20px;
+  
     
   
     .gallery-item {
       display: grid;
-      justify-content: center;
+     
+
       img {
         width: 240px;
       }
@@ -118,9 +116,7 @@ aside {
 
     .planet {
       img {
-        width: 95px;
         height: auto;
-
       }
     }    
   }
@@ -157,10 +153,86 @@ footer {
   }
 
 
+
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+
+    .gallery-item {
+  
+      justify-content: center;
+      
+    
+    }
+    
+  }
+
+  .hero-image {
+    margin-right: 40px;
+  }
+
+  .planet {
+    img {
+      width: 95px;
+
+
+    }
+  }   
+
+
 }
 
 // Tablet media query
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
+
+  
+
+  nav {
+    display: none;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  
+
+    .gallery-item {
+      
+  
+      justify-items: center;
+      
+      
+    
+    }
+    
+  }
+
+  
+  .hero-image {
+    margin-right: 0px;
+  }
+
+  
+  aside {
+ 
+    padding-top: 40px;
+
+
+
+    .planets {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+      gap: 30px;
+  
+    
+    }
+    .planet {
+      img {
+        width: 55px;
+      }
+    }
+  }
+
+
+  
 
 }
 
