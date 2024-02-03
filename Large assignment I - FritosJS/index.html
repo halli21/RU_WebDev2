@@ -1,57 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Fritos Example</title>
-        <script src="fritos.js"></script>
-    </head>
+<head>
+<meta charset="UTF-8">
+<title>Hide Elements with FritosJS</title>
+<style>
+    .item { 
+        border: 1px solid #ddd; 
+        margin: 10px; 
+        padding: 10px; 
+        background-color: #f3f3f3; 
+    }
 
-<title>FritosJS Remote Call Test</title>
-
+    .item6 { 
+        border: 1px solid #ddd; 
+        margin: 10px; 
+        padding: 10px; 
+        background-color: #f3f3f3; 
+    }
+</style>
 </head>
 <body>
 
-    <button id="apiCallBtn">Make API Call</button>
+<div class="items">
+    <div class="item">Item 1</div>
+    <div class="item">Item 2</div>
+    <div class="item">Item 3</div>
+    <div class="item">Item 4</div>
+    <div class="item">Item 5</div>
+    <div class="item6">Item 6</div>
+</div>
 
-    <script>
-    document.getElementById('apiCallBtn').addEventListener('click', function() {
-        fritos.remoteCall('https://serene-island-81305.herokuapp.com/api/200', {
-            method: 'GET',
-            timeout: 45,
-            headers: {
-                'Accept': 'application/json',
-            },
-            onSuccess: function(data) {
-                console.log('GET Success:', data);
-              
-            },
-            onError: function(err) {
-                console.error('GET Error:', err);
-                
-            }
-        });
+<script>
+// Your FritosObject class implementation
+class FritosObject {
+    constructor(items) {
+        this.items = Array.from(items);
+    }
 
-        fritos.remoteCall('https://serene-island-81305.herokuapp.com/api/201', {
-            method: 'POST',
-            timeout: 45,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: 1,
-                message: 'Testing POST'
-            }),
-            onSuccess: function(data) {
-                console.log('POST Success:', data);
-     
-            },
-            onError: function(err) {
-                console.error('POST Error:', err);
-     
-            }
+    hide() {
+        this.items.forEach(item => {
+            item.style.display = 'none';
         });
-    });
-    </script>
+        return this;
+    }
+}
+
+window.fritos = function(selectors) {
+    const items = document.querySelectorAll(selectors);
+    return new FritosObject(items);
+};
+
+// Usage example
+fritos('.item6').hide();
+</script>
 
 </body>
 </html>

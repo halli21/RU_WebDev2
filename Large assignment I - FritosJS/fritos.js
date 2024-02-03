@@ -23,7 +23,7 @@ class FritosObject {
     animate(cssProperties, options) {
         const kebabProperties = {};
         for (const property in cssProperties) {
-            const kebabProperty = property.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase(); // stack overflow
+            const kebabProperty = property.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase(); // https://stackoverflow.com/questions/63116039/camelcase-to-kebab-case
             kebabProperties[kebabProperty] = cssProperties[property];
         } 
 
@@ -64,6 +64,39 @@ class FritosObject {
     }
 
 
+    validation(validationProperties) {
+        if (this.items.length === 0 || !(this.items[0] instanceof HTMLFormElement)) {
+            console.error('Validation can only be used on a HTMLFormElement with at least one item.');
+            return null;
+        }
+
+        const form = this.items[0];
+        let validationResult = {};
+
+        for (const fieldName in validationProperties) {
+            const formField = form.querySelector(`[name="${fieldName}"]`);
+
+            if (formField) {
+                validationProperties[fieldName].forEach(rule => {
+                    const isValid = rule.valid(formField.value, form);
+                    if (!isValid) {
+                        validationResult[fieldName] = rule.message;
+                    }
+                });
+            }
+        }
+        return validationResult;
+    }
+
+
+    hide() {
+        this.items.forEach(item => {
+            item.style.display = 'none';
+        });
+        return this; 
+    }
+
+
     
 }
 
@@ -89,6 +122,18 @@ fritos.remoteCall = function(url, options) {
         body: method !== 'GET' ? body : null,
         signal: controller.signal 
     })
+    .then(response => {
+        clearTimeout(id);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            return response.json();
+        } else {
+            return response.text(); 
+        }
+    })
     .then(data => {
         clearTimeout(id); 
         onSuccess(data);
@@ -98,6 +143,9 @@ fritos.remoteCall = function(url, options) {
         onError(error);
     });
 };
+
+
+
 
 
 
