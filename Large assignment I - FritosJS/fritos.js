@@ -1,7 +1,4 @@
 
-
-
-
 class FritosObject {
     constructor(items) {
         this.items = Array.from(items);
@@ -10,7 +7,7 @@ class FritosObject {
     parent(selector) {
         const parents = [];
         this.items.forEach(item => {
-            const parent = item.parentElement;
+            let parent = item.parentElement;
             if (parent && (selector == null || parent.matches(selector))) {
                 if (!parents.includes(parent)) {
                     parents.push(parent);
@@ -19,6 +16,24 @@ class FritosObject {
         });
         return new FritosObject(parents);
     }
+
+
+    ancestor(selector) {
+        const ancestors = [];
+        this.items.forEach(item => {
+            let element = item.parentElement;
+            while (element) {
+                if (!selector || element.matches(selector)) {
+                    if (!ancestors.includes(element)) {
+                        ancestors.push(element);
+                    }
+                }
+                element = element.parentElement;
+            }
+        });
+        return ancestors;
+    }
+
 
     animate(cssProperties, options) {
         const kebabProperties = {};
@@ -60,13 +75,14 @@ class FritosObject {
         this.items.forEach(item => {
             item.addEventListener(eventType, eventFunction);
         });
+
         return this;
     }
 
 
     validation(validationProperties) {
         if (this.items.length === 0 || !(this.items[0] instanceof HTMLFormElement)) {
-            console.error('Validation can only be used on a HTMLFormElement with at least one item.');
+            console.error('Validation can only be used on HTMLFormElement with at least one item.');
             return null;
         }
 
@@ -85,6 +101,7 @@ class FritosObject {
                 });
             }
         }
+
         return validationResult;
     }
 
@@ -93,11 +110,55 @@ class FritosObject {
         this.items.forEach(item => {
             item.style.display = 'none';
         });
+
         return this; 
     }
 
+    prune() {
+        this.items.forEach(item => {
+            const parent = item.parentNode;
+            if (parent) {
+                parent.parentNode.insertBefore(item, parent);
+                parent.remove();
+            }
+        });
+        return this;
+    }
 
-    
+    raise(level = 1) {
+        this.items.forEach(item => {
+            for (let i = 0; i < level; i++) {
+                const parent = item.parentNode;
+                if (!parent || parent === document.body) {
+                    break;
+                }
+                parent.parentNode.insertBefore(item, parent);
+            }
+        });
+        return this;
+    }
+
+    attrs(attributeName, attributeValue) {
+        this.items.forEach(item => {
+            item.setAttribute(attributeName, attributeValue);
+        });
+        return this;
+    }
+
+
+    val(value) {
+        if (value == null) {
+            if (this.items.length > 0) {
+                return this.items[0].value;
+            }
+            return null;
+        } else {
+            this.items.forEach(item => {
+                item.value = value;
+            });
+            return this;
+        }
+    }
 }
 
 
@@ -105,7 +166,6 @@ window.fritos = function(selectors) {
     const items = document.querySelectorAll(selectors);
     return new FritosObject(items);
 };
-
 
 
 
@@ -144,103 +204,5 @@ fritos.remoteCall = function(url, options) {
     });
 };
 
-
-
-
-
-
-
-
-/**
- 
-ancestor(selector) {
-        const ancestors = [];
-        this.items.forEach(item => {
-            let currentElement = item.parentElement;
-            while (currentElement) {
-                
-                if (selector == null || currentElement.matches(selector)) {
-                    if (!ancestors.includes(currentElement)) {
-                        ancestors.push(currentElement);
-                    }
-                    break;
-                }
-                currentElement = currentElement.parentElement;
-            }
-        });
-        return new FritosObject(ancestors);
-    }
-
-
-ancestor(selector) {
-        var ancestorNodes = [];
-        for (var i = 0; i < this.items.length; i++) {
-            var currentElement = this.items[i];
-            var ancestorNode = currentElement.parentNode;
-            while (ancestorNode !== null) {
-                // check if ancestorNode is an element and if it matches the cssSelector
-                if (ancestorNode.nodeType === 1 && ancestorNode.matches(selector)) {
-                    ancestorNodes.push(ancestorNode);
-                    break;
-                }
-                ancestorNode = ancestorNode.parentNode;
-            }
-        }
-        return new FritosObject(ancestorNodes);
-    };
-
-
-     animate(cssProperties, animationOptions) {
-        const kebabProperties = {};
-        for (const property in cssProperties) {
-            const kebabProperty = property.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-            kebabProperties[kebabProperty] = cssProperties[property];
-        } // stack overflow
-
-        console.log(kebabProperties)
-       
-        const options = {
-            duration: animationOptions.duration,
-            delay: animationOptions.delay, // á að vera hægt að setja 2s?
-            easing: animationOptions.easing,
-            iterations: animationOptions.iterationCount,
-            fill: animationOptions.fillMode,
-        };
-    
-      
-        this.items.forEach(item => {
-            item.animate(kebabProperties, options);
-        });
-    
-        return this;
-    }
-
-
-
-
-
-     const keyframes = Object.keys(cssProperties).map(property => {
-        const value = cssProperties[property];
-        // Convert camelCase to kebab-case for CSS property names
-        const kebabProperty = property.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-        return { [kebabProperty]: value };
-    });
-
-
-
-
-        .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        if (response.headers.get('content-type').includes('application/json')) {
-            return response.json();
-        }
-        throw new Error('Response not JSON');
-    })
-
-
- */
-
-
-    
 
    
