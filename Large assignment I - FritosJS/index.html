@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Raise Method Test</title>
-<script src="fritos.js"></script>
+<title>Ancestor Method Test</title>
+<script src="fritos.js">
+
+</script>
 </head>
 <body>
 
-<form action="">
-    <div class="form-group">
-        <input type="text" name="input-1" />
+<main>
+    <div class="items">
+        <div class="item">
+            <img src="" alt="" class="item-image" />
+        </div>
+        <div class="item">
+            <img src="" alt="" class="item-image" />
+        </div>
+        <div class="item">
+            <img src="" alt="" class="item-image" />
+        </div>
     </div>
-    <div class="form-group">
-        <input type="text" name="input-2" />
-    </div>
-    <div class="form-group">
-        <input type="text" name="input-3" />
-    </div>
-    <div class="form-group">
-        <input type="text" name="input-4" />
-    </div>
-    <div class="form-group">
-        <input type="text" name="input-5" />
-    </div>
-</form>
+</main>
 
-    <script>
+<script>
     // Example usage
-    fritos('input[type="text"]').raise(2); // Default, raise by one level
-    // Or for raising by two levels, call:
-    // fritos('input[type="text"]').raise(2);
-    </script>
-    
+    const allAncestors = fritos('.item-image').ancestor();
+    console.log(allAncestors); // Logs all ancestors of '.item-image' elements
+
+    const mainAncestors = fritos('.item-image').ancestor('main');
+    console.log(mainAncestors); // Logs <main> elements if they are ancestors
+</script>
+
 </body>
 </html>

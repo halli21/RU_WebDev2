@@ -21,14 +21,14 @@ class FritosObject {
     ancestor(selector) {
         const ancestors = [];
         this.items.forEach(item => {
-            let element = item.parentElement;
-            while (element) {
-                if (!selector || element.matches(selector)) {
-                    if (!ancestors.includes(element)) {
-                        ancestors.push(element);
+            let parent = item.parentElement;
+            while (parent) {
+                if (!selector || parent.matches(selector)) {
+                    if (!ancestors.includes(parent)) {
+                        ancestors.push(parent);
                     }
                 }
-                element = element.parentElement;
+                parent = parent.parentElement;
             }
         });
         return ancestors;

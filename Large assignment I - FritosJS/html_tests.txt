@@ -102,3 +102,45 @@
 
 </body>
 </html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Raise Method Test</title>
+<script src="fritos.js"></script>
+</head>
+<body>
+
+<form action="">
+    <div class="form-group">
+        <input type="text" name="input-1" />
+    </div>
+    <div class="form-group">
+        <input type="text" name="input-2" />
+    </div>
+    <div class="form-group">
+        <input type="text" name="input-3" />
+    </div>
+    <div class="form-group">
+        <input type="text" name="input-4" />
+    </div>
+    <div class="form-group">
+        <input type="text" name="input-5" />
+    </div>
+</form>
+
+    <script>
+    // Example usage
+    fritos('input[type="text"]').raise(2); // Default, raise by one level
+    // Or for raising by two levels, call:
+    // fritos('input[type="text"]').raise(2);
+    </script>
+    
+</body>
+</html>
