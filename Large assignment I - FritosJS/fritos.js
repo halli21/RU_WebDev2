@@ -45,7 +45,6 @@ class FritosObject {
     
         if (!styleSheet) {
             const style = document.createElement('style');
-            style.id = "fritosStyleSheet";
             document.head.appendChild(style);
             styleSheet = style.sheet;
         }
