@@ -5,36 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery</title>
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.18.2/dist/css/uikit.min.css" />
   </head>
   <body>
 
-    <div id="dropzone">
-        <div class="content">
-
-        <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-        <svg fill="#d2d1d9" height="30px" width="30px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384.97 384.97" xml:space="preserve">
-          <g>
-            <g id="Upload">
-              <path d="M372.939,264.641c-6.641,0-12.03,5.39-12.03,12.03v84.212H24.061v-84.212c0-6.641-5.39-12.03-12.03-12.03
-                S0,270.031,0,276.671v96.242c0,6.641,5.39,12.03,12.03,12.03h360.909c6.641,0,12.03-5.39,12.03-12.03v-96.242
-                C384.97,270.019,379.58,264.641,372.939,264.641z"/>
-              <path d="M117.067,103.507l63.46-62.558v235.71c0,6.641,5.438,12.03,12.151,12.03c6.713,0,12.151-5.39,12.151-12.03V40.95
-                l63.46,62.558c4.74,4.704,12.439,4.704,17.179,0c4.74-4.704,4.752-12.319,0-17.011l-84.2-82.997
-                c-4.692-4.656-12.584-4.608-17.191,0L99.888,86.496c-4.752,4.704-4.74,12.319,0,17.011
-                C104.628,108.211,112.327,108.211,117.067,103.507z"/>
-            </g>
-          </g>
-        </svg>
-
-        <span>Drop media to import</span>
-      </div>
+    <div id="dropzone" ondragenter="dragEnterHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)" ondrop="dropHandler(event)">
     </div>
     
-    <div id="text-container">
+    
+    <div id="gallery-container">
       <h2>Gallery</h2>
       <p>The gallery is empty</p>
+      <div id="images"></div>
     </div>
 
     <script src="/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.18.2/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.18.2/dist/js/uikit-icons.min.js"></script>
   </body>
 </html>

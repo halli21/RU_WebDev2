@@ -1,19 +1,4 @@
 
-@keyframes pulse {
-    0% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: scale(1.02);
-      opacity: 0.7;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-}
-  
 
 body {
     background-color: #252530;
@@ -22,23 +7,32 @@ body {
     color: #d2d1d9;
 }
 
+
 #dropzone {
     transition: transform 0.5s, opacity 0.5s;
     background-color: #282649;
-    height: 300px;
-    width: 700px;
+    height: 400px;
+    width: 900px;
     border: 1.5px dotted #3d3a6c;
     border-radius: 6px;
     margin-top: 60px;
 
     display: grid;
     place-items: center;
+    align-content: center;
 
-    .content {
+    .instructions {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 20px;
+    }
+
+    .image-options {
+        margin-top: 8px;
+        display: grid;
+        justify-content: center;
+        gap: 8px; 
     }
 }
 
@@ -46,12 +40,41 @@ body {
     animation: pulse 1.5s infinite;
 }
 
+#image-preview {
+    width: 100px;
+}
 
-#text-container {
-    width: 700px;
+
+#gallery-container {
+    margin-top: 20px;
+    width: 900px;
 
     p {
         color: #555557;
     }
 
 }
+
+
+
+
+
+
+
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.02);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+  
