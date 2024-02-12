@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
       output.textContent = '';
       event.stopPropagation();
       event.preventDefault();
+      dropzone.classList.add('pulse');
+  });
+
+  dropzone.addEventListener('dragleave', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      dropzone.classList.remove('pulse');
   });
   
   dropzone.addEventListener('dragover', function(event) {
@@ -16,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   dropzone.addEventListener('drop', function(event) {
       event.stopPropagation();
       event.preventDefault();
+      dropzone.classList.remove('pulse');
       dodrop(event);
   });
 });
