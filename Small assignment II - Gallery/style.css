@@ -1,66 +1,65 @@
 
+html {
+    height: 100%;
+    background-color: #252530;
+}
 
 body {
     background-color: #252530;
+    min-height: 100%;
     display: grid;
-    place-items: center;
-    color: #d2d1d9;
+    justify-items: center;
+    color: #d2d2d2;
+    #content {
+        width: 900px;
+   
+        #dropzone {
+            background-color: #282649;
+            height: 400px;
+            border: 1.5px dotted #3d3a6c;
+            border-radius: 6px;
+            margin-top: 50px;
+            display: grid;
+            place-items: center;
+            align-content: center;
+        
+            .instructions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .image-options {
+                margin-top: 8px;
+                display: grid;
+                justify-content: center;
+                gap: 8px; 
+            }
+        }
+
+        #dropzone.pulse {
+            animation: pulse 1.3s infinite;
+        }
+
+        h2 {
+            margin-top: 50px;
+            color: #d2d2d2;
+        }
+
+        #gallery-container {
+            p {
+                color: #555555;
+            }
+
+            #images {
+                display: grid;
+                grid-template-columns: auto auto;
+                row-gap: 20px;
+            }
+        }
+    }    
 }
-
-
-#dropzone {
-    transition: transform 0.5s, opacity 0.5s;
-    background-color: #282649;
-    height: 400px;
-    width: 900px;
-    border: 1.5px dotted #3d3a6c;
-    border-radius: 6px;
-    margin-top: 60px;
-
-    display: grid;
-    place-items: center;
-    align-content: center;
-
-    .instructions {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .image-options {
-        margin-top: 8px;
-        display: grid;
-        justify-content: center;
-        gap: 8px; 
-    }
-}
-
-#dropzone.pulse {
-    animation: pulse 1.5s infinite;
-}
-
-#image-preview {
-    width: 100px;
-}
-
-
-#gallery-container {
-    margin-top: 20px;
-    width: 900px;
-
-    p {
-        color: #555557;
-    }
-
-}
-
-
-
-
-
-
-
 
 
 @keyframes pulse {

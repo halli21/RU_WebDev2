@@ -8,15 +8,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.18.2/dist/css/uikit.min.css" />
   </head>
   <body>
-
-    <div id="dropzone" ondragenter="dragEnterHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)" ondrop="dropHandler(event)">
-    </div>
-    
-    
-    <div id="gallery-container">
+    <div id="content">
+      <div id="dropzone" ondragenter="dragEnterHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)" ondrop="dropHandler(event)">
+      </div>
+      
       <h2>Gallery</h2>
-      <p>The gallery is empty</p>
-      <div id="images"></div>
+      <div id="gallery-container">
+        <div id="images"></div>
+      </div>
     </div>
 
     <script src="/main.js"></script>

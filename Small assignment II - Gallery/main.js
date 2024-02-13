@@ -1,5 +1,7 @@
+const dbname = "imageDB14"
 
-const request = indexedDB.open("imageDB", 1);
+
+const request = indexedDB.open(dbname, 1);
 
 request.onerror = (event) => {
   console.error(`Database error: ${event.target.errorCode}`);
@@ -107,7 +109,7 @@ function createImage(base64String) {
 
 
 function uploadImage(base64String) {
-  const request = indexedDB.open("imageDB", 1);
+  const request = indexedDB.open(dbname, 1);
 
   request.onsuccess = (event) => {
     const db = event.target.result;
@@ -148,17 +150,9 @@ function dodrop(event)
 
 
 
-function setupDropzone() {
-  var dropzone = document.getElementById('dropzone');
-  dropzone.innerHTML = getDropzoneInstructions();
-  displayImages();
-}
-
-
-
 
 function displayImages() {
-  const request = indexedDB.open("imageDB", 1);
+  const request = indexedDB.open(dbname, 1);
 
   request.onsuccess = (event) => {
     const db = event.target.result;
@@ -168,14 +162,31 @@ function displayImages() {
     
     store.getAll().onsuccess = (event) => {
       const imagesDiv = document.getElementById('images');
+      const images = event.target.result;
       imagesDiv.innerHTML = '';
 
-      event.target.result.forEach((imageString) => {
-        const img = createImage(imageString.base64String);
-        imagesDiv.appendChild(img);
-      });
+      if (images.length === 0) {
+        const emptyMessage = document.createElement('p');
+        emptyMessage.textContent = 'The gallery is empty';
+        imagesDiv.appendChild(emptyMessage);
+      } else {
+        images.forEach((imageString) => {
+          const img = createImage(imageString.base64String);
+          imagesDiv.appendChild(img);
+        });
+      }
     };
   };
 }
 
-document.addEventListener('DOMContentLoaded', setupDropzone);
+
+
+function setup() {
+  var dropzone = document.getElementById('dropzone');
+  dropzone.innerHTML = getDropzoneInstructions();
+  displayImages();
+}
+
+
+
+document.addEventListener('DOMContentLoaded', setup);
