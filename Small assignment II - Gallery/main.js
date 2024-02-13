@@ -1,4 +1,4 @@
-const dbname = "imageDB14"
+const dbname = "imageDB16"
 
 
 const request = indexedDB.open(dbname, 1);
