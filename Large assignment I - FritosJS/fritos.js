@@ -389,7 +389,7 @@ fritos.remoteCall = function(url, options) {
 
 // FINISHED
 // TESTING prune
-// fritos('input[type="text"]').prune()
+// fritos('input[type="text"]').prune();
 
 
 
@@ -411,5 +411,4 @@ fritos.remoteCall = function(url, options) {
 // fritos('input[type="text"]').val('Default value');
 // // Returns the value of the first matching element.
 // const value = fritos('input[type="text"]').val();
-
 // console.log(value)

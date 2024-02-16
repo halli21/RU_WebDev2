@@ -10,6 +10,7 @@ body {
     display: grid;
     justify-items: center;
     color: #d2d2d2;
+    
     #content {
         width: 900px;
    
