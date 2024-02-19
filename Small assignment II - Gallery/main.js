@@ -1,12 +1,9 @@
-const dbname = "imageDB16"
-
-
+const dbname = "imageDB17"
 const request = indexedDB.open(dbname, 1);
 
 request.onerror = (event) => {
   console.error(`Database error: ${event.target.errorCode}`);
 };
-
 
 request.onupgradeneeded = (event) => {
   const db = request.result;
@@ -19,9 +16,6 @@ request.onsuccess = (event) => {
   const transaction = db.transaction("images", "readwrite");
   const store = transaction.objectStore("images");
 };
-
-
-
 
 function dragEnterHandler(event) {
   event.stopPropagation();
@@ -48,8 +42,6 @@ function dropHandler(event) {
 }
 
 
-
-
 function getDropzoneInstructions() {
   return `
     <div class="instructions">
@@ -59,9 +51,6 @@ function getDropzoneInstructions() {
     </div>
   `;
 }
-
-
-
 
 function getImageOptions(event) {
   const optionsHtml = `
@@ -87,15 +76,12 @@ function getImageOptions(event) {
 }
 
 
-
-
 function createImage(base64String) {
   const img = document.createElement('img');
   img.src = base64String;
   img.style.height = '200px';
   return img; 
 }
-
 
 function uploadImage(base64String) {
   const request = indexedDB.open(dbname, 1);
@@ -116,13 +102,15 @@ function uploadImage(base64String) {
 }
 
 
-
-
 function dodrop(event)
 {
   dropzone.innerHTML = '';
   const file = event.dataTransfer.files[0];
-  if (file.type.startsWith('image/')) {
+
+  if (!file.type.match('image.*')) {
+    dropzone.innerHTML = getDropzoneInstructions();
+    console.log('needs to be an image')
+  } else {
     const reader = new FileReader();
     reader.onload = function(event) {
       dropzone.appendChild(createImage(event.target.result));
@@ -131,13 +119,8 @@ function dodrop(event)
 
     reader.readAsDataURL(file);
   }
-  else {
-    dropzone.innerHTML = getDropzoneInstructions();
-    console.log('needs to be an image')
-  }
+
 }
-
-
 
 
 function displayImages() {
@@ -168,14 +151,10 @@ function displayImages() {
   };
 }
 
-
-
 function setup() {
   var dropzone = document.getElementById('dropzone');
   dropzone.innerHTML = getDropzoneInstructions();
   displayImages();
 }
-
-
 
 document.addEventListener('DOMContentLoaded', setup);
