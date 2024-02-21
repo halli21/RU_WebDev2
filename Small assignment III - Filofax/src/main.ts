@@ -38,7 +38,6 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
             <p class="contact-small-text">${title}</p>
         </div>
 
-
         <div class="more-info" style="display: none;">
             <p class="contact-small-text">${contact.info.phoneNumber}</p>
             <p class="contact-small-text">${contact.info.email}</p>
@@ -47,12 +46,13 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
         </div>
 
         <div class="icon-container">
-            <span uk-icon="icon: receiver; ratio: 1"></span>
-            <span uk-icon="icon: mail; ratio: 1"></span>
-            <span uk-icon="icon: commenting; ratio: 1"></span>
-            <span uk-icon="icon: calendar; ratio: 1"></span>
+            <span uk-icon="icon: receiver; ratio: 1.3"></span>
+            <span uk-icon="icon: mail; ratio: 1.3"></span>
+            <span uk-icon="icon: commenting; ratio: 1.3"></span>
+            <span uk-icon="icon: calendar; ratio: 1.3"></span>
         </div>
     `;
+
 
     div.innerHTML += generalInfo;
   
@@ -77,9 +77,12 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
             moreInfo.style.display = 'block'; 
             button.setAttribute('uk-icon', 'icon: chevron-up; ratio: 1'); 
             div.style.height = 'auto';
+            div.style.gridTemplateRows = '125px 60px auto 40px 50px';
         } else {
             moreInfo.style.display = 'none';
             button.setAttribute('uk-icon', 'icon: chevron-down; ratio: 1'); 
+            div.style.gridTemplateRows = '125px 60px 40px 50px';
+            div.style.height = '275px';
         }
     };
 

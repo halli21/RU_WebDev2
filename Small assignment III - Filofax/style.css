@@ -27,32 +27,34 @@ body {
 
     .contact {
         display: grid;
-        grid-template-rows: 100px 60px auto 50px ;
+        grid-template-rows: 125px 60px 40px 50px ;
         background-color: white;
         border-radius: 6px;
         place-items: center;
+        height: 275px;
   
     
 
         .contact-thumbnail {
-          
             display: grid;
             place-content: center;
-            width: 60px;
-            height: 60px;
+            width: 75px;
+            height: 75px;
             background-color: #21cca2;
             border-radius: 50%;
             font-weight: bold;
             color: white;
+            font-size: 28px;
         }
 
         .contact-heading {
             text-align: center;
             
             .contact-name {
-                font-weight: bold;
+                font-weight: 900;
                 color: black;
                 margin: 0px;
+                margin-bottom: 3px;
             }
 
             .contact-small-text {
@@ -76,12 +78,13 @@ body {
             display: grid;
             grid-template-columns: repeat(4, auto);
             gap: 20px;
+            margin-top: 10px;
 
             span {
                 color: white;
-                padding: 3px;
+                padding: 5px;
                 background-color: #21cca2;
-                border-radius: 6px;
+                border-radius: 8px;
             }
         }
 
