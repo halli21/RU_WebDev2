@@ -3,9 +3,7 @@ import { IndividualInfo } from './types/IndividualInfo';
 import { CompanyInfo } from './types/CompanyInfo';
 import { ContactType } from './types/ContactType';
 
-
 import data from './data/prepopulation.json';
-
 
 
 function isIndividualInfo(contact: Contact<IndividualInfo | CompanyInfo>): contact is Contact<IndividualInfo> {
@@ -13,9 +11,8 @@ function isIndividualInfo(contact: Contact<IndividualInfo | CompanyInfo>): conta
 }
 
 function isCompanyInfo(contact: Contact<IndividualInfo | CompanyInfo>): contact is Contact<CompanyInfo> {
-    return (contact.info as CompanyInfo).keyContacts !== undefined;
+    return contact.type === 'company';
 }
-
 
 
 function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
@@ -62,8 +59,10 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
         moreInfo.innerHTML += `<p>Key Contacts</p>`;
 
         for (const keyContact of contact.info.keyContacts) {
-            console.log(keyContact)
-      
+            if ('name' in keyContact) { 
+                moreInfo.innerHTML += `<p>${keyContact.name}</p>`;
+                moreInfo.innerHTML += `<p>${keyContact.email}</p>`;
+            }
         }
     }
 
@@ -94,49 +93,63 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
 
 
 
-
-
-
-function parseData(): Contact<IndividualInfo | CompanyInfo>[] {
-    const contacts: Contact<IndividualInfo | CompanyInfo>[] = [];
+function parseAndSaveData(): void {
+    const contacts: Array<Contact<IndividualInfo | CompanyInfo>> = [];
 
     for (const contactJSON of data.contacts) {
         const thumbnail = contactJSON.name.split(' ').map(n => n[0]).join('');
 
         if (contactJSON.type === ContactType.Individual) {
-            const individualInfo = contactJSON as IndividualInfo;
-            const contact = new Contact<IndividualInfo>(contactJSON.name, thumbnail, ContactType.Individual, individualInfo);
+            const contact: Contact<IndividualInfo> = {
+                name: contactJSON.name,
+                thumbnail,
+                type: ContactType.Individual,
+                info: <IndividualInfo> {
+                    phoneNumber: contactJSON.phoneNumber,
+                    title: contactJSON.title,
+                    email: contactJSON.email,
+                    address: contactJSON.address,
+                    website: contactJSON.website,
+                }
+            };
             contacts.push(contact);
         } else if (contactJSON.type === ContactType.Company) {
-          
-            const transformedKeyContacts: IndividualInfo[] = contactJSON.keyContacts?.map(keyContact => ({
+            const transformedKeyContacts: Partial<IndividualInfo>[] = contactJSON.keyContacts?.map(keyContact => ({
                 name: keyContact.name,
                 email: keyContact.email,
-                phoneNumber: '',
-                title: '',
-                address: '',
-                website: ''
             })) || [];
 
-            const companyInfo: CompanyInfo = {
-                ...contactJSON,
-                keyContacts: transformedKeyContacts
-            } as CompanyInfo;
-            
-            const contact = new Contact<CompanyInfo>(contactJSON.name, thumbnail, ContactType.Company, companyInfo);
+            const contact: Contact<CompanyInfo> = {
+                name: contactJSON.name,
+                thumbnail,
+                type: ContactType.Company,
+                info: <CompanyInfo> {
+                    phoneNumber: contactJSON.phoneNumber,
+                    industry: contactJSON.industry,
+                    email: contactJSON.email,
+                    address: contactJSON.address,
+                    website: contactJSON.website,
+                    keyContacts: transformedKeyContacts
+                }
+            };
             contacts.push(contact);
         }
     }
 
-    return contacts;
+    localStorage.setItem('contacts', JSON.stringify(contacts));
 }
 
 
 
 function setup() {
-
     const div = document.getElementById('contact-container');
-    const contacts = parseData();
+
+    if (!localStorage.getItem('contacts')) {
+        parseAndSaveData();
+        console.log('storing')
+    } 
+
+    const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
 
     console.log(contacts);
 
