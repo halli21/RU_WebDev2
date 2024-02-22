@@ -14,7 +14,6 @@ function isCompanyInfo(contact: Contact<IndividualInfo | CompanyInfo>): contact 
     return contact.type === 'company';
 }
 
-
 function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
     const div = document.createElement('div');
     div.classList.add('contact');
@@ -25,7 +24,6 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
     } else if (isCompanyInfo(contact)) {
         title = contact.info.industry;
     }
-
 
     const generalInfo = `
         <div class="contact-thumbnail">${contact.thumbnail}</div>
@@ -50,22 +48,22 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
         </div>
     `;
 
-
     div.innerHTML += generalInfo;
   
-
     var moreInfo = div.getElementsByClassName('more-info')[0] as HTMLElement;
     if (isCompanyInfo(contact)) {
-        moreInfo.innerHTML += `<p>Key Contacts</p>`;
+        moreInfo.innerHTML += `<p class="key-contact-heading">Key Contacts</p>`;
 
         for (const keyContact of contact.info.keyContacts) {
             if ('name' in keyContact) { 
-                moreInfo.innerHTML += `<p>${keyContact.name}</p>`;
-                moreInfo.innerHTML += `<p>${keyContact.email}</p>`;
+                moreInfo.innerHTML += `
+                <div class="key-contact-entry">
+                    <p class="contact-small-text">${keyContact.name}</p>
+                    <p class="contact-small-text">${keyContact.email}</p>
+                </div>`;
             }
         }
     }
-
 
     const button = document.createElement('button');
     button.setAttribute('uk-icon', 'icon: chevron-down; ratio: 1');
@@ -86,11 +84,8 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
     };
 
     div.appendChild(button);
-    
     return div;
 }
-
-
 
 
 function parseAndSaveData(): void {
@@ -151,14 +146,11 @@ function setup() {
 
     const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
 
-    console.log(contacts);
-
     if (div !== null) {
         for (const contact of contacts) {
             div.appendChild(createIndividual(contact))
         }
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', setup);
