@@ -1,0 +1,6 @@
+.recipeList {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    gap: 20px;
+}

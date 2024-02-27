@@ -3,6 +3,27 @@ import { Recipe } from "../types/recipe";
 const BASE_URL = 'http://localhost:3500';
 
 
+
+
+async function request<TResponse>(
+    url: string,
+    config: RequestInit = {}
+    ) {
+    const response = await fetch(url, config);
+    const json = await response.json();
+    return json as TResponse;
+}
+
+export const getAllRecipes = async () => {
+    try {
+        return await request<Recipe[]>(BASE_URL + `/recipes`);
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+};
+  
+
 export const getRecipes = async () => {
     try {
         const response = await fetch(

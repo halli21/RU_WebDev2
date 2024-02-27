@@ -1,4 +1,4 @@
-import styles from './searchBar.module.css';
+import styles from './search-bar.module.css';
 
 // TODO still needs icon
 // <span data-uk-icon="icon: search; ratio: 2"></span>
