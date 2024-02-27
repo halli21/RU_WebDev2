@@ -1,0 +1,11 @@
+.header {
+    display: grid;
+    place-content: center;
+    row-gap: 50px;
+    height: 350px;
+    background: linear-gradient(#219EBC, #2172BC);
+
+    h1 {
+        color: #FFFFFF;
+    }
+}
