@@ -41,10 +41,10 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
         </div>
 
         <div class="icon-container">
-            <span uk-icon="icon: receiver; ratio: 1.3"></span>
-            <span uk-icon="icon: mail; ratio: 1.3"></span>
-            <span uk-icon="icon: commenting; ratio: 1.3"></span>
-            <span uk-icon="icon: calendar; ratio: 1.3"></span>
+            <span uk-icon="icon: receiver; ratio: 1.2"></span>
+            <span uk-icon="icon: mail; ratio: 1.2"></span>
+            <span uk-icon="icon: commenting; ratio: 1.2"></span>
+            <span uk-icon="icon: calendar; ratio: 1.2"></span>
         </div>
     `;
 
@@ -74,12 +74,12 @@ function createIndividual(contact: Contact<IndividualInfo | CompanyInfo>) {
             moreInfo.style.display = 'block'; 
             button.setAttribute('uk-icon', 'icon: chevron-up; ratio: 1'); 
             div.style.height = 'auto';
-            div.style.gridTemplateRows = '125px 60px auto 40px 50px';
+            div.style.gridTemplateRows = '125px 60px auto 50px 25px';
         } else {
             moreInfo.style.display = 'none';
             button.setAttribute('uk-icon', 'icon: chevron-down; ratio: 1'); 
-            div.style.gridTemplateRows = '125px 60px 40px 50px';
-            div.style.height = '275px';
+            div.style.gridTemplateRows = '125px 60px 50px 25px';
+            div.style.height = '260px';
         }
     };
 
