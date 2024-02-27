@@ -5,8 +5,6 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routing";
 import './base.css';
 
-import 'uikit/dist/css/uikit.min.css';
-import "uikit/dist/css/uikit-core.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
