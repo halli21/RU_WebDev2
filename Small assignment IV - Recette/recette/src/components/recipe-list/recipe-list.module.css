@@ -1,6 +1,7 @@
 .recipeList {
     display: grid;
+    grid-template-columns: repeat(4, auto);
     justify-content: center;
     align-content: center;
-    gap: 20px;
+    gap: 35px;
 }

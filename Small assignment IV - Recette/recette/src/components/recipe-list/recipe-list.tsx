@@ -8,7 +8,7 @@ export const RecipeList = () => {
     return (
         <div className={styles.recipeList}>
             {recipes.map((item) => (
-                <RecipeListItem key={item.id} item={item} />
+                <RecipeListItem key={item._id} item={item} />
             ))}
         </div>
     );

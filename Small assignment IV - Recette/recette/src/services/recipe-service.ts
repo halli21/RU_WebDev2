@@ -11,6 +11,7 @@ async function request<TResponse>(
     ) {
     const response = await fetch(url, config);
     const json = await response.json();
+    console.log(json)
     return json as TResponse;
 }
 

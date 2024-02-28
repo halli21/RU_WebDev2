@@ -1,0 +1,24 @@
+.recipeItem {
+    height: 260px;
+    width: 270px;
+    background-color: #FFFFFF;
+    display: grid;
+    justify-content: center;
+    padding: 10px;
+    color: #929292;
+}
+
+.recipeImage {
+
+    position: relative;
+    height: 175px;
+    width: 230px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: black;
+ 
+    transition: opacity .2s;
+   
+
+}
