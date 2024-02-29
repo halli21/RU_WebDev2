@@ -1,8 +1,13 @@
 
 .searchBar {
-  
-    padding: 40px;
- 
+    padding: 15px 30px;
     background: #FFFFFF;
-    border-radius: 5px;
+    border-radius: 32px;
+    width: 700px;  
+}
+  
+.searchBar input {
+    border: none;
+    outline: none;
+    padding: 8px 16px;
 }

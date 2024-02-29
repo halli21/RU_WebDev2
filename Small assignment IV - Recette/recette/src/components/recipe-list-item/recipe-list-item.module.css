@@ -6,6 +6,12 @@
     justify-content: center;
     padding: 10px;
     color: #929292;
+
+    p {
+        font-size: 14px;
+        margin : 0px; 
+        padding-top: 10px;
+    }
 }
 
 .recipeImage {
@@ -15,4 +21,26 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+
+.meat, .chicken, .fish, .pepper, .kid {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.meat {
+    color: #ec0000;
+}
+
+.fish {
+    color: #5482ff;
+}
+
+.pepper {
+    color: #a11d1d;
+}
+
+.kid {
+    color: #ffcbb2;
 }

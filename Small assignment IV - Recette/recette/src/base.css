@@ -4,9 +4,12 @@
     box-sizing: border-box;
 }
 
-html, body {
-    width: 100%;
+html {
     height: 100%;
     background-color: #EDECF1;
-   
+}
+
+body {
+    background-color: #EDECF1;
+    min-height: 100%;
 }

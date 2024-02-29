@@ -1,12 +1,14 @@
 import styles from './search-bar.module.css';
 
-// TODO still needs icon
-// <span data-uk-icon="icon: search; ratio: 2"></span>
+interface SearchBarProps {
+    onSearchChange: (searchTerm: string) => void;
+}
 
-export const SearchBar = () => {
+export const SearchBar = ({ onSearchChange }: SearchBarProps) => {
     return (
         <div className={styles.searchBar}>
-            Search for recipes
+            <span data-uk-icon="icon: search; ratio: 1.1"></span>
+            <input type="text" placeholder="Search for recipes" onChange={(e) => onSearchChange(e.target.value)} />
         </div>
     );
 };

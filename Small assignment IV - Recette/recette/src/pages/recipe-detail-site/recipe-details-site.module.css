@@ -4,3 +4,45 @@
     background-size: cover;
     background-position: center;
 }
+
+
+.outerDiv {
+    display: grid;
+    justify-content: center;
+}
+
+
+.container {   
+    margin-top: 50px;
+    width: 1185px;
+
+    h1, h2, h3 {
+        color: black;
+    }
+
+    h1 {
+        margin: 0px;
+        margin-bottom: 5px;
+    }
+
+    p {
+        margin: 0px;
+    }
+}
+
+.tagContainer {
+    display: grid;
+    width: 500px;
+    grid-template-columns: 200px 200px;
+    margin-top: 30px;
+
+    .tag {
+        display: grid;
+        place-items: center;
+        place-content: center;
+        border: 1px solid #929292; 
+        margin-right: 25px;
+        border-radius: 8px;
+        height: 100px;
+    }
+}

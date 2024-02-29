@@ -12,13 +12,21 @@ export const CategoryFilter = ({ currentType, onTypeClick } : CategoryFilterProp
     const recipeTypes = useRecipeTypes();
     return (
         <div className={styles.filterBar}>
-            <p onClick={() => onTypeClick(null)} className={currentType === null ? styles.active : ''}>ALL</p>
+            <div 
+                onClick={() => onTypeClick(null)} 
+                className={`${styles.typeName} ${currentType === null ? styles.active : ''}`}
+            >
+                ALL
+            </div>
             {recipeTypes.map((type) => (
-                <p key={type._id} onClick={() => onTypeClick(type)} className={currentType === type ? styles.active : ''}>
+                <div 
+                    key={type._id} 
+                    onClick={() => onTypeClick(type)} 
+                    className={`${styles.typeName} ${currentType === type ? styles.active : ''}`}
+                >
                     {type.name}
-                </p>
+                </div>
             ))}
-
         </div>
     );
 };
