@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllRecipes } from "../services/recipe-service";
+import { getAllRecipes, getRecipeTypes } from "../services/recipe-service";
 import { Recipe } from "../types/recipe";
 
 export const useRecipes = () => {

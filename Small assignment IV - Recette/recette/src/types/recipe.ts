@@ -5,4 +5,6 @@ export interface Recipe {
     title: string;
     image: string;
     tags: Tag[];
+    recipeType: string;
 }
+

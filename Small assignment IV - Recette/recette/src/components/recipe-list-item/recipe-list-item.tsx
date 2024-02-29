@@ -1,5 +1,6 @@
 import styles from "./recipe-list-item.module.css";
 import { Recipe } from "../../types/recipe";
+import { useNavigate } from "react-router-dom";
 
 
 interface RecipeListItemProps {
@@ -7,11 +8,14 @@ interface RecipeListItemProps {
 }
 
 export const RecipeListItem = ({ item }: RecipeListItemProps) => {
-    const base64Image = item?.image ? `data:image/jpeg;base64,${item.image}` : undefined;
+    const navigate = useNavigate();
     const backgroundImage = item?.image ? `url(data:image/jpeg;base64,${item.image})` : undefined;
 
     return (
-        <div className={styles.recipeItem}>
+        <div 
+            className={styles.recipeItem}
+            onClick={() => navigate(`/${item?._id}`)}
+        >
             <div
                 className={styles.recipeImage}
                 style={{
@@ -20,14 +24,7 @@ export const RecipeListItem = ({ item }: RecipeListItemProps) => {
             >
 
             </div>
-           
-      
             <p>{item?.title}</p>
-
-           
         </div>
     );  
 };
-
-
-// <img src={base64Image} className={styles.recipeImage}/>

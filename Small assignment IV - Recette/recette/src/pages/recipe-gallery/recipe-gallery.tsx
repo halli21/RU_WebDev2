@@ -6,8 +6,6 @@ export const RecipeGallery = () => {
     <>
       <Header />
       <RecipeList />
-      
-  
     </>
   );
 };

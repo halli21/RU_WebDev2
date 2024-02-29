@@ -1,8 +1,8 @@
 import { Recipe } from "../types/recipe";
+import { DetailedRecipe } from "../types/detailed-recipe";
+import { RecipeType } from "../types/recipe-type";
 
 const BASE_URL = 'http://localhost:3500';
-
-
 
 
 async function request<TResponse>(
@@ -23,44 +23,25 @@ export const getAllRecipes = async () => {
         return [];
     }
 };
-  
 
-export const getRecipes = async () => {
+export const getRecipeById = async (id: string) => {
     try {
-        const response = await fetch(
-            BASE_URL + `/recipes`
-        );
-        const json = await response.json();
-        return json;
+        const recipe = await request<DetailedRecipe>(BASE_URL + `/recipes/${id}`);
+        return recipe;
     } catch (e) {
-        console.log(e);
+        console.error(e);
+        return undefined;
+    }
+};
+
+export const getRecipeTypes = async () => {
+    try {
+        const recipeTypes = await request<RecipeType[]>(BASE_URL + `/recipes/recipeTypes`);
+        return recipeTypes;
+    } catch (e) {
+        console.error(e);
         return [];
     }
-}
+};
 
 
-export const getRecipeTypes= async () => {
-    try {
-        const response = await fetch(
-            BASE_URL + `/recipes/recipeTypes`
-        );
-        const json = await response.json();
-        return json;
-    } catch (e) {
-        console.log(e);
-        return [];
-    }
-}
-
-export const getRecipeById = async () => {
-    try {
-        const response = await fetch(
-            BASE_URL + `/recipes/65ddcccb2c5d6f094d02a700`
-        );
-        const json = await response.json();
-        return json;
-    } catch (e) {
-        console.log(e);
-        return [];
-    }
-}
