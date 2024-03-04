@@ -1,0 +1,16 @@
+.galleryItem {
+    border: 1px solid red;
+
+    width: 300px;
+
+
+
+    .galleryItemImage {
+        position: relative;
+        height: 180px;
+        width: 180px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
