@@ -1,0 +1,20 @@
+
+
+.navigationBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    padding: 20px;
+}
+
+.navigationLinks {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }

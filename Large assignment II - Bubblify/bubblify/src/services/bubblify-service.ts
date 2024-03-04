@@ -1,4 +1,5 @@
 import { Bubble } from "../types/bubble";
+import { Bundle } from "../types/bundle";
 
 const BASE_URL = 'http://localhost:3500/api';
 
@@ -33,7 +34,7 @@ export const getBubbleById = async (id: string) => {
 
 export const getAllBundles = async () => {
     try {
-        return await request<any[]>(BASE_URL + `/bundles`);
+        return await request<Bundle[]>(BASE_URL + `/bundles`);
     } catch (e) {
         console.error(e);
         return [];
