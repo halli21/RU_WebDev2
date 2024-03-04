@@ -30,3 +30,12 @@ export const getBubbleById = async (id: string) => {
         return undefined;
     }
 };
+
+export const getAllBundles = async () => {
+    try {
+        return await request<any[]>(BASE_URL + `/bundles`);
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+};
