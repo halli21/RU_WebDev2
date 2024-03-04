@@ -1,11 +1,17 @@
 
 .container {
+    display: grid;
     margin-top: 30px;
     p {
         span {
             font-weight: bold;
             color: black;
         }
+    }
+
+    .loading {
+        justify-self: center;
+
     }
 }
 
@@ -17,5 +23,11 @@
     align-content: center;
     gap: 35px;
 }
+
+.error {
+    font-size: 48px;
+}
+
+
 
 

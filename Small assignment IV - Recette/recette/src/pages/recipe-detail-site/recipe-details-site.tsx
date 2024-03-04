@@ -7,65 +7,89 @@ import { getRecipeById } from "../../services/recipe-service";
 export const RecipeDetailSite = () => {
     const { recipeId } = useParams();
     const [recipe, setRecipe] = useState<DetailedRecipe | undefined>();
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
 
     useEffect(() => {
         if (!recipeId) { return; }
-        async function getInitialData() {
-            const recipe = await getRecipeById(recipeId!);
-            setRecipe(recipe);  
+        async function getRecipeData() {
+            try {
+                const recipe = await getRecipeById(recipeId!);
+                setRecipe(recipe);  
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError('Error: An unexpected error occurred');
+                }
+            } finally {
+                setIsLoading(false);
+            }
         }
 
-        getInitialData();
+        getRecipeData();
     }, [recipeId]);
 
+
+    if (error) {
+        return <div className={styles.error}>Error: {error}</div>;
+    }
   
 
     return (
-        <div>
-            <div
-                className={styles.recipeImage}
-                style={{
-                    backgroundImage: recipe?.image ? `url(data:image/jpeg;base64,${recipe.image})` : undefined,
-                }}
-            ></div>
-            <div className={styles.outerDiv}>
-                <div className={styles.container}>
+        <div className={styles.grid}>
+            {isLoading ? 
+            (<div className={styles.loading}><div uk-spinner="ratio: 4"></div></div>)
+            :
+            (
+                <div>
+                    <div
+                        className={styles.recipeImage}
+                        style={{
+                            backgroundImage: recipe?.image ? `url(data:image/jpeg;base64,${recipe.image})` : undefined,
+                        }}
+                    ></div>
+                    <div className={styles.outerDiv}>
+                        <div className={styles.container}>
 
-                    <h1>{recipe?.title}</h1>
-                    <p>By {recipe?.author}</p>
+                            <h1>{recipe?.title}</h1>
+                            <p>By {recipe?.author}</p>
 
-                    <div className={styles.tagContainer}>
-                        <div className={styles.tag}>
-                            <p>Calories</p>
-                            <p>{recipe?.tags.find(tag => tag.key === 'Calories')?.value ?? 'Not available'} cal</p>
-                        </div>
+                            <div className={styles.tagContainer}>
+                                <div className={styles.tag}>
+                                    <p>Calories</p>
+                                    <span>{recipe?.tags.find(tag => tag.key === 'Calories')?.value ?? 'Not available'} cal</span>
+                                </div>
 
-                        <div className={styles.tag}>
-                            <p>Total Minutes</p>
-                            <p>{recipe?.tags.find(tag => tag.key === 'TotalMinutes')?.value ?? 'Not available'} min</p>
+                                <div className={styles.tag}>
+                                    <p>Total Minutes</p>
+                                    <span>{recipe?.tags.find(tag => tag.key === 'TotalMinutes')?.value ?? 'Not available'} min</span>
+                                </div>
+                            </div>
+
+
+                            <h2>About recipe</h2>
+                            <p>{recipe?.description}</p>
+
+                            <h2>Ingredients</h2>
+                            <ul className={styles.list}>
+                                {recipe?.ingredients.map((ingredient, index) => (
+                                    <li key={index}>{ingredient.ingredient}</li>
+                                ))}
+                            </ul>
+
+                            <h2>Instructions</h2>
+                            <ol className={styles.list}>
+                                {recipe?.instructions.map(instruction => (
+                                    <li key={instruction.step}> {instruction.description}</li>
+                                ))}
+                            </ol>
+
                         </div>
                     </div>
-
-
-                    <h2>About recipe</h2>
-                    <p>{recipe?.description}</p>
-
-                    <h2>Ingredients</h2>
-                    <ul>
-                        {recipe?.ingredients.map((ingredient, index) => (
-                            <li key={index}>{ingredient.ingredient}</li>
-                        ))}
-                    </ul>
-
-                    <h2>Instructions</h2>
-                    <ol>
-                        {recipe?.instructions.map(instruction => (
-                            <li key={instruction.step}>Step {instruction.step}: {instruction.description}</li>
-                        ))}
-                    </ol>
-
                 </div>
-            </div>
+            )}
         </div>
     );
 };

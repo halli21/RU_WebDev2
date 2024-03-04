@@ -27,6 +27,11 @@
 
     p {
         margin: 0px;
+        color: #929292;
+    }
+
+    .list {
+        color: #929292;
     }
 }
 
@@ -35,6 +40,10 @@
     width: 500px;
     grid-template-columns: 200px 200px;
     margin-top: 30px;
+    
+    p {
+        color: black;
+    }
 
     .tag {
         display: grid;
@@ -44,5 +53,24 @@
         margin-right: 25px;
         border-radius: 8px;
         height: 100px;
+        color: black;
+
+        span {
+            font-weight: 600;
+        }
     }
+}
+
+
+.grid {
+    display: grid;
+}
+
+.loading {
+    margin-top: 250px;
+    justify-self: center;
+}
+
+.error {
+    font-size: 48px;
 }

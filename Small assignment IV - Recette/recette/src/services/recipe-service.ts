@@ -19,18 +19,15 @@ export const getAllRecipes = async () => {
     try {
         return await request<Recipe[]>(BASE_URL + `/recipes`);
     } catch (e) {
-        console.error(e);
-        return [];
+        throw Error('Something happened')
     }
 };
 
 export const getRecipeById = async (id: string) => {
     try {
-        const recipe = await request<DetailedRecipe>(BASE_URL + `/recipes/${id}`);
-        return recipe;
+        return await request<DetailedRecipe>(BASE_URL + `/recipes/${id}`);
     } catch (e) {
-        console.error(e);
-        return undefined;
+        throw Error('Something happened')
     }
 };
 
