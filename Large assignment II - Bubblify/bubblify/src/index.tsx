@@ -5,6 +5,12 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider } from "react-router-dom";
 import router from "./routing";
 
+import 'uikit/dist/css/uikit.min.css';
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
+
+UIkit.use(Icons);
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
