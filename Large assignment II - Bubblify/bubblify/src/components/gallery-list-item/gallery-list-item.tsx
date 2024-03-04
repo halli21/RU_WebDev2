@@ -13,6 +13,7 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
     return (
         <div 
             className={styles.galleryItem}
+            onClick={() => navigate(`/bubbles/${item?.id}`)}
         >
             <div
                 className={styles.galleryItemImage}
@@ -30,6 +31,3 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
         </div>
     );
 } ;
-
-
-//   onClick={() => navigate(`/${item?.id}`)}

@@ -1,0 +1,8 @@
+.bubbleImage {
+    position: relative;
+    height: 180px;
+    width: 180px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}

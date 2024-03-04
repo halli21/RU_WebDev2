@@ -21,3 +21,12 @@ export const getAllBubbles = async () => {
         return [];
     }
 };
+
+export const getBubbleById = async (id: string) => {
+    try {
+        return await request<Bubble>(BASE_URL + `/bubbles/${id}`);
+    } catch (e) {
+        console.error(e);
+        return undefined;
+    }
+};
