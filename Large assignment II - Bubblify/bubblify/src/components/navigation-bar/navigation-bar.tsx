@@ -6,6 +6,13 @@ export const NavigationBar = () => {
 
     return (
         <nav className={styles.navigationBar}>
+            <div
+                className={styles.logoImage}
+                style={{
+                    backgroundImage: `url('/bubblify-logo.jpg')`,
+                }}
+            >
+            </div>
             <ul className={styles.navigationLinks}>
                 <NavigationLink title="Products" href="/bubbles" />
                 <NavigationLink title="Bundles" href="/bundles" />
