@@ -1,0 +1,224 @@
+{
+    "swagger":"2.0",
+    "info":{
+        "description":"The backend for the Bubblify application",
+        "version":"1.0.0",
+        "title":"Bubblify",
+        "termsOfService":"http://swagger.io/terms/",
+        "contact":{
+            "email":"arnarl@ru.is"
+        },
+        "license":{
+            "name":"Apache 2.0",
+            "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host":"localhost:3500",
+    "basePath":"/api",
+    "schemes":[
+        "http"
+    ],
+    "paths":{
+        "/bubbles":{
+            "get":{
+                "tags":[
+                    "Bubble"
+                ],
+                "summary":"Get all available bubble products",
+                "description":"",
+                "operationId":"getAvailableBubbles",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "200":{
+                        "description":"A list of bubble product objects",
+                        "schema":{
+                            "type":"array",
+                            "properties":{
+                                "id":{
+                                    "type":"integer"
+                                },
+                                "name":{
+                                    "type":"string"
+                                },
+                                "description":{
+                                    "type":"string"
+                                },
+                                "price":{
+                                    "type":"integer"
+                                },
+                                "image":{
+                                    "type":"string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bubbles/{bubbleId}":{
+            "get":{
+                "tags":[
+                    "Bubble"
+                ],
+                "summary":"Get bubble product by id",
+                "description":"",
+                "operationId":"getBubbleProductById",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters": [
+                    { "name": "bubbleId", "in": "path", "description": "Id of the bubble product to retrieve", "required": true, "type": "integer", "format": "int64" }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"A single bubble product object",
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "id":{
+                                    "type":"integer"
+                                },
+                                "name":{
+                                    "type":"string"
+                                },
+                                "description":{
+                                    "type":"string"
+                                },
+                                "price":{
+                                    "type":"integer"
+                                },
+                                "image":{
+                                    "type":"string"
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "Not found with provided id" }
+                }
+            }
+        },
+        "/bundles":{
+            "get":{
+                "tags":[
+                    "Bundle"
+                ],
+                "summary":"Get all available bundles",
+                "description":"",
+                "operationId":"getBundles",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "200":{
+                        "description":"A list of bundle objects",
+                        "schema":{
+                            "type":"array",
+                            "properties":{
+                                "id":{
+                                    "type":"integer"
+                                },
+                                "name":{
+                                    "type":"string"
+                                },
+                                "items":{
+                                    "type":"array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bundles/{bundleId}":{
+            "get":{
+                "tags":[
+                    "Bundle"
+                ],
+                "summary":"Get bundle by id",
+                "description":"",
+                "operationId":"getBundleById",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters": [
+                    { "name": "bundleId", "in": "path", "description": "Id of the bundle to retrieve", "required": true, "type": "integer", "format": "int64" }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"A single bundle object",
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "id":{
+                                    "type":"integer"
+                                },
+                                "name":{
+                                    "type":"string"
+                                },
+                                "items":{
+                                    "type":"array"
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "Not found with specified id" }
+                }
+            }
+        },
+        "/orders/{telephone}":{
+            "get":{
+                "tags":[
+                    "Order"
+                ],
+                "summary":"Get order by telephone",
+                "description":"",
+                "operationId":"getOrderByTelephone",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters": [
+                    { "name": "telephone", "in": "path", "description": "Telephone of user associated with orders", "required": true, "type": "string" }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"A single order object",
+                        "schema":{
+                            "type":"object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [ "Order" ],
+                "summary": "Create a new order",
+                "description": "",
+                "consumes": [ "application/json" ],
+                "produces": [ "application/json" ],
+                "parameters": [
+                    { "in": "body", "name": "body", "description": "The order object", "required": true }
+                ],
+                "response": {
+                    "201": { "description": "An order was successfully created" },
+                    "500": { "description": "A server-side error" }
+                }
+            }
+        }
+    }
+}
