@@ -11,7 +11,7 @@ export const NavigationLink = ({
     title,
     href
 } : NavigationLinkProps) => (
-    <li>
+    <li className={styles.navigationLink}>
         <Link to={href}>{title}</Link>
     </li>
 );

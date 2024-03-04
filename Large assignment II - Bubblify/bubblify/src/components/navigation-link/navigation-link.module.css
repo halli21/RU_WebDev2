@@ -1,0 +1,9 @@
+.navigationLink {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navigationLink a {
+    text-decoration: none;
+}

@@ -1,9 +1,9 @@
 import styles from "./gallery-list-item.module.css";
-// import { Bubble } from "../../types/bubble";
+import { Bundle } from "../../types/bundle";
 import { useNavigate } from "react-router-dom";
 
 interface BundleListItemProps {
-    item: any | undefined;
+    item: Bundle | undefined;
 }
 
 export const BundleListItem = ({ item } : BundleListItemProps) => {
@@ -13,8 +13,8 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
     return (
         <div>
             <p>{item?.name}</p>
-            <p>{item?.price}</p>
-            <p>{item?.description}</p>
+            <p>{item?.items}</p>
+           
     
         </div>
     );
