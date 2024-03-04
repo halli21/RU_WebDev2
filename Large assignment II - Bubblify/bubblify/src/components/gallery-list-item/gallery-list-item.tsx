@@ -23,11 +23,15 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
             >
             </div>
 
-            <div>
-                <p>{item?.name}</p>
-                <p>{item?.price}</p>
+            <div className={styles.container}>
+                <div className={styles.heading}>
+                    <p>{item?.name}</p>
+                    <span>{item?.price} kr</span>
+                </div>
                 <p>{item?.description}</p>
+                <button className={styles.cart}>Add to cart</button>
             </div>
+         
         </div>
     );
 } ;

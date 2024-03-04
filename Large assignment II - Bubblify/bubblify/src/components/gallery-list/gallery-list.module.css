@@ -1,5 +1,7 @@
 
 .container {
+    width: 1200px;
+    
     
 }
 
@@ -7,4 +9,7 @@
 .listContainer {
     display: grid;
     grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+    row-gap: 40px;
+
 }

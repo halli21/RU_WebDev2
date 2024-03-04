@@ -1,13 +1,50 @@
 .galleryItem {
-    border: 1px solid red;
-    width: 300px;
+    display: grid;
+    place-items: center;
+    
+    border: 1px solid black;
+    width: 350px;
+    height: 350px;
 
     .galleryItemImage {
         position: relative;
-        height: 180px;
-        width: 180px;
+        height: 125px;
+        width: 125px;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
+    }
+
+    .container {
+        display: grid;
+        width: 90%;
+
+        .heading {
+            display: grid;
+            align-items: center;
+
+            p {
+                margin: 0px;
+                padding: 0px;
+                color: black;
+                font-weight: bold;
+                font-size: 24px;
+            }
+            
+            span {
+                align-self: center;
+                font-size: 18px;
+                color: black;
+            }
+
+        }
+
+        p {
+            font-size: 12px;
+        }
+
+        .cart {
+            justify-self: center;
+        }
     }
 }

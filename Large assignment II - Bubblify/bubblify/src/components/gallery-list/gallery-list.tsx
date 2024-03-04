@@ -8,7 +8,7 @@ export const GalleryList = () => {
 
     return (
         <div className={styles.container}>
-            <h1>Gallery list</h1>
+            <h1>Bubbles!</h1>
             <div className={styles.listContainer}>
                 {bubbles.map((item) => (
                     <GalleryListItem key={item.id} item={item} />
