@@ -20,7 +20,6 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
 
     return (
         <div className={styles.bundleListItem}>
-
             <div className="uk-position-relative uk-visible-toggle uk-light" tabIndex={-1} uk-slideshow="autoplay: true, autoplay-interval: 3000" style={{height: "150px", width: "100%", aspectRatio: "1/1", display: "grid", justifyContent:"center"}}>
                 <ul className="uk-slideshow-items" style={{height: "150px", width: "150px"}}>
                     {bubblesList.map((bubble, index) => (
@@ -50,8 +49,6 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
                     </div>
                 ))}
             </div>
-
-           
         </div>
     );
 };

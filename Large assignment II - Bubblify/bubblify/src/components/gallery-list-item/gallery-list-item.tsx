@@ -10,6 +10,15 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
     const navigate = useNavigate();
     const backgroundImage = item?.image ? `url(${item.image})` : undefined;
 
+    const addToCart = (product: Bubble) => {
+        let cart = JSON.parse(localStorage.getItem('cart') || '{"bubbles": [], "bundles": []}');
+         
+        cart.bubbles.push(product);
+    
+        localStorage.setItem('cart', JSON.stringify(cart));
+    };
+    
+
     return (
         <div 
             className={styles.galleryItem}
@@ -28,8 +37,15 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
                     <p>{item?.name}</p>
                     <span>{item?.price} kr</span>
                 </div>
+
                 <p>{item?.description}</p>
-                <button className={styles.cart}>Add to cart</button>
+
+                <button className={styles.cart} onClick={(e) => {
+                    e.stopPropagation();
+                    if (item) {
+                        addToCart(item);
+                    }
+                }}>Add to cart</button>
             </div>
          
         </div>
