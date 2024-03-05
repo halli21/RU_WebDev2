@@ -11,10 +11,8 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
     const backgroundImage = item?.image ? `url(${item.image})` : undefined;
 
     const addToCart = (product: Bubble) => {
-        let cart = JSON.parse(localStorage.getItem('cart') || '{"bubbles": [], "bundles": []}');
-         
-        cart.bubbles.push(product);
-    
+        let cart = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
+        cart.products.push(product);
         localStorage.setItem('cart', JSON.stringify(cart));
     };
     
