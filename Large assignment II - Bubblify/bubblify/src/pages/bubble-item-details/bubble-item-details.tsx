@@ -12,7 +12,7 @@ export const BubbleItemDetails = () => {
     useEffect(() => {
         if (!bubbleId) { return; }
         async function getBubble() {
-            const bubble = await getBubbleById(bubbleId!);
+            const bubble = await getBubbleById(Number(bubbleId));
             setBubble(bubble);
         }
 

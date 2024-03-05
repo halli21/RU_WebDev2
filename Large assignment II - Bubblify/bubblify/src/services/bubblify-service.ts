@@ -23,7 +23,7 @@ export const getAllBubbles = async () => {
     }
 };
 
-export const getBubbleById = async (id: string) => {
+export const getBubbleById = async (id: number) => {
     try {
         return await request<Bubble>(BASE_URL + `/bubbles/${id}`);
     } catch (e) {
