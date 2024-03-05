@@ -1,4 +1,3 @@
-import { CartList } from "../../components/cart-list/cart-list";
 import { useState } from "react";
 import { PickupForm } from "../../components/pickup-form/pickup-form";
 import { DeliveryForm } from "../../components/delivery-form/delivery-form";
