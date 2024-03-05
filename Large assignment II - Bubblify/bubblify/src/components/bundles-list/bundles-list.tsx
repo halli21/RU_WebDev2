@@ -11,8 +11,8 @@ export const BundlesList = () => {
         <div className={styles.container}>
             <h1>Bundle list</h1>
             <div className={styles.listContainer}>
-                {bundles.map((item) => (
-                    <BundleListItem key={item.id} item={item} />
+                {bundles.map((item, index) => (
+                    <BundleListItem key={index} item={item} />
                 ))}
             </div>
         </div>

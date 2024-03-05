@@ -15,9 +15,14 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
         return total + (bubble?.price || 0);
     }, 0);
 
+
+    const addToCart = (bundle: Bundle) => {
+        let cart = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
+        cart.bundles.push(bundle);
+        localStorage.setItem('cart', JSON.stringify(cart));
+    };
+
     
-
-
     return (
         <div className={styles.bundleListItem}>
             <div className="uk-position-relative uk-visible-toggle uk-light" tabIndex={-1} uk-slideshow="autoplay: true, autoplay-interval: 3000" style={{height: "150px", width: "100%", aspectRatio: "1/1", display: "grid", justifyContent:"center"}}>
@@ -49,6 +54,11 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
                     </div>
                 ))}
             </div>
+            <button className={styles.cart} onClick={(e) => { 
+                if (item) {
+                    addToCart(item);
+                }
+            }}>Add to cart</button>
         </div>
     );
 };
