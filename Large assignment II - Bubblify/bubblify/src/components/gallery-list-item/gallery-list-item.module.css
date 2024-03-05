@@ -1,12 +1,13 @@
 .galleryItem {
     display: grid;
-    place-items: center;
-    
+    justify-items: center;
     border: 1px solid black;
     width: 350px;
-    height: 350px;
+    height: 380px;
+    grid-template-rows: 160px 1fr;
 
     .galleryItemImage {
+        align-self: center;
         position: relative;
         height: 125px;
         width: 125px;
@@ -18,6 +19,7 @@
     .container {
         display: grid;
         width: 90%;
+        grid-template-rows: 75px 100px 1fr;
 
         .heading {
             display: grid;
@@ -40,11 +42,12 @@
         }
 
         p {
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .cart {
             justify-self: center;
+            height: 30px;
         }
     }
 }
