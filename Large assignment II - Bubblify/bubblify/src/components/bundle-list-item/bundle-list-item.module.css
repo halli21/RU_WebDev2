@@ -1,13 +1,36 @@
-.galleryItem {
-    border: 1px solid red;
-    width: 300px;
+.bundleListItem {
+    border: 1px solid black;
+    width: 350px;
+    display: grid;
+    place-items: center;
+    grid-template-rows: 170px 90px 1fr;
 
-    .galleryItemImage {
-        position: relative;
-        height: 180px;
-        width: 180px;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
+    .heading {
+        display: grid;
+        justify-items: center;
+        margin: 0px;
+        padding: 0px;
+
+        h2 {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        p {
+            margin: 0px;
+            padding: 0px;
+        }
+    }
+
+    .includes {
+        display: grid;
+        justify-items: center;
+
+        p {
+            margin: 0px;
+            padding: 0px;
+        }
     }
 }
+
+
