@@ -10,6 +10,7 @@ import { BubbleItemDetails } from "../pages/bubble-item-details/bubble-item-deta
 import { Bundles } from "../pages/bundles/bundles";
 import { About } from "../pages/about/about";
 import { Cart } from "../pages/cart/cart";
+import { Checkout } from "../pages/checkout/checkout";
 
 
 const router = createBrowserRouter(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
             <Route path="/bundles" element={<Bundles />}/>
             <Route path="/about" element={<About />}/>
             <Route path="/cart" element={<Cart />}/>
+            <Route path="/checkout" element={<Checkout />}/>
 
         </Route>
     )
