@@ -1,6 +1,15 @@
 
+.container {
+    width: 500px;
+    
+    .listContainer {
+        border-bottom: solid 2px black;
+    }
 
-.listContainer {
-    border: solid 1px black;
-    width: 600px
+    .total {
+        text-align: right;
+        color: black;
+        font-style: italic;
+    }
 }
+

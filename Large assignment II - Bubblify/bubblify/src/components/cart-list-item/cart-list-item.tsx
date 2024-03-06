@@ -34,24 +34,23 @@ export const CartListItem = ({ item }: CartListItemProps) => {
                         <p>{item.name}<span> (Bubble)</span></p>
                  
                     </div>
-                    <p style={{fontSize: "14px"}}>{price} kr</p>
+                    <p style={{fontSize: "14px", fontWeight: "normal", fontStyle: "italic"}}>{price} kr</p>
                 </div>
             ) : isBundle(item) ? (
                 <div>
                     <div className={styles.bundleContainer}>
                         <p>{item.name}<span> (Bundle)</span></p>
-                        <p style={{fontSize: "14px"}}>{price} kr</p>
+                        <p style={{fontSize: "14px", fontWeight: "normal", fontStyle: "italic"}}>{price} kr</p>
                     </div>
                     
                     <p style={{fontSize: "14px", fontWeight: "normal", paddingLeft: "2px"}}>Includes:</p>
                     {bubblesList.map((bubble) => (
                         <ul>
-                            <li style={{fontSize: "14px", fontWeight: "normal"}}>{bubble?.name}</li> 
+                            <li style={{fontSize: "14px", fontWeight: "normal", fontStyle: "italic"}}>{bubble?.name}</li> 
                         </ul>
                     ))}
                 </div>
-                
-                
+            
             ) : null}
         </div>
     );
