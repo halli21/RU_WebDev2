@@ -1,5 +1,6 @@
 import { Bubble } from "../types/bubble";
 import { Bundle } from "../types/bundle";
+import { Cart } from "../types/cart";
 
 const BASE_URL = 'http://localhost:3500/api';
 
@@ -38,5 +39,24 @@ export const getAllBundles = async () => {
     } catch (e) {
         console.error(e);
         return [];
+    }
+};
+
+export const submitOrder = async (telephone: string, order: Cart) => {
+    try {
+        console.log('Order before stringification:', JSON.stringify(order));
+        const url = `${BASE_URL}/orders/${telephone}`;
+        const response = await request(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(order),
+        });
+
+        return response;
+    } catch (e) {
+        console.error(e);
+        return null;
     }
 };

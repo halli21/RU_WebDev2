@@ -2,6 +2,7 @@ import styles from "./cart-list-item.module.css";
 import { Bubble } from "../../types/bubble";
 import { Bundle } from "../../types/bundle";
 import { useBundleBubbles } from "../../hooks/use-bundle-bubbles";
+import { CartList } from "../../components/cart-list/cart-list";
 
 
 type CartListItemProps = {

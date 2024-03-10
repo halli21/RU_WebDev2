@@ -9,7 +9,6 @@ export const BundlesList = () => {
 
     return (
         <div className={styles.container}>
-            <h1>Bundle list</h1>
             <div className={styles.listContainer}>
                 {bundles.map((item, index) => (
                     <BundleListItem key={index} item={item} />

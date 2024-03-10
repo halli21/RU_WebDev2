@@ -1,6 +1,6 @@
 import styles from "./cart-list.module.css";
 import { CartListItem } from "../cart-list-item/cart-list-item";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Cart } from "../../types/cart";
 import { useBundleBubbles } from "../../hooks/use-bundle-bubbles";
 
@@ -13,17 +13,30 @@ export const CartList = () => {
         setCartItems(cartFromStorage);
     }, []);
 
-    const productsTotal = cartItems.products.reduce((total, product) => total + (product?.price || 0), 0);
+    const bundleItemIds = useMemo(() => cartItems.bundles.flatMap(bundle => bundle.items), [cartItems.bundles]);
 
-    const bundlesItemIds = cartItems.bundles.flatMap(bundle => bundle.items);
-    const bundleBubblesList = useBundleBubbles(bundlesItemIds);
-    const bundlesTotal = bundleBubblesList.reduce((total, bubble) => {
-        return total + (bubble?.price || 0);
-    }, 0);
+    const bundleBubbles = useBundleBubbles(bundleItemIds);
+
+
+    const productsTotal = useMemo(() => {
+        return cartItems.products.reduce((total, product) => total + (product?.price || 0), 0);
+    }, [cartItems.products]);
+
+    const bundlesTotal = useMemo(() => {
+        return cartItems.bundles.reduce((total, bundle) => {
+            const bundlePrice = bundle.items.reduce((sum, itemId) => {
+                const bubble = bundleBubbles.find(bubble => bubble.id === itemId);
+                return sum + (bubble?.price || 0);
+            }, 0);
+            return total + bundlePrice;
+        }, 0);
+    }, [cartItems.bundles, bundleBubbles]);
 
     const cartPrice = productsTotal + bundlesTotal;
 
-    const combinedItems = [...cartItems.products, ...cartItems.bundles];
+    const combinedItems = useMemo(() => [...cartItems.products, ...cartItems.bundles], [cartItems.products, cartItems.bundles]);
+
+
 
     return (    
         <div className={styles.container}>
@@ -42,6 +55,3 @@ export const CartList = () => {
         </div>
     );
 };
-
-
-// total

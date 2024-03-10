@@ -11,7 +11,7 @@ import { Bundles } from "../pages/bundles/bundles";
 import { About } from "../pages/about/about";
 import { Cart } from "../pages/cart/cart";
 import { Checkout } from "../pages/checkout/checkout";
-import { Review } from "../pages/review/review";
+import { Confirmed } from "../pages/confirmed/confirmed";
 
 
 const router = createBrowserRouter(
@@ -24,8 +24,7 @@ const router = createBrowserRouter(
             <Route path="/about" element={<About />}/>
             <Route path="/cart" element={<Cart />}/>
             <Route path="/checkout" element={<Checkout />}/>
-            <Route path="/review" element={<Review />}/>
-
+            <Route path="/confirmed" element={<Confirmed />}/>
         </Route>
     )
 );

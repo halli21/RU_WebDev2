@@ -1,6 +1,6 @@
 
 .navigationBar {
-    background-color: red;
+    background-color: #f5feff;
     width: 100%;
 }
 
@@ -9,6 +9,7 @@
     justify-content: space-between;
     align-items: center;
     width: 1200px;
+  
 
 }
 

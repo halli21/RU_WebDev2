@@ -5,8 +5,8 @@ import { NavigationBar } from "../../components/navigation-bar/navigation-bar";
 export const MainLayout = () => (
     <>
         <NavigationBar />
-        <div className="page">
+        <main className="page">
             <Outlet />
-        </div>
+        </main>
     </>
 );

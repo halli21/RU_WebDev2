@@ -21,7 +21,6 @@ export const BubbleItemDetails = () => {
 
     return (
         <div>
-            <h1>BubbleItemDetails</h1>
             <div
                 className={styles.bubbleImage}
                 style={{
@@ -30,7 +29,7 @@ export const BubbleItemDetails = () => {
             >
             </div>
             <p>{bubble?.name}</p>
-            <p>{bubble?.price}</p>
+            <p>{bubble?.price} kr</p>
             <p>{bubble?.description}</p>
         </div>
     );
