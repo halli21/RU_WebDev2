@@ -1,5 +1,18 @@
 
 
+.section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.previousOrder {
+    padding: 10px;
+    border: solid 2px black;
+    border-radius: 8px;
+    width: 500px;
+    margin-bottom: 20px;
+}
+
 .button {
     width: 500px;
     height: 40px;

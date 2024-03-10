@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartList } from "../cart-list/cart-list";
+import { submitOrder } from "../../services/bubblify-service";
+
 
 interface PickupFormProps {
     goBack: () => void;
@@ -12,6 +14,7 @@ export const PickupForm = ({ goBack } : PickupFormProps) => {
     const [fullName, setFullName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [showReview, setShowReview] = useState(false);
+    const [error, setError] = useState('');
 
     const isFormValid = fullName && phoneNumber;
 
@@ -23,12 +26,26 @@ export const PickupForm = ({ goBack } : PickupFormProps) => {
         setShowReview(false);
     };
 
-    const handleSubmit = () => {
-        navigate('/confirmed');
+    const cartFromStorage = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
+
+    const handleConfirm = async () => {
+        const response = await submitOrder(phoneNumber, cartFromStorage);
+    
+        if (response) {
+            const userInfo = { fullName, phoneNumber };
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            localStorage.setItem('cart', JSON.stringify({ products: [], bundles: [] }));
+            console.log('User information saved and order confirmed.');
+            navigate('/confirmed');
+        } else {
+            setError('Error: Something happened while confirming order');
+        }
     };
+
 
     return (
         <div>
+            {error && <div>{error}</div>}
             {!showReview ? (
                 <div>
                 <form>
@@ -53,10 +70,10 @@ export const PickupForm = ({ goBack } : PickupFormProps) => {
             ) : (
                 <div>
                     <h3>Review your order</h3>
-                    <CartList />
+                    <CartList order={cartFromStorage} />
 
                     <button type="button" onClick={handleBackToForm}>Back</button>
-                    <button type="submit" onClick={handleSubmit}>Confirm</button>
+                    <button type="submit" onClick={handleConfirm}>Confirm</button>
                 </div>
             )}
 

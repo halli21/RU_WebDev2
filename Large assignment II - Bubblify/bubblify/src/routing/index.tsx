@@ -9,7 +9,7 @@ import { Gallery } from "../pages/gallery/gallery";
 import { BubbleItemDetails } from "../pages/bubble-item-details/bubble-item-details";
 import { Bundles } from "../pages/bundles/bundles";
 import { About } from "../pages/about/about";
-import { Cart } from "../pages/cart/cart";
+import { CartPage } from "../pages/cart/cart";
 import { Checkout } from "../pages/checkout/checkout";
 import { Confirmed } from "../pages/confirmed/confirmed";
 
@@ -22,7 +22,7 @@ const router = createBrowserRouter(
             <Route path="/bubbles/:bubbleId" element={<BubbleItemDetails />} />
             <Route path="/bundles" element={<Bundles />}/>
             <Route path="/about" element={<About />}/>
-            <Route path="/cart" element={<Cart />}/>
+            <Route path="/cart" element={<CartPage />}/>
             <Route path="/checkout" element={<Checkout />}/>
             <Route path="/confirmed" element={<Confirmed />}/>
         </Route>

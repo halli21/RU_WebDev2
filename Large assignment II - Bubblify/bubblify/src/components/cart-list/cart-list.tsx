@@ -5,44 +5,40 @@ import { Cart } from "../../types/cart";
 import { useBundleBubbles } from "../../hooks/use-bundle-bubbles";
 
 
-export const CartList = () => {  
-    const [cartItems, setCartItems] = useState<Cart>({ products: [], bundles: []});
+interface CartListProps {
+    order: Cart;
+}
 
-    useEffect(() => {
-        const cartFromStorage = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
-        setCartItems(cartFromStorage);
-    }, []);
 
-    const bundleItemIds = useMemo(() => cartItems.bundles.flatMap(bundle => bundle.items), [cartItems.bundles]);
+export const CartList = (item: CartListProps) => {  
+    
+    const bundleItemIds = useMemo(() => item.order.bundles.flatMap(bundle => bundle.items), [item.order.bundles]);
 
     const bundleBubbles = useBundleBubbles(bundleItemIds);
 
-
     const productsTotal = useMemo(() => {
-        return cartItems.products.reduce((total, product) => total + (product?.price || 0), 0);
-    }, [cartItems.products]);
+        return item.order.products.reduce((total, product) => total + (product?.price || 0), 0);
+    }, [item.order.products]);
 
     const bundlesTotal = useMemo(() => {
-        return cartItems.bundles.reduce((total, bundle) => {
+        return item.order.bundles.reduce((total, bundle) => {
             const bundlePrice = bundle.items.reduce((sum, itemId) => {
                 const bubble = bundleBubbles.find(bubble => bubble.id === itemId);
                 return sum + (bubble?.price || 0);
             }, 0);
             return total + bundlePrice;
         }, 0);
-    }, [cartItems.bundles, bundleBubbles]);
+    }, [item.order.bundles, bundleBubbles]);
 
     const cartPrice = productsTotal + bundlesTotal;
 
-    const combinedItems = useMemo(() => [...cartItems.products, ...cartItems.bundles], [cartItems.products, cartItems.bundles]);
+    const combinedItems = useMemo(() => [...item.order.products, ...item.order.bundles], [item.order.products, item.order.bundles]);
 
 
 
     return (    
         <div className={styles.container}>
-            {combinedItems.length === 0 ? (
-                <h3>Your cart is empty!</h3>
-            ): (
+            {combinedItems.length !== 0 && (
                 <div>
                     <div className={styles.listContainer}>
                         {combinedItems.map((item, index) => (
@@ -51,7 +47,8 @@ export const CartList = () => {
                     </div>
                     <p className={styles.total}>Total: {cartPrice} kr</p>
                 </div>
-            )}
+            )} 
+               
         </div>
     );
 };

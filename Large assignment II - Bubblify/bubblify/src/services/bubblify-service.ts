@@ -60,3 +60,13 @@ export const submitOrder = async (telephone: string, order: Cart) => {
         return null;
     }
 };
+
+
+export const getOrdersByNumber = async (telephone: string) => {
+    try {
+        return await request<Cart[]>(BASE_URL + `/orders/${telephone}`);
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+};

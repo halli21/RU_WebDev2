@@ -31,14 +31,15 @@ export const DeliveryForm = ({ goBack } : DeliveryFormProps) => {
         setShowReview(false);
     };
 
+    const cartFromStorage = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
+
     const handleConfirm = async () => {
-        const cartFromStorage = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
         const response = await submitOrder(phoneNumber, cartFromStorage);
     
-
         if (response) {
             const userInfo = { fullName, phoneNumber };
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            localStorage.setItem('cart', JSON.stringify({ products: [], bundles: [] }));
             console.log('User information saved and order confirmed.');
             navigate('/confirmed');
         } else {
@@ -86,7 +87,7 @@ export const DeliveryForm = ({ goBack } : DeliveryFormProps) => {
             ) : (
                 <div>
                     <h3>Review your order</h3>
-                    <CartList />
+                    <CartList order={cartFromStorage}/>
 
                     <button type="button" onClick={handleBackToForm}>Back</button>
                     <button type="submit" onClick={handleConfirm}>Confirm</button>
