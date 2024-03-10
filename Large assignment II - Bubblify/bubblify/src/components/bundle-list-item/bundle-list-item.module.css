@@ -1,5 +1,6 @@
 .bundleListItem {
-    border: 1px solid black;
+    border: 2px solid black;
+    border-radius: 16px;
     width: 350px;
     display: grid;
     place-items: center;
@@ -24,7 +25,7 @@
 
     .includes {
         display: grid;
-        justify-items: center;
+        align-items: center;
 
         p {
             margin: 0px;

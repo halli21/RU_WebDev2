@@ -36,7 +36,6 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
                     <span>{item?.price} kr</span>
                 </div>
 
-                <p>{item?.description}</p>
 
                 <button className={styles.cart} onClick={(e) => {
                     e.stopPropagation();

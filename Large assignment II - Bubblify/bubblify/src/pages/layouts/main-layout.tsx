@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import styles from './main-layout.module.css';
+import "../page-styles.css";
 import { NavigationBar } from "../../components/navigation-bar/navigation-bar";
 
 export const MainLayout = () => (
     <>
         <NavigationBar />
-        <main>
+        <div className="page">
             <Outlet />
-        </main>
+        </div>
     </>
 );

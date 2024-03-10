@@ -5,4 +5,5 @@
 .listContainer {
     display: grid;
     grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
 }

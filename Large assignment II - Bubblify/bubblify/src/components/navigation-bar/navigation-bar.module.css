@@ -1,11 +1,15 @@
 
-
 .navigationBar {
+    background-color: red;
+    width: 100%;
+}
+
+.container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 1200px;
-    
+
 }
 
 .navigationLinks {

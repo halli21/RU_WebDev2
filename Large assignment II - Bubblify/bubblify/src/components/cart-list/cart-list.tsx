@@ -7,7 +7,6 @@ import { useBundleBubbles } from "../../hooks/use-bundle-bubbles";
 
 export const CartList = () => {  
     const [cartItems, setCartItems] = useState<Cart>({ products: [], bundles: []});
-    const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
         const cartFromStorage = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
@@ -28,12 +27,18 @@ export const CartList = () => {
 
     return (    
         <div className={styles.container}>
-            <div className={styles.listContainer}>
-                {combinedItems.map((item, index) => (
-                    <CartListItem key={index} item={item}/>
-                ))}
-            </div>
-            <p className={styles.total}>Total: {cartPrice} kr</p>
+            {combinedItems.length === 0 ? (
+                <h3>Your cart is empty!</h3>
+            ): (
+                <div>
+                    <div className={styles.listContainer}>
+                        {combinedItems.map((item, index) => (
+                            <CartListItem key={index} item={item}/>
+                        ))}
+                    </div>
+                    <p className={styles.total}>Total: {cartPrice} kr</p>
+                </div>
+            )}
         </div>
     );
 };
