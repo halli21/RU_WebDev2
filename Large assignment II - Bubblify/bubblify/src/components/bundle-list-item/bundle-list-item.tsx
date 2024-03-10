@@ -1,6 +1,8 @@
 import styles from "./bundle-list-item.module.css";
 import { Bundle } from "../../types/bundle";
 import { useBundleBubbles } from "../../hooks/use-bundle-bubbles";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 interface BundleListItemProps {
@@ -8,8 +10,10 @@ interface BundleListItemProps {
 }
 
 export const BundleListItem = ({ item } : BundleListItemProps) => {
+    const navigate = useNavigate();
     const bubbleIds = item?.items ?? [];
     const bubblesList = useBundleBubbles(bubbleIds);
+    const [buttonState, setButtonState] = useState('addToCart');
 
     const bundlePrice = bubblesList.reduce((total, bubble) => {
         return total + (bubble?.price || 0);
@@ -20,6 +24,12 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
         let cart = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
         cart.bundles.push(bundle);
         localStorage.setItem('cart', JSON.stringify(cart));
+        setButtonState('goToCheckout');
+
+        
+        setTimeout(() => {
+            setButtonState('addToCart');
+        }, 5000);
     };
 
     
@@ -54,11 +64,23 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
                     </div>
                 ))}
             </div>
-            <button className={styles.cart} onClick={(e) => { 
-                if (item) {
-                    addToCart(item);
-                }
-            }}>Add to cart</button>
+            
+
+            {buttonState === 'addToCart' ? (
+                <button className={styles.cart} onClick={(e) => {
+                    e.stopPropagation();
+                    if (item) {
+                        addToCart(item);
+                    }
+                }}>Add to cart</button>
+            ) : (
+                <button className={styles.checkout} onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('/checkout');
+                }}>
+                    Go to checkout
+                </button>
+            )}
         </div>
     );
 };
