@@ -5,8 +5,10 @@ import { NavigationBar } from "../../components/navigation-bar/navigation-bar";
 export const MainLayout = () => (
     <>
         <NavigationBar />
-        <main className="page">
-            <Outlet />
+        <main className="main">
+            <div className="page"> 
+                <Outlet />
+            </div>
         </main>
     </>
 );
