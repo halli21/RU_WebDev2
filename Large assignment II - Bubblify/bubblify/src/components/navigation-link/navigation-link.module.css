@@ -2,8 +2,15 @@
     display: flex;
     align-items: center;
     text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .navigationLink a {
+    text-decoration: none;
+    color: rgb(93, 166, 255);
+}
+
+.navigationLink a, .navigationLink a:hover {
     text-decoration: none;
 }
