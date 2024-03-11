@@ -3,6 +3,6 @@
 
 export const Confirmed = () => {
     return (
-        <div>Order successful. Thanks for shopping!</div>
+        <h3>Order successful. Thanks for shopping!</h3>
     )
 }
