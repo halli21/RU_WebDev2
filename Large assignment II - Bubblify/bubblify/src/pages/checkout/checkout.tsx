@@ -1,3 +1,4 @@
+import styles from "./checkout.module.css";
 import { useState } from "react";
 import { PickupForm } from "../../components/pickup-form/pickup-form";
 import { DeliveryForm } from "../../components/delivery-form/delivery-form";
@@ -17,8 +18,9 @@ export const Checkout = () => {
         <div>
             {!selectedOption ? (
                 <div>
-                    <button onClick={() => handleSelectOption('option1')}>Store Pick Up</button>
-                    <button onClick={() => handleSelectOption('option2')}>Delivery</button>
+                    <h3>Would you like to</h3>
+                    <button className={styles.option} onClick={() => handleSelectOption('option1')}>Pick Up</button>
+                    <button className={styles.option} onClick={() => handleSelectOption('option2')}>Have Delivered</button>
                 </div>
             ) : selectedOption === 'option1' ? (
                 <PickupForm goBack={handleBack}/>

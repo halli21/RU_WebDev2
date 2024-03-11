@@ -1,3 +1,4 @@
+import styles from "./delivery-form.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartList } from "../cart-list/cart-list";
@@ -56,7 +57,7 @@ export const DeliveryForm = ({ goBack } : DeliveryFormProps) => {
                     <form>
                         <fieldset className="uk-fieldset">
 
-                            <legend className="uk-legend">Delivery</legend>
+                            <h3>Delivery Information</h3>
 
                             <div className="uk-margin">
                                 <input className="uk-input uk-form-width-large" type="text" placeholder="Full Name" aria-label="Input" value={fullName} onChange={e => setFullName(e.target.value)} />
@@ -81,16 +82,16 @@ export const DeliveryForm = ({ goBack } : DeliveryFormProps) => {
                         </fieldset>
                     </form>
 
-                    <button type="button" onClick={goBack}>Back</button>
-                    <button type="submit" onClick={handleNext} disabled={!isFormValid}>Next</button>
+                    <button className={styles.button} type="button" onClick={goBack}>Back</button>
+                    <button className={styles.button} type="submit" onClick={handleNext} disabled={!isFormValid}>Next</button>
                 </div>
             ) : (
                 <div>
                     <h3>Review your order</h3>
                     <CartList order={cartFromStorage}/>
 
-                    <button type="button" onClick={handleBackToForm}>Back</button>
-                    <button type="submit" onClick={handleConfirm}>Confirm</button>
+                    <button className={styles.button} type="button" onClick={handleBackToForm}>Back</button>
+                    <button className={styles.button} type="submit" onClick={handleConfirm}>Confirm</button>
                 </div>
             )}
         </div>
