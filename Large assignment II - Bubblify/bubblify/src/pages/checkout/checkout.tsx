@@ -131,6 +131,8 @@ export const Checkout = () => {
 
             {showReview && (
                 <div>
+                    {error && <div>{error}</div>}
+    
                     <h3>Review your order</h3>
                     <CartList order={cartFromStorage} />
 
