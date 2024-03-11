@@ -1,0 +1,25 @@
+
+
+
+.about {
+
+    color: black;
+    
+    h1 {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    h3 {
+        padding: 0px;
+        margin: 0px;
+        padding-top: 30px;
+    }
+
+    p {
+        padding: 0px;
+        margin: 0px;
+        font-style: italic;
+        padding-top: 5px;
+    }
+}
