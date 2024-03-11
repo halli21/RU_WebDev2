@@ -11,3 +11,21 @@
     cursor: pointer;
     font-size: 16px;
 }
+
+
+.button {
+    margin-right: 20px;
+    width: 100px;
+    height: 35px;
+    color: black;
+    font-weight: bold;
+    background-color: transparent;
+    border: solid 2px black;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.button:disabled {
+    opacity: 0.5;
+}
