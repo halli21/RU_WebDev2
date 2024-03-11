@@ -5,8 +5,7 @@ import { NavigationLink } from "../navigation-link/navigation-link";
 export const NavigationBar = () => {
 
     return (
-        <nav className={styles.navigationBar}>
-            <div className={styles.container}>
+        <nav className={styles.container}>
                 <div
                     className={styles.logoImage}
                     style={{
@@ -20,7 +19,7 @@ export const NavigationBar = () => {
                     <NavigationLink title="About us" href="/about" />
                     <NavigationLink title="Cart" href="/cart" />
                 </ul>
-            </div>
+      
         </nav>
     );
 };

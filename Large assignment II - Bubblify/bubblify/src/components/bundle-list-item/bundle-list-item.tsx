@@ -35,12 +35,12 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
     
     return (
         <div className={styles.bundleListItem}>
-            <div className="uk-position-relative uk-visible-toggle uk-light" tabIndex={-1} uk-slideshow="autoplay: true, autoplay-interval: 3000" style={{height: "150px", width: "100%", aspectRatio: "1/1", display: "grid", justifyContent:"center"}}>
-                <ul className="uk-slideshow-items" style={{height: "150px", width: "150px"}}>
+            <div className="uk-position-relative uk-visible-toggle uk-light" tabIndex={-1} uk-slideshow="autoplay: true, autoplay-interval: 3000" style={{height: "125px", width: "100%", aspectRatio: "1/1", display: "grid", justifyContent:"center"}}>
+                <ul className="uk-slideshow-items" style={{height: "125px", width: "125px"}}>
                     {bubblesList.map((bubble, index) => (
                         bubble && bubble.image ? (
                             <li key={index}>
-                                <img style={{height: "150px", width: "150px"}} src={bubble.image} alt={bubble.name} uk-cover="true" />
+                                <img style={{height: "125px", width: "125px"}} src={bubble.image} alt={bubble.name} uk-cover="true" />
                             </li>
                         ) : null
                     ))}
@@ -59,9 +59,9 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
             <div className={styles.includes}>
                 <p>This bundle includes:</p>
                 {bubblesList.map((bubble) => (
-                    <div>
-                        <p>{bubble?.name}</p> 
-                    </div>
+                    <ul>
+                        <li>{bubble?.name}</li> 
+                    </ul>
                 ))}
             </div>
             
@@ -74,7 +74,7 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
                     }
                 }}>Add to cart</button>
             ) : (
-                <button className={styles.checkout} onClick={(e) => {
+                <button className={styles.cart} onClick={(e) => {
                     e.stopPropagation();
                     navigate('/checkout');
                 }}>

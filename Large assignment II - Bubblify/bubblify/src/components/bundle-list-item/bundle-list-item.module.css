@@ -1,10 +1,10 @@
 .bundleListItem {
-    border: 2px solid black;
     border-radius: 16px;
-    width: 350px;
+    width: 300px;
     display: grid;
     place-items: center;
-    grid-template-rows: 170px 90px 1fr;
+    grid-template-rows: 160px 90px 120px 50px;
+    background-color: rgb(159, 202, 255);
 
     .heading {
         display: grid;
@@ -15,22 +15,44 @@
         h2 {
             margin: 0px;
             padding: 0px;
+            color: black;
         }
 
         p {
             margin: 0px;
             padding: 0px;
+            color: black;
         }
     }
 
     .includes {
         display: grid;
-        align-items: center;
+        width: 60%;
 
         p {
+            justify-self: center;
             margin: 0px;
             padding: 0px;
+            padding-bottom: 3px;
+            color: black;
         }
+
+        ul {
+            padding-left: 40px; 
+            margin: 0; 
+            font-size: 14px;
+            font-style: italic;
+        }
+    }
+
+    .cart {
+        height: 30px;
+        width: 200px;
+        background-color: transparent;
+        border: solid 2px black;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
     }
 }
 

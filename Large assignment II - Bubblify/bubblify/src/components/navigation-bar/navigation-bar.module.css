@@ -1,16 +1,10 @@
 
-.navigationBar {
-    background-color: #f5feff;
-    width: 100%;
-}
 
 .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 1200px;
-  
-
+    background-color: #f5feff;
 }
 
 .navigationLinks {
