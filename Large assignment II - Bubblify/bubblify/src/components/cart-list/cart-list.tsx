@@ -3,6 +3,7 @@ import { CartListItem } from "../cart-list-item/cart-list-item";
 import { useEffect, useState, useMemo } from "react";
 import { Cart } from "../../types/cart";
 import { useBundleBubbles } from "../../hooks/use-bundle-bubbles";
+import PropTypes from 'prop-types';
 
 
 interface CartListProps {
@@ -51,4 +52,27 @@ export const CartList = (item: CartListProps) => {
                
         </div>
     );
+};
+
+
+const bubbleShape = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+};
+  
+const bundleShape = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+CartList.propTypes = {
+    // This is the cart item which should be displayed in the component
+    order: PropTypes.shape({
+        products: PropTypes.arrayOf(PropTypes.shape(bubbleShape)).isRequired,
+        bundles: PropTypes.arrayOf(PropTypes.shape(bundleShape)).isRequired,
+    }).isRequired
 };

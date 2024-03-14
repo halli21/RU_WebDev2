@@ -3,10 +3,11 @@ import { Bundle } from "../../types/bundle";
 import { useBundleBubbles } from "../../hooks/use-bundle-bubbles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 
 interface BundleListItemProps {
-    item: Bundle | undefined;
+    item: Bundle;
 }
 
 export const BundleListItem = ({ item } : BundleListItemProps) => {
@@ -83,4 +84,14 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
             )}
         </div>
     );
+};
+
+
+BundleListItem.propTypes = {
+    // This is the bundle item which should be displayed in the component
+    item: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        items: PropTypes.arrayOf(PropTypes.number).isRequired,
+    })
 };

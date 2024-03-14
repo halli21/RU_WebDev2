@@ -2,10 +2,10 @@ import styles from "./cart-list-item.module.css";
 import { Bubble } from "../../types/bubble";
 import { Bundle } from "../../types/bundle";
 import { useBundleBubbles } from "../../hooks/use-bundle-bubbles";
-import { CartList } from "../../components/cart-list/cart-list";
+import PropTypes from 'prop-types';
 
 
-type CartListItemProps = {
+interface CartListItemProps {
     item: Bubble | Bundle;
 };
 
@@ -55,4 +55,24 @@ export const CartListItem = ({ item }: CartListItemProps) => {
             ) : null}
         </div>
     );
+};
+
+
+
+CartListItem.propTypes = {
+    // This is the bubble item or bundle item which should be displayed in the component
+    item: PropTypes.oneOfType([
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            name: PropTypes.string.isRequired,
+            description: PropTypes.string,
+            price: PropTypes.number,
+            image: PropTypes.string.isRequired,
+        }),
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            name: PropTypes.string.isRequired,
+            items: PropTypes.arrayOf(PropTypes.number).isRequired,
+        })
+    ]).isRequired
 };

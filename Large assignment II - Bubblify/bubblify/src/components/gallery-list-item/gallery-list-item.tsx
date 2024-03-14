@@ -2,9 +2,10 @@ import styles from "./gallery-list-item.module.css";
 import { Bubble } from "../../types/bubble";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
 interface GalleryListItemProps {
-    item: Bubble | undefined;
+    item: Bubble;
 }
 
 export const GalleryListItem = ({ item } : GalleryListItemProps) => {
@@ -12,21 +13,20 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
     const backgroundImage = item?.image ? `url(${item.image})` : undefined;
     const [buttonState, setButtonState] = useState('addToCart');
 
+
     const addToCart = (product: Bubble) => {
         let cart = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
         cart.products.push(product);
         localStorage.setItem('cart', JSON.stringify(cart));
         setButtonState('goToCheckout');
 
-        
         setTimeout(() => {
             setButtonState('addToCart');
         }, 5000);
     };
     
 
-    return (
-  
+    return (  
         <div 
             className={styles.galleryItem}
             onClick={() => navigate(`/bubbles/${item?.id}`)}
@@ -60,12 +60,19 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
                 }}>
                     Go to checkout
                 </button>
-            )}
-                
-       
-
-        
+            )}    
         </div>
- 
     );
 } ;
+
+
+GalleryListItem.propTypes = {
+    // This is the bubble item which should be displayed in the component
+    item: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+    })
+};
