@@ -53,16 +53,24 @@ export const CartList = (item: CartListProps) => {
 
 
 const bubbleShape = {
+    // Unique identifier for the bubble
     id: PropTypes.number.isRequired,
+    // Display name of the bubble
     name: PropTypes.string.isRequired,
+    // Description of the bubble
     description: PropTypes.string.isRequired,
+    // Price of the bubble
     price: PropTypes.number.isRequired,
+    // Image URL for the bubble
     image: PropTypes.string.isRequired,
 };
   
 const bundleShape = {
+    // Unique identifier for the bundle
     id: PropTypes.number.isRequired,
+    // Display name of the bundle
     name: PropTypes.string.isRequired,
+    // Array of bubble ids that are included in the bundle
     items: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 

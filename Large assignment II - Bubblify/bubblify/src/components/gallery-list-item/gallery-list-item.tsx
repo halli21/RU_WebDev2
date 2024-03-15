@@ -69,10 +69,15 @@ export const GalleryListItem = ({ item } : GalleryListItemProps) => {
 GalleryListItem.propTypes = {
     // This is the bubble item which should be displayed in the component
     item: PropTypes.shape({
+        // Unique identifier for the bubble
         id: PropTypes.number.isRequired,
+        // Display name of the bubble
         name: PropTypes.string.isRequired,
+        // Description of the bubble
         description: PropTypes.string.isRequired,
+        // Price of the bubble
         price: PropTypes.number.isRequired,
+        // Image URL for the bubble
         image: PropTypes.string.isRequired,
     })
 };

@@ -90,8 +90,11 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
 BundleListItem.propTypes = {
     // This is the bundle item which should be displayed in the component
     item: PropTypes.shape({
+        // Unique identifier for the bundle
         id: PropTypes.number.isRequired,
+        // Name of the bundle
         name: PropTypes.string.isRequired,
+        // Array of bubble ids that are included in the bundle
         items: PropTypes.arrayOf(PropTypes.number).isRequired,
     })
 };

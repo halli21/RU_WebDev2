@@ -62,16 +62,26 @@ export const CartListItem = ({ item }: CartListItemProps) => {
 CartListItem.propTypes = {
     // This is the bubble item or bundle item which should be displayed in the component
     item: PropTypes.oneOfType([
+        // Shape for a bubble item
         PropTypes.shape({
+            // Unique identifier for the bubble
             id: PropTypes.number.isRequired,
+            // Display name of the bubble
             name: PropTypes.string.isRequired,
-            description: PropTypes.string,
-            price: PropTypes.number,
+            // Description of the bubble
+            description: PropTypes.string.isRequired,
+            // Price of the bubble
+            price: PropTypes.number.isRequired,
+            // Image URL for the bubble
             image: PropTypes.string.isRequired,
         }),
+        // Shape for a bundle item
         PropTypes.shape({
+            // Unique identifier for the bundle
             id: PropTypes.number.isRequired,
+            // Display name of the bundle
             name: PropTypes.string.isRequired,
+            // Array of bubble ids that are included in the bundle
             items: PropTypes.arrayOf(PropTypes.number).isRequired,
         })
     ]).isRequired
