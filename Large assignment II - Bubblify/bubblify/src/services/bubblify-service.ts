@@ -14,6 +14,7 @@ async function request<TResponse>(
 
     if (contentType && contentType.includes('application/json')) {
         const json = await response.json();
+        console.log(json)
         return json as TResponse;
     } else {
         const text = await response.text();

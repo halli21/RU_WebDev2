@@ -12,7 +12,7 @@ interface BundleListItemProps {
 
 export const BundleListItem = ({ item } : BundleListItemProps) => {
     const navigate = useNavigate();
-    const bubbleIds = item?.items ?? [];
+    const bubbleIds = item?.items;
     const bubblesList = useBundleBubbles(bubbleIds);
     const [buttonState, setButtonState] = useState('addToCart');
 
@@ -59,8 +59,8 @@ export const BundleListItem = ({ item } : BundleListItemProps) => {
                             
             <div className={styles.includes}>
                 <p>This bundle includes:</p>
-                {bubblesList.map((bubble) => (
-                    <ul>
+                {bubblesList.map((bubble, index) => (
+                    <ul key={index}>
                         <li>{bubble?.name}</li> 
                     </ul>
                 ))}

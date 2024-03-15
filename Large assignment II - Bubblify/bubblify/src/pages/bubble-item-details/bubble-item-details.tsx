@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export const BubbleItemDetails = () => {
     const navigate = useNavigate();
     const { bubbleId } = useParams();
-    const [bubble, setBubble] = useState<Bubble | undefined>();
+    const [bubble, setBubble] = useState<Bubble>();
     const [buttonState, setButtonState] = useState('addToCart');
     
 
