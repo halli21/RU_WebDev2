@@ -48,8 +48,6 @@ export const CartPage = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
-
-
     const isCartEmpty = cartItems.products.length === 0 && cartItems.bundles.length === 0;
 
 
@@ -61,7 +59,7 @@ export const CartPage = () => {
                 ) : (
                     <h3>Your cart</h3>
                 )}
-                <CartList order={cartItems}/>
+                <CartList cart={cartItems}/>
                 {!isCartEmpty && (
                     <button onClick={handleCheckout} className={styles.button} disabled={isCartEmpty}>Go To Checkout</button>
                 )}
@@ -71,7 +69,7 @@ export const CartPage = () => {
                 <h3>Previous orders</h3>
                 {previousOrders.map((order, index) => (
                     <div className={styles.previousOrder}>
-                        <CartList key={index} order={order} />
+                        <CartList key={index} cart={order} />
                         <button onClick={() => addToCart(order)}  className={styles.button}>Add to cart</button>
                     </div>
                 ))}

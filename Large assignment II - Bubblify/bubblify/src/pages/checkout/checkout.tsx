@@ -134,7 +134,7 @@ export const Checkout = () => {
                     {error && <div>{error}</div>}
     
                     <h3>Review your order</h3>
-                    <CartList order={cartFromStorage} />
+                    <CartList cart={cartFromStorage} />
 
                     <button className={styles.button} type="button" onClick={handleBackToForm}>Back</button>
                     <button className={styles.button} type="submit" onClick={handleConfirm}>Confirm</button>
