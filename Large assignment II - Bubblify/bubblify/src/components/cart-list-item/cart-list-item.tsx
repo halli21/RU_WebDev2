@@ -45,8 +45,8 @@ export const CartListItem = ({ item }: CartListItemProps) => {
                     </div>
                     
                     <p style={{fontSize: "14px", fontWeight: "normal", paddingLeft: "2px"}}>Includes:</p>
-                    {bubblesList.map((bubble) => (
-                        <ul>
+                    {bubblesList.map((bubble, index) => (
+                        <ul key={index}>
                             <li style={{fontSize: "14px", fontWeight: "normal", fontStyle: "italic"}}>{bubble?.name}</li> 
                         </ul>
                     ))}

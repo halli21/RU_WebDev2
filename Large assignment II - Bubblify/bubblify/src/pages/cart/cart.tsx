@@ -30,7 +30,7 @@ export const CartPage = () => {
                     if (Array.isArray(response)) {
                         setPreviousOrders(response);
                     } 
-                    
+
                 } catch (e) {
                     console.error(e);
                 }
@@ -71,8 +71,8 @@ export const CartPage = () => {
             <div>
                 <h3>Previous orders</h3>
                 {previousOrders.map((order, index) => (
-                    <div className={styles.previousOrder}>
-                        <CartList key={index} cart={order} />
+                    <div key={index} className={styles.previousOrder}>
+                        <CartList cart={order} />
                         <button onClick={() => addToCart(order)}  className={styles.button}>Add to cart</button>
                     </div>
                 ))}

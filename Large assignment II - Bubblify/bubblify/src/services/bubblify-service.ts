@@ -13,15 +13,11 @@ async function request<TResponse>(
     const contentType = response.headers.get('Content-Type');
 
     if (contentType && contentType.includes('application/json')) {
-        // It's JSON, so parse it as JSON
         const json = await response.json();
-        console.log('JSON response', json);
         return json as TResponse;
     } else {
-        // It's not JSON, so treat it as a string
         const text = await response.text();
-        console.log('String response', text);
-        return text as unknown as TResponse;
+        return text as TResponse;
     }
 }
 
@@ -54,7 +50,6 @@ export const getAllBundles = async () => {
 
 export const submitOrder = async (telephone: string, order: Cart) => {
     try {
-        console.log('Order before stringification:', JSON.stringify(order));
         const url = `${BASE_URL}/orders/${telephone}`;
         const response = await request(url, {
             method: 'POST',
@@ -74,9 +69,7 @@ export const submitOrder = async (telephone: string, order: Cart) => {
 
 export const getOrdersByNumber = async (telephone: string) => {
     try {
-        const response = await request<Cart[]>(BASE_URL + `/orders/${telephone}`);
-
-        return response;
+        return await request<Cart[]>(BASE_URL + `/orders/${telephone}`);
 
     } catch (e) {
         console.error(e);

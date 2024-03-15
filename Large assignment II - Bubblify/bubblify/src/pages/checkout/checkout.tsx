@@ -19,18 +19,21 @@ export const Checkout = () => {
     const navigate = useNavigate();
 
 
-    const [fullName, setFullName] = useState('');
+    const [fullNameDel, setFullNameDel] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumberDel, setPhoneNumberDel] = useState('');
     const [postalCode, setPostalCode] = useState('');
+
+    const [fullNamePick, setFullNamePick] = useState('');
+    const [phoneNumberPick, setPhoneNumberPick] = useState('');
 
     const [showReview, setShowReview] = useState(false);
     const [error, setError] = useState('');
 
-    const isDeliveryFormValid = fullName && address && city && phoneNumber && postalCode;
+    const isDeliveryFormValid = fullNameDel && address && city && phoneNumberDel && postalCode;
 
-    const isPickupFormValid = fullName && phoneNumber;
+    const isPickupFormValid = fullNamePick && phoneNumberPick;
 
 
     const handleNext = () => {
@@ -44,10 +47,23 @@ export const Checkout = () => {
     const cartFromStorage = JSON.parse(localStorage.getItem('cart') || '{"products": [], "bundles": []}');
 
     const handleConfirm = async () => {
-        const response = await submitOrder(phoneNumber, cartFromStorage);
+        let response;
+
+        if (selectedOption === 'pickupform') {
+            response = await submitOrder(phoneNumberPick, cartFromStorage);
+        } else {
+            response = await submitOrder(phoneNumberDel, cartFromStorage);
+        }
     
         if (response) {
-            const userInfo = { fullName, phoneNumber };
+            let userInfo;
+
+            if (selectedOption === 'pickupform') {
+                userInfo = { "fullName": fullNamePick, "phoneNumber": phoneNumberPick };
+            } else {
+                userInfo = { "fullName": fullNameDel, "phoneNumber": phoneNumberDel };
+            }
+     
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
             localStorage.setItem('cart', JSON.stringify({ products: [], bundles: [] }));
             console.log('User information saved and order confirmed.');
@@ -79,11 +95,11 @@ export const Checkout = () => {
                                 <h3>Pick Up Information</h3>
 
                                 <div className="uk-margin">
-                                    <input className="uk-input uk-form-width-large" type="text" placeholder="Full Name" aria-label="Input" value={fullName} onChange={e => setFullName(e.target.value)} />
+                                    <input className="uk-input uk-form-width-large" type="text" placeholder="Full Name" aria-label="Input" value={fullNamePick} onChange={e => setFullNamePick(e.target.value)} />
                                 </div>
 
                                 <div className="uk-margin">
-                                    <input className="uk-input uk-form-width-medium" type="text" placeholder="Phone Number" aria-label="Input" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+                                    <input className="uk-input uk-form-width-medium" type="text" placeholder="Phone Number" aria-label="Input" value={phoneNumberPick} onChange={e => setPhoneNumberPick(e.target.value)} />
                                 </div>
 
                             </fieldset>
@@ -100,7 +116,7 @@ export const Checkout = () => {
                                 <h3>Delivery Information</h3>
 
                                 <div className="uk-margin">
-                                    <input className="uk-input uk-form-width-large" type="text" placeholder="Full Name" aria-label="Input" value={fullName} onChange={e => setFullName(e.target.value)} />
+                                    <input className="uk-input uk-form-width-large" type="text" placeholder="Full Name" aria-label="Input" value={fullNameDel} onChange={e => setFullNameDel(e.target.value)} />
                                 </div>
 
                                 <div className="uk-margin">
@@ -112,7 +128,7 @@ export const Checkout = () => {
                                 </div>
                                 
                                 <div className="uk-margin">
-                                    <input className="uk-input uk-form-width-medium" type="text" placeholder="Phone Number" aria-label="Input" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+                                    <input className="uk-input uk-form-width-medium" type="text" placeholder="Phone Number" aria-label="Input" value={phoneNumberDel} onChange={e => setPhoneNumberDel(e.target.value)} />
                                 </div>
 
                                 <div className="uk-margin">
