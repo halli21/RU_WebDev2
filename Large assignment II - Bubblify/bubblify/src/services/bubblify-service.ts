@@ -10,9 +10,19 @@ async function request<TResponse>(
     config: RequestInit = {}
     ) {
     const response = await fetch(url, config);
-    const json = await response.json();
-    console.log(json)
-    return json as TResponse;
+    const contentType = response.headers.get('Content-Type');
+
+    if (contentType && contentType.includes('application/json')) {
+        // It's JSON, so parse it as JSON
+        const json = await response.json();
+        console.log('JSON response', json);
+        return json as TResponse;
+    } else {
+        // It's not JSON, so treat it as a string
+        const text = await response.text();
+        console.log('String response', text);
+        return text as unknown as TResponse;
+    }
 }
 
 export const getAllBubbles = async () => {
@@ -64,7 +74,10 @@ export const submitOrder = async (telephone: string, order: Cart) => {
 
 export const getOrdersByNumber = async (telephone: string) => {
     try {
-        return await request<Cart[]>(BASE_URL + `/orders/${telephone}`);
+        const response = await request<Cart[]>(BASE_URL + `/orders/${telephone}`);
+
+        return response;
+
     } catch (e) {
         console.error(e);
         return [];

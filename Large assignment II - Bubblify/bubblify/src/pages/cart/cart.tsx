@@ -27,7 +27,10 @@ export const CartPage = () => {
             if (userInfo.phoneNumber) {
                 try {
                     const response = await getOrdersByNumber(userInfo.phoneNumber);
-                    setPreviousOrders(response);
+                    if (Array.isArray(response)) {
+                        setPreviousOrders(response);
+                    } 
+                    
                 } catch (e) {
                     console.error(e);
                 }
