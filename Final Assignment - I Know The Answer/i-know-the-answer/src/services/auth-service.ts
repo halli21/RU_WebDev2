@@ -3,40 +3,34 @@ import { UserLogin } from "../types/userLogin";
 
 const BASE_URL = 'http://localhost:4567';
 
+
 async function request<TResponse>(
     url: string,
     config: RequestInit = {}
-): Promise<TResponse> {
-    const response = await fetch(url, config);
-
-    console.log(response)
-
+): Promise<TResponse | null> {
+    const response = await fetch(url, { ...config, credentials: 'include' });
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        console.error('Request failed with status', response.status);
     }
 
-
-    const json = await response.json();
-    console.log(json);
-    return json;
-}
-export const loginUser = async (userInfo : UserLogin): Promise<User | null> => {
     try {
-        const url = BASE_URL + `/login/password`;
-        const data: User = await request<User>(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userInfo),
-        });
-        console.log('data', data)
-
-        return data;
-
+        return await response.json();
     } catch (e) {
-        console.error('Login request failed', e);
+        console.error('Failed to parse response as JSON', e);
         return null;
     }
+}
+
+
+export const authenticateUser = async (userInfo : UserLogin): Promise<User | null> => {
+    const url = BASE_URL + `/login/password`;
+    const data: User | null = await request<User>(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userInfo),
+    });
+    return data;
 };

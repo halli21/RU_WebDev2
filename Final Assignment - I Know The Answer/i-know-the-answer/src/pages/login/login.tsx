@@ -7,18 +7,23 @@ import { Button } from '@chakra-ui/react'
 import { User } from "../../types/user";
 import { UserLogin } from "../../types/userLogin";
 
-import { loginUser } from "../../services/auth-service";
+import { authenticateUser } from "../../services/auth-service";
 
+import { RegisterModal } from "../../components/register-modal/register-modal";
+
+import { useDisclosure } from '@chakra-ui/react'
 
 export const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [username, setUsername] = useState('testing2@testing2.com');
+    const [password, setPassword] = useState('password');
 
     const [user, setUser] = useState<User|null>(null);
 
     const handleLogin = async () => {
         const userInfo: UserLogin = { username, password };
-        const userRecived = await loginUser(userInfo);
+        const userRecived = await authenticateUser(userInfo);
         console.log('userRecived', userRecived)
         setUser(userRecived);
     };
@@ -28,9 +33,11 @@ export const Login = () => {
             <h1>I Know the Answer!</h1>
             <Input placeholder='Enter your username' value={username} onChange={(e) => setUsername(e.target.value)} />
             <Input placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
-            <Button colorScheme='teal' onClick={() => handleLogin()}>Register</Button>
-            <Button colorScheme='teal' onClick={() => handleLogin()}>Login</Button>
 
+            <Button colorScheme='blue' onClick={onOpen}>Register</Button>
+            <RegisterModal isOpen={isOpen} onClose={onClose} />
+
+            <Button colorScheme='teal' onClick={() => handleLogin()}>Login</Button>
 
             <div>
                 <p>{user?.id}</p>
