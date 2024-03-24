@@ -5,21 +5,23 @@ import {
     Text, 
     Input, 
     Button, 
+    useDisclosure
 } from '@chakra-ui/react';
 import { useState } from "react";
 import { loginContainer } from "./style.css";
 import { themeVars } from "../../themes/theme.css";
 import { useNavigate } from "react-router-dom";
 import { authenticateUser } from '../../services/user-service';
+import { RegisterModal } from '../../components/register-modal/register-modal';
 
 
 export function LoginView() {
-    //const { isOpen, onOpen, onClose } = useDisclosure();
-
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [failedMessage, setFailedMessage] = useState<string>('');
+
     const navigate = useNavigate();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     async function submitForm() {
         setFailedMessage("");
@@ -31,7 +33,6 @@ export function LoginView() {
         } else {
             setFailedMessage("Authentication failed.");
         }
-    
     };
 
  
@@ -56,9 +57,11 @@ export function LoginView() {
                         onChange={(evt) => setPassword(evt.target.value)}/>
                 </FormControl>
                 <Button onClick={() => submitForm()}>Login</Button>
+                <Button onClick={onOpen}>Register</Button>
                 <Text color={themeVars.colors.red}>{failedMessage}</Text>
             </form>
 
+            <RegisterModal isOpen={isOpen} onClose={onClose} />
         </Box>
     )
 }
