@@ -5,10 +5,11 @@ import {
     Text, 
     Input, 
     Button, 
-    useDisclosure
+    useDisclosure,
+    grid
 } from '@chakra-ui/react';
 import { useState } from "react";
-import { loginContainer } from "./style.css";
+import { buttonContainer, buttonStyle, inputStyle, loginContainer } from "./style.css";
 import { themeVars } from "../../themes/theme.css";
 import { useNavigate } from "react-router-dom";
 import { authenticateUser } from '../../services/user-service';
@@ -38,10 +39,11 @@ export function LoginView() {
  
     return (
         <Box className={loginContainer}>
-            <Heading>Sign in</Heading>
+            <Heading color={themeVars.colors.white} fontWeight={500} fontSize={48}>I Know the Answer!</Heading>
             <form>
                 <FormControl>
-                    <Input 
+                    <Input
+                        className={inputStyle} 
                         id="username-input" 
                         type="text" 
                         placeholder="Enter your username"
@@ -49,15 +51,28 @@ export function LoginView() {
                         onChange={(evt) => setUsername(evt.target.value)}/>
                 </FormControl>
                 <FormControl>
-                    <Input 
+                    <Input
+                        className={inputStyle}  
                         id="password-input" 
                         type="text" 
                         placeholder="Enter your password"
                         value={password} 
                         onChange={(evt) => setPassword(evt.target.value)}/>
                 </FormControl>
-                <Button onClick={() => submitForm()}>Login</Button>
-                <Button onClick={onOpen}>Register</Button>
+                <Box className={buttonContainer}>
+                    <Button 
+                        className={buttonStyle}
+                        onClick={onOpen}
+                    >
+                        Register
+                    </Button>
+                    <Button 
+                        className={buttonStyle}  
+                        onClick={() => submitForm()}
+                    >
+                        Login
+                    </Button>
+                    </Box>
                 <Text color={themeVars.colors.red}>{failedMessage}</Text>
             </form>
 
