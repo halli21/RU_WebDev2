@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-
 import { RouterProvider } from "react-router-dom";
-import { ChakraProvider } from '@chakra-ui/react'
-import router from "./routing";
+import { ChakraProvider, Box } from '@chakra-ui/react'
+import router from "./routing/router";
+import { themeClass } from './themes/theme.css';
+import "./index.css";
 
 
 const root = ReactDOM.createRoot(
@@ -13,7 +14,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <Box 
+        className={themeClass} 
+        style={{
+          height: "100%",
+        }}
+      >
+        <RouterProvider router={router} />
+      </Box>
     </ChakraProvider>
   </React.StrictMode>
 );
