@@ -6,6 +6,8 @@ import { ChakraProvider, Box } from '@chakra-ui/react'
 import router from "./routing/router";
 import { themeClass } from './themes/theme.css';
 import "./index.css";
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 
 const root = ReactDOM.createRoot(
@@ -13,16 +15,18 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <ChakraProvider>
-      <Box 
-        className={themeClass} 
-        style={{
-          height: "100%",
-        }}
-      >
-        <RouterProvider router={router} />
-      </Box>
-    </ChakraProvider>
+    <Provider store={store}>
+      <ChakraProvider>
+        <Box 
+          className={themeClass} 
+          style={{
+            height: "100%",
+          }}
+        >
+          <RouterProvider router={router} />
+        </Box>
+      </ChakraProvider>
+    </Provider>
   </React.StrictMode>
 );
 
