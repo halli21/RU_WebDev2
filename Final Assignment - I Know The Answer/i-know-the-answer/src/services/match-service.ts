@@ -15,3 +15,12 @@ export async function createNewMatch(match: Omit<Match, "id" | "answers" | "play
         return await response.text();
     }
 }
+
+
+export async function getAllMatches() {
+    const response = await fetchWithCredentials("matches");
+
+    if (response.ok) {
+        return await response.json();
+    }
+}

@@ -17,7 +17,7 @@ import { Option } from "../../types/option";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../redux/store";
 import { createNewMatch } from "../../services/match-service";
-import { socket } from "../../services/socket-service";
+
 
 
 export function MatchCreateView() {
