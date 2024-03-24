@@ -9,7 +9,7 @@ export interface Match {
     title: string;
     titleImage: string;
     questions: Question[]
-    owner: User;
+    owner: Partial<User>;
     answers: Answer[];
     players: User[];
     status: MatchStatus;

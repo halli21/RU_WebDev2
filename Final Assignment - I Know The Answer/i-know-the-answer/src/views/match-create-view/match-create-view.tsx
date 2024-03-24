@@ -6,18 +6,25 @@ import {
     Input,
     FormLabel,
     Button,
-    Radio
+    Radio,
+    Text
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Question } from "../../types/question";
 import { Option } from "../../types/option";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../redux/store";
+import { createNewMatch } from "../../services/match-service";
+import { socket } from "../../services/socket-service";
 
 
 export function MatchCreateView() {
+    const user = useSelector((state: IRootState) => state.user);
     const [title, setTitle] = useState<string>("");
     const [titleImage, setTitleImage] = useState<string>("https://lumiere-a.akamaihd.net/v1/images/image_3e7881c8.jpeg?region=131,0,1338,753");
+    const [errorMessage, setErrorMessage] = useState<string>("");
     
     const initialAnswer: Option = {
         value: "",
@@ -54,6 +61,8 @@ export function MatchCreateView() {
   
         updatedQuestions[questionIndex].options[optionIndex].correct = true;
         setQuestions(updatedQuestions);
+
+        console.log(updatedQuestions);
     };
 
     const addNewQuestion = () => {
@@ -68,6 +77,20 @@ export function MatchCreateView() {
     };
 
     const navigate = useNavigate();
+
+
+    async function createMatch() {
+        setErrorMessage("")
+        const match = { title, titleImage, questions, owner: user! };
+        const newMatch = await createNewMatch(match);
+
+        if (newMatch) {
+            navigate("/dashboard");
+        } else {
+            setErrorMessage("Failed to create the match."); 
+        }
+
+    }
 
     return (
         <Box>
@@ -102,10 +125,10 @@ export function MatchCreateView() {
                     <FormControl>
                         <FormLabel>Title of the question</FormLabel>
                         <Input 
-                        type="text"
-                        placeholder="Enter the title of the question"
-                        value={question.title}
-                        onChange={(e) => updateQuestionTitle(questionIndex, e.target.value)}
+                            type="text"
+                            placeholder="Enter the title of the question"
+                            value={question.title}
+                            onChange={(e) => updateQuestionTitle(questionIndex, e.target.value)}
                         />
                     </FormControl>
 
@@ -133,7 +156,8 @@ export function MatchCreateView() {
             ))}
 
 
-            <Button>Save</Button>
+            <Button onClick={createMatch}>Save</Button>
+            <Text>{errorMessage}</Text>
         </Box>
     )
 }
