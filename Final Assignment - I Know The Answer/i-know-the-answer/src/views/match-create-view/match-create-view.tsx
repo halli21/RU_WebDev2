@@ -22,17 +22,17 @@ import { createNewMatch } from "../../services/match-service";
 
 export function MatchCreateView() {
     const user = useSelector((state: IRootState) => state.user);
-    const [title, setTitle] = useState<string>("");
+    const [title, setTitle] = useState<string>("Star Wors");
     const [titleImage, setTitleImage] = useState<string>("https://lumiere-a.akamaihd.net/v1/images/image_3e7881c8.jpeg?region=131,0,1338,753");
     const [errorMessage, setErrorMessage] = useState<string>("");
     
     const initialAnswer: Option = {
-        value: "",
+        value: "Yoda",
         correct: false,
     };
       
     const initialQuestion: Question = {
-        title: "",
+        title: "Who is Lukes real father?",
         options: new Array(4).fill(null).map(() => ({ ...initialAnswer })),
     };
 

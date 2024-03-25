@@ -11,6 +11,7 @@ export interface Match {
     questions: Question[]
     owner: Partial<User>;
     answers: Answer[];
+    currentQuestion: number;
     players: User[];
     status: MatchStatus;
 }

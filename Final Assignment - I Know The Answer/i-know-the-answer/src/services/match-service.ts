@@ -2,7 +2,7 @@ import { Match } from "../types/match";
 import { fetchWithCredentials } from "../utilities/fetch-utilites";
 
 
-export async function createNewMatch(match: Omit<Match, "_id" | "answers" | "players" | "status">) {
+export async function createNewMatch(match: Omit<Match, "_id" | "answers" | "currentQuestion" | "players" | "status">) {
     const response = await fetchWithCredentials("matches", {
         method: "POST",
         headers: {

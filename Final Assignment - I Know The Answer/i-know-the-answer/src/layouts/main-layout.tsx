@@ -13,10 +13,9 @@ import { IRootState } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/features/user/user-slice";
 import { themeVars } from "../themes/theme.css";
-import { socket } from "../services/socket-service";
 import { getMatches } from "../redux/features/match/match-slice";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { User } from "../types/user";
+
 
 export function MainLayout() {
     const user = useSelector((state: IRootState) => state.user);
@@ -48,9 +47,6 @@ export function MainLayout() {
 
         validateUserSession();
     }, [dispatch, navigate, user]);
-
-
-
 
 
 
