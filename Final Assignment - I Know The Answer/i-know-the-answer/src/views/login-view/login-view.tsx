@@ -6,7 +6,6 @@ import {
     Input, 
     Button, 
     useDisclosure,
-    grid
 } from '@chakra-ui/react';
 import { useState } from "react";
 import { buttonContainer, buttonStyle, inputStyle, loginContainer } from "./style.css";
@@ -43,7 +42,7 @@ export function LoginView() {
             <form>
                 <FormControl>
                     <Input
-                        className={inputStyle} 
+                        className={inputStyle!} 
                         id="username-input" 
                         type="text" 
                         placeholder="Enter your username"

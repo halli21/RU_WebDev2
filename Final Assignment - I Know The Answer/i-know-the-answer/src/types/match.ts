@@ -5,7 +5,7 @@ import { MatchStatus } from "./match-status";
 
 
 export interface Match {
-    id: string;
+    _id: string;
     title: string;
     titleImage: string;
     questions: Question[]

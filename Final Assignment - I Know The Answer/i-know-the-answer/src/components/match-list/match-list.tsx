@@ -6,14 +6,43 @@ import {
     Image,
     Box
 } from "@chakra-ui/react";
-
-import { useMatches } from "../../hooks/use-matches";
 import { MatchStatus } from "../../types/match-status";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../../redux/store";
+import { socket } from "../../services/socket-service";
+import { setMatches } from "../../redux/features/match/match-slice";
+import { ThunkDispatch } from "@reduxjs/toolkit";
 
 
 export function MatchList() {
-    const matches = useMatches();
+    const user = useSelector((state: IRootState) => state.user);
+    const match = useSelector((state: IRootState) => state.match);
 
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+    const navigate = useNavigate();
+
+    function navigateToMatch(matchId: string) {
+
+        // TODO check first if successful
+        socket.emit("joinmatch", matchId, user);
+
+
+        dispatch(
+            setMatches(
+                match.matches.map((m) => {
+                    if (m._id == matchId) {
+                    return {...m, players: [...m.players, user]};
+                    }
+                    return m; 
+                })
+            )
+        )
+     
+
+        navigate(`/matches/${matchId}`);
+    }
 
     const displayStatus = (status: MatchStatus) => {
         switch (status) {
@@ -35,8 +64,13 @@ export function MatchList() {
                 maxWidth: 360
             }}
         >
-            {matches.map((m) => (
-                <Card>
+            {match.matches.map((m) => (
+                <Card
+                    key={m._id}
+                    onClick={() => navigateToMatch(m._id)}
+                    marginTop={5}
+                    marginBottom={5}
+                >
                     <CardBody>
                         <Text>{m.title}</Text>
                         <Box 

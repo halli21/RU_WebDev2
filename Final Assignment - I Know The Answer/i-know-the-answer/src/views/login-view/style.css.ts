@@ -23,7 +23,7 @@ export const inputStyle = style({
 
 
 export const buttonStyle = style({
-    backgroundColor: themeVars.colors.lightBlue,
+    backgroundColor: "#c1fdfb",
     borderRadius: 6,
     width: 120,
     fontWeight: 900
@@ -31,7 +31,6 @@ export const buttonStyle = style({
 
 
 export const buttonContainer = style({
-    backgroundColor: "red",
     display: "grid",
     gridTemplateColumns: "1fr auto auto 1fr",
     alignItems: "center"

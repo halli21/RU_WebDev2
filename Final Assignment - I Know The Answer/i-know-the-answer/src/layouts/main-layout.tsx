@@ -1,4 +1,10 @@
-import { Container } from "@chakra-ui/react";
+import { 
+    Container,
+    Flex,
+    Box,
+    Heading,
+    Avatar
+} from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { getUser } from "../services/user-service";
@@ -6,11 +12,24 @@ import { useSelector } from "react-redux";
 import { IRootState } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/features/user/user-slice";
+import { themeVars } from "../themes/theme.css";
+import { socket } from "../services/socket-service";
+import { getMatches } from "../redux/features/match/match-slice";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { User } from "../types/user";
 
 export function MainLayout() {
     const user = useSelector((state: IRootState) => state.user);
+    const match = useSelector((state: IRootState) => state.match);
+
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+
+    useEffect(() => {    
+        dispatch(getMatches());
+    }, [dispatch]);
+
 
     useEffect(() => {
         async function validateUserSession() {
@@ -31,9 +50,27 @@ export function MainLayout() {
     }, [dispatch, navigate, user]);
 
 
+
+
+
+
     return (
-        <Container height="100%">
-            <Outlet />
-        </Container>
+        <Flex height="100%">
+            <Box width="250px" bg={themeVars.colors.teal} color="white" position="fixed" height="100vh" overflowY="auto">
+                <Avatar
+                    size='lg'
+                    src={user.avatar}
+                />{' '}
+              
+                <Heading as="h3" size="lg">{user.displayName}</Heading>
+               
+            </Box>
+
+            <Box pl="250px" flex="1">
+                <Container maxW="container.xl" height="100%">
+                    <Outlet />
+                </Container>
+            </Box>
+        </Flex>
     )
 }
