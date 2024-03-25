@@ -18,9 +18,17 @@ import { MatchStatus } from "../../types/match-status";
 import { Answer } from "../../types/answer";
 import { User } from "../../types/user";
 
+
+
+interface LiveAnswer {
+    answer: number;
+    user: User;
+};
+
 export function MatchDetailsView() {  
     const [timer, setTimer] = useState<number>(0);
     const [answered, setAnswered] = useState<string[]>([]);
+    const [answers, setAnswers] = useState<LiveAnswer[]>([]);
 
     const user = useSelector((state: IRootState) => state.user);
     const match = useSelector((state: IRootState) => state.match);
@@ -100,6 +108,11 @@ export function MatchDetailsView() {
             setAnswered((prevAnswered) => [...prevAnswered, answerer.avatar]);
         });
 
+        socket.on("answers", (answers) => {
+            console.log(answers);
+            setAnswers(answers);
+        });
+
 
 
         return () => {
@@ -140,41 +153,10 @@ export function MatchDetailsView() {
 
 
     function answerQuestion(answerIndex: number) {
-        // if (!currentMatch) {
-        //     console.error('currentMatch is undefined');
-        //     return;
-        // }
-
-        // const answer: Answer = {
-        //     question: currentMatch.currentQuestion!,
-        //     user: user,
-        //     answer: answerIndex,
-        //     secondsLeft: timer
-        // };
-
     
-
         socket.emit("answer", currentMatch, user, answerIndex, timer);
 
-
-        //setAnswered((prevAnswered) => [...prevAnswered, user.avatar]);
-        setAnswered(user.avatar ? [...answered, user.avatar] : answered); //TODO oj
-
-
-        // dispatch(
-        //     setMatches(
-        //         match.matches.map((m) => {
-        //             if (m._id === matchId) {
-        //                 const updatedAnswers = [...m.answers, answer];
-        //                 return { 
-        //                     ...m, 
-        //                     answers: updatedAnswers 
-        //                 };
-        //             }
-        //             return m;
-        //         })
-        //     )
-        // );
+        setAnswered(user.avatar ? [...answered, user.avatar] : answered);
     }
 
   
@@ -210,18 +192,28 @@ export function MatchDetailsView() {
                 <Heading>Question {currentMatch?.currentQuestion}</Heading>
                 <Text>{currentMatch?.questions[currentMatch.currentQuestion - 1].title}</Text>
                 <Box>
-                {answered.map((avatar) => (
-                    <Avatar
-                        size='lg'
-                        src={avatar}
-                    />
-                ))}
+                    {answered.map((avatar, index) => (
+                        <Avatar
+                            size='lg'
+                            src={avatar}
+                        />
+                    ))}
                 </Box>
+
+                
 
                 {currentMatch?.questions[currentMatch.currentQuestion - 1].options.map((o, index) =>(
                     <Card onClick={() => answerQuestion(index)}>
                         <CardBody>
                             <Text>{o.value}</Text>
+                            <Box>
+                                {answers.filter(a => a.answer === index).map((a) => (
+                                    <Avatar
+                                        size='md'
+                                        src={a.user.avatar}
+                                    />
+                                ))}
+                            </Box>
                         </CardBody>
                     </Card>
                 ))}
