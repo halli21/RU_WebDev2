@@ -9,7 +9,9 @@ import {
     FormLabel,
     Input,
     Button,
-    Text
+    Text,
+    useToast,
+    FormErrorMessage
 } from '@chakra-ui/react'
 import { useState } from 'react';
 import { registerUser } from '../../services/user-service';
@@ -23,23 +25,43 @@ interface RegisterModalProps {
   }
 
 export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
-
     const [fullName, setFullName] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [failedMessage, setFailedMessage] = useState<string>('');
 
-    async function submitForm() {
-        setFailedMessage("");
+    const toast = useToast();
 
+
+
+    async function submitForm() {
+   
         const success = await registerUser(username, fullName, password);
 
         if (success) {
             onClose();
+
+            toast({
+                title: 'Account created.',
+                description: "We've created your account for you.",
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
         } else {
-            setFailedMessage("Register failed.");
+            toast({
+                title: 'Register failed.',
+                description: "Username may be taken or server error.",
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            })
         }
     };
+
+    const isFullNameError = fullName.length < 3;
+    const isUsernameError = username.length < 3;
+    const isPasswordError = password.length < 8;
    
     return (
         <>
@@ -52,7 +74,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                 <ModalHeader>Register</ModalHeader>
 
                 <ModalBody pb={6}>
-                    <FormControl>
+                    <FormControl isInvalid={isFullNameError}>
                         <FormLabel>Full name</FormLabel>
                         <Input 
                             id="fullname-input" 
@@ -60,9 +82,12 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                             placeholder="Enter full name"
                             value={fullName} 
                             onChange={(evt) => setFullName(evt.target.value)} />
+                        {isFullNameError && (
+                            <FormErrorMessage>Full name must be provided and at least 3 characters long.</FormErrorMessage>
+                        )}
                     </FormControl>
         
-                    <FormControl mt={4}>
+                    <FormControl mt={5} isInvalid={isUsernameError}>
                         <FormLabel>Username</FormLabel>
                         <Input
                             id="username-input" 
@@ -70,9 +95,12 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                             placeholder="Enter username"
                             value={username} 
                             onChange={(evt) => setUsername(evt.target.value)} />
+                        {isUsernameError && (
+                            <FormErrorMessage>Username must be provided and at least 3 characters long.</FormErrorMessage>
+                        )}
                     </FormControl>
 
-                    <FormControl mt={4}>
+                    <FormControl mt={5} isInvalid={isPasswordError}>
                         <FormLabel>Password</FormLabel>
                         <Input
                             id="password-input" 
@@ -80,13 +108,17 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                             placeholder="Enter username"
                             value={password} 
                             onChange={(evt) => setPassword(evt.target.value)} />
+                        
+                        {isPasswordError && (
+                            <FormErrorMessage>Password must be provided and at least 8 characters long.</FormErrorMessage>
+                        )}
                     </FormControl>
 
                 </ModalBody>
         
                 <ModalFooter pb={20}>
                     <Button onClick={onClose} colorScheme='blue'>Cancel</Button>
-                    <Button onClick={submitForm}>Register</Button>
+                    <Button onClick={submitForm} isDisabled={isFullNameError || isUsernameError || isPasswordError}>Register</Button>
 
                     <Text color={themeVars.colors.red}>{failedMessage}</Text>
                 </ModalFooter>
