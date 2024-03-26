@@ -7,8 +7,8 @@ import {
     Button, 
     useDisclosure,
 } from '@chakra-ui/react';
-import { useState } from "react";
 import { buttonContainer, buttonStyle, inputStyle, loginContainer } from "./style.css";
+import { useState } from "react";
 import { themeVars } from "../../themes/theme.css";
 import { useNavigate } from "react-router-dom";
 import { authenticateUser } from '../../services/user-service';

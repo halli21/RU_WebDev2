@@ -28,40 +28,51 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     const [fullName, setFullName] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [failedMessage, setFailedMessage] = useState<string>('');
+    
+    const [fullNameError, setFullNameError] = useState<boolean>(false); 
+    const [usernameError, setUsernameError] = useState<boolean>(false); 
+    const [passwordError, setPasswordError] = useState<boolean>(false); 
 
     const toast = useToast();
 
 
-
     async function submitForm() {
-   
-        const success = await registerUser(username, fullName, password);
 
-        if (success) {
-            onClose();
+        const isFullNameError = fullName.length < 3;
+        const isUsernameError = username.length < 3;
+        const isPasswordError = password.length < 8;
 
-            toast({
-                title: 'Account created.',
-                description: "We've created your account for you.",
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-            })
-        } else {
-            toast({
-                title: 'Register failed.',
-                description: "Username may be taken or server error.",
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            })
+        setFullNameError(isFullNameError);
+        setUsernameError(isUsernameError);
+        setPasswordError(isPasswordError);
+
+        if (!isFullNameError && !isUsernameError && !isPasswordError) {
+           
+            const success = await registerUser(username, fullName, password);
+
+            if (success) {
+                onClose();
+
+                toast({
+                    title: 'Account created.',
+                    description: "We've created your account for you.",
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            } else {
+
+                toast({
+                    title: 'Register failed.',
+                    description: "Username may be taken or server error.",
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            }
         }
     };
 
-    const isFullNameError = fullName.length < 3;
-    const isUsernameError = username.length < 3;
-    const isPasswordError = password.length < 8;
    
     return (
         <>
@@ -74,7 +85,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                 <ModalHeader>Register</ModalHeader>
 
                 <ModalBody pb={6}>
-                    <FormControl isInvalid={isFullNameError}>
+                    <FormControl isInvalid={fullNameError}>
                         <FormLabel>Full name</FormLabel>
                         <Input 
                             id="fullname-input" 
@@ -82,12 +93,12 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                             placeholder="Enter full name"
                             value={fullName} 
                             onChange={(evt) => setFullName(evt.target.value)} />
-                        {isFullNameError && (
+                        {fullNameError && (
                             <FormErrorMessage>Full name must be provided and at least 3 characters long.</FormErrorMessage>
                         )}
                     </FormControl>
         
-                    <FormControl mt={5} isInvalid={isUsernameError}>
+                    <FormControl mt={5} isInvalid={usernameError}>
                         <FormLabel>Username</FormLabel>
                         <Input
                             id="username-input" 
@@ -95,12 +106,12 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                             placeholder="Enter username"
                             value={username} 
                             onChange={(evt) => setUsername(evt.target.value)} />
-                        {isUsernameError && (
+                        {usernameError && (
                             <FormErrorMessage>Username must be provided and at least 3 characters long.</FormErrorMessage>
                         )}
                     </FormControl>
 
-                    <FormControl mt={5} isInvalid={isPasswordError}>
+                    <FormControl mt={5} isInvalid={passwordError}>
                         <FormLabel>Password</FormLabel>
                         <Input
                             id="password-input" 
@@ -109,7 +120,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                             value={password} 
                             onChange={(evt) => setPassword(evt.target.value)} />
                         
-                        {isPasswordError && (
+                        {passwordError && (
                             <FormErrorMessage>Password must be provided and at least 8 characters long.</FormErrorMessage>
                         )}
                     </FormControl>
@@ -118,9 +129,8 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
         
                 <ModalFooter pb={20}>
                     <Button onClick={onClose} colorScheme='blue'>Cancel</Button>
-                    <Button onClick={submitForm} isDisabled={isFullNameError || isUsernameError || isPasswordError}>Register</Button>
+                    <Button onClick={submitForm}>Register</Button>
 
-                    <Text color={themeVars.colors.red}>{failedMessage}</Text>
                 </ModalFooter>
             </ModalContent>
         </Modal>
