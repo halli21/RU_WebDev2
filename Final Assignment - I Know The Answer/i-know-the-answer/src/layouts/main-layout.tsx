@@ -2,7 +2,7 @@ import {
     Container,
     Flex,
     Box,
-    Heading,
+    Text,
     Avatar
 } from "@chakra-ui/react";
 import { useEffect } from "react";
@@ -52,13 +52,34 @@ export function MainLayout() {
 
     return (
         <Flex height="100%">
-            <Box width="250px" bg={themeVars.colors.teal} color="white" position="fixed" height="100vh" overflowY="auto">
+            <Box 
+                overflowY="auto"
+                style={{
+                    position: "fixed",
+                    width: 225,
+                    height: "100vh",
+                    backgroundColor: themeVars.colors.teal,
+                    color: "white",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    paddingTop: 40
+                }}
+            >
                 <Avatar
                     size='lg'
                     src={user.avatar}
                 />{' '}
               
-                <Heading as="h3" size="lg">{user.displayName}</Heading>
+                <Text
+                    style={{
+                        paddingTop: 10
+                    }}
+                >
+                    {user.displayName}
+                </Text>
                
             </Box>
 
