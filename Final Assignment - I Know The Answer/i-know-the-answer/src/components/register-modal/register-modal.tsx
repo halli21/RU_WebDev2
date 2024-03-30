@@ -81,55 +81,142 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
             onClose={onClose}
         >
             <ModalOverlay />
-                <ModalContent>
-                <ModalHeader>Register</ModalHeader>
+                <ModalContent
+                    style={{
+                        borderRadius: 0,
+                        paddingTop: 30
+                    }}
+                >
+                <ModalHeader
+                    style={{
+                        fontSize: 30,
+                        fontWeight: 700,
+                        paddingBottom: 30
+                    }}
+                >
+                    Register
+                </ModalHeader>
 
-                <ModalBody pb={6}>
-                    <FormControl isInvalid={fullNameError}>
-                        <FormLabel>Full name</FormLabel>
+                <ModalBody>
+                    <FormControl
+                        style={{paddingBottom: 5}}
+                    >
+                        <FormLabel
+                            style={{fontSize: 12, fontWeight: 700}}
+                        >
+                            Full name
+                        </FormLabel>
                         <Input 
                             id="fullname-input" 
                             type="text" 
                             placeholder="Enter full name"
                             value={fullName} 
-                            onChange={(evt) => setFullName(evt.target.value)} />
-                        {fullNameError && (
-                            <FormErrorMessage>Full name must be provided and at least 3 characters long.</FormErrorMessage>
-                        )}
+                            onChange={(evt) => setFullName(evt.target.value)} 
+                            style={{
+                                borderRadius: 0,
+                                borderColor: "black",
+                                borderWidth: 1,
+                                fontSize: 11
+                             
+                            }}
+                        />
+                 
+                        <Text
+                            style={{fontSize: 12, color: fullNameError ? "red" : "white"}}
+                        >
+                            Full name must be provided and at least 3 characters long.
+                        </Text>
                     </FormControl>
         
-                    <FormControl mt={5} isInvalid={usernameError}>
-                        <FormLabel>Username</FormLabel>
+                    <FormControl
+                        style={{paddingBottom: 5}}
+                    >
+                        <FormLabel
+                            style={{fontSize: 12, fontWeight: 700}}
+                        >
+                            Username
+                        </FormLabel>
                         <Input
                             id="username-input" 
                             type="text" 
                             placeholder="Enter username"
                             value={username} 
-                            onChange={(evt) => setUsername(evt.target.value)} />
-                        {usernameError && (
-                            <FormErrorMessage>Username must be provided and at least 3 characters long.</FormErrorMessage>
-                        )}
+                            onChange={(evt) => setUsername(evt.target.value)} 
+                            style={{
+                                borderRadius: 0,
+                                borderColor: "black",
+                                borderWidth: 1,
+                                fontSize: 11
+                             
+                            }}
+                            
+                        />
+                        <Text
+                            style={{fontSize: 12, color: usernameError ? "red" : "white"}}
+                        >
+                            Username must be provided and at least 3 characters long.
+                        </Text>  
                     </FormControl>
 
-                    <FormControl mt={5} isInvalid={passwordError}>
-                        <FormLabel>Password</FormLabel>
+                    <FormControl
+                        style={{paddingBottom: 5}}
+                    >
+                        <FormLabel
+                            style={{fontSize: 12, fontWeight: 700}}
+                        >
+                            Password
+                            </FormLabel>
                         <Input
                             id="password-input" 
                             type="text" 
                             placeholder="Enter username"
                             value={password} 
-                            onChange={(evt) => setPassword(evt.target.value)} />
+                            onChange={(evt) => setPassword(evt.target.value)} 
+                            style={{
+                                borderRadius: 0,
+                                borderColor: "black",
+                                borderWidth: 1,
+                                fontSize: 11
+                            }}
+                        />
                         
-                        {passwordError && (
-                            <FormErrorMessage>Password must be provided and at least 8 characters long.</FormErrorMessage>
-                        )}
+                        <Text
+                            style={{fontSize: 12, color: passwordError ? "red" : "white"}}
+                        >
+                            Password must be provided and at least 8 characters long.
+                        </Text>
                     </FormControl>
 
                 </ModalBody>
         
-                <ModalFooter pb={20}>
-                    <Button onClick={onClose} colorScheme='blue'>Cancel</Button>
-                    <Button onClick={submitForm}>Register</Button>
+                <ModalFooter
+                    style={{
+                        paddingBottom: 50,
+                        paddingTop: 0
+                    }}
+                >
+                    <Button 
+                        onClick={onClose} 
+                        style={{
+                            backgroundColor: "#426766",
+                            color: "white",
+                            fontSize: 14,
+                            fontWeight: 700
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                    <Button 
+                        onClick={submitForm}
+                        style={{
+                            backgroundColor: "#c1fdfb",
+                            color: "black",
+                            fontSize: 14,
+                            fontWeight: 700
+                        }}
+                    >
+                        Register
+                    </Button>
 
                 </ModalFooter>
             </ModalContent>
