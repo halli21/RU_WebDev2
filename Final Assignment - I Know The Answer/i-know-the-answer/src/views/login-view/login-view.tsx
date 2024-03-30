@@ -38,11 +38,26 @@ export function LoginView() {
  
     return (
         <Box className={loginContainer}>
-            <Heading color={themeVars.colors.white} fontWeight={500} fontSize={48}>I Know the Answer!</Heading>
-            <form>
+            <Heading color={themeVars.colors.white} fontWeight={300} fontSize={64}>I Know the Answer!</Heading>
+            <form
+                style={{
+                    display: "grid",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    paddingTop: 30
+                }}
+            >
                 <FormControl>
                     <Input
-                        className={inputStyle!} 
+                        style={{
+                            color: "black",
+                            borderRadius: "0px",
+                            backgroundColor: "white",
+                            fontSize: "11px",
+                            paddingLeft: "24px",
+                            marginBottom: "10px",
+                            width: "400px"
+                        }}
                         id="username-input" 
                         type="text" 
                         placeholder="Enter your username"
@@ -51,27 +66,54 @@ export function LoginView() {
                 </FormControl>
                 <FormControl>
                     <Input
-                        className={inputStyle}  
+                        style={{
+                            color: "black",
+                            borderRadius: "0px",
+                            backgroundColor: "white",
+                            fontSize: "11px",
+                            paddingLeft: "24px",
+                            marginBottom: "10px",
+                            width: "400px",
+                        }}
                         id="password-input" 
                         type="text" 
                         placeholder="Enter your password"
                         value={password} 
                         onChange={(evt) => setPassword(evt.target.value)}/>
                 </FormControl>
-                <Box className={buttonContainer}>
+                <Box
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(2, 1fr)",
+                        justifyItems: "center",
+                        padding: "0 50px",
+                        paddingTop: 20
+                      
+                    }}
+                >
                     <Button 
-                        className={buttonStyle}
+                        style={{
+                            borderRadius: 3,
+                            backgroundColor: themeVars.colors.lightBlue,
+                            width: "125px",
+                            fontWeight: 900
+                        }}
                         onClick={onOpen}
                     >
                         Register
                     </Button>
                     <Button 
-                        className={buttonStyle}  
+                        style={{
+                            borderRadius: 3,
+                            backgroundColor: themeVars.colors.lightBlue,
+                            width: "125px",
+                            fontWeight: 900
+                        }}
                         onClick={() => submitForm()}
                     >
                         Login
                     </Button>
-                    </Box>
+                </Box>
                 <Text color={themeVars.colors.red}>{failedMessage}</Text>
             </form>
 
