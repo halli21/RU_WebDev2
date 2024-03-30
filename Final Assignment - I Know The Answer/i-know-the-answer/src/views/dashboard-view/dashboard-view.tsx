@@ -18,6 +18,7 @@ export function DashboardView() {
                 style={{
                     display: 'flex',
                     justifyContent: 'space-between',
+                    paddingBottom: 10
                 }}
             >
                 <Heading

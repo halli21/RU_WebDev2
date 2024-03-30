@@ -59,29 +59,60 @@ export function MatchList() {
 
     return (
         <List
-            sx={{
-                width: "100%",
-                maxWidth: 360
+            style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: 20,
             }}
         >
             {match.matches.map((m) => (
                 <Card
                     key={m._id}
                     onClick={() => navigateToMatch(m._id)}
-                    marginTop={5}
-                    marginBottom={5}
+                    style={{
+                        backgroundColor: "#f2f2f2",
+                        borderRadius: 0,
+                        width: "100%",
+                        height: 275,
+                        padding: 20
+                      
+                    }}            
                 >
-                    <CardBody>
-                        <Text>{m.title}</Text>
-                        <Box 
-                            boxSize='100%'
-                            objectFit='cover'
-                        >
-                            <Image src={m.titleImage} />
-                        </Box>
-                        <Text>{m.players.length}/4 players</Text>
-                        <Text>{displayStatus(m.status)}</Text>
-                    </CardBody>
+        
+                    <Text
+                        style={{
+                            fontSize: 14,
+                            fontWeight: 700,
+                            paddingBottom: 10
+                        }}
+                    >
+                        {m.title}
+                    </Text>
+                    <Box 
+                        boxSize='100%'
+                        objectFit='cover'
+                    >
+                        <Image src={m.titleImage} style={{backgroundColor: "blue"}}/>
+                    </Box>
+
+                    <Text
+                        style={{
+                            fontSize: 12,
+                            fontWeight: 700,
+                            paddingBottom: 10
+                        }}
+                    >
+                        {m.players.length}/4 players
+                    </Text>
+                    <Text
+                        style={{
+                            fontSize: 12,
+                            fontWeight: 700,
+                        }}
+                    >
+                        {displayStatus(m.status)}
+                    </Text>
+                
                 </Card>
             ))}
 

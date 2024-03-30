@@ -5,7 +5,8 @@ import {
     Button,
     Card,
     CardBody,
-    Avatar
+    Avatar,
+    List
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,7 @@ import { MatchStatus } from "../../types/match-status";
 import { User } from "../../types/user";
 import { getMatchById } from "../../services/match-service";
 import { Answer } from "../../types/answer";
+import { themeVars } from "../../themes/theme.css";
 
 
 
@@ -277,16 +279,88 @@ export function MatchDetailsView() {
   
 
     return (
-        <Box>
-            <Heading>{currentMatch?.title}</Heading>
-            <Text>{currentMatch?.status}</Text>
-            <Box>
+        <Box 
+            style={{padding: 50}}
+        >
+            <Box
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    paddingBottom: 10
+                }}
+            >
+                <Heading
+                    style={{fontSize: 30}}
+                >
+                    Waiting for players to join
+                </Heading>
+                <Button 
+                    onClick={startMatch}
+                    style={{
+                        borderRadius: 3,
+                        backgroundColor: themeVars.colors.lightBlue,
+                        width: "125px",
+                        fontWeight: 700
+                    }}
+                >
+                    Start
+                </Button>
+            </Box>
+                    
+            <Box
+                style={{
+                    display: "grid",
+                    placeItems: "center",
+                    paddingTop: 40
+                }}
+            >
+                <List 
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(2, 1fr)",
+                        columnGap: 70,
+                        rowGap: 25
+                    }}
+                >
+                    {currentMatch?.players.map((p) => (
+                        <Card 
+                            key={p.id}
+                            style={{
+                                backgroundColor: "#f2f2f2",
+                                width: 300,
+                                height: 275,
+                                display: "grid",
+                                justifyItems: "center",
+                                padding: 40
+                            }}
+                        >
+                            <Avatar
+                                size='xl'
+                                src={p.avatar}
+                            />
+                            <Text
+                                style={{
+                                    fontWeight: 700,
+                                    fontSize: 24,
+                                    textAlign: "center",
+                                    lineHeight: 1
+                                }}
+                            >
+                                {p.displayName} is in the house!
+                            </Text>
+
+                        </Card>
+                        
+                    ))}
+                </List>
+            </Box>
+
+            {/* <Box>
                 {currentMatch?.players.map((p) => (
                     <Text key={p.id}>{p.displayName}</Text>
                 ))}
-            </Box>
-            <Button onClick={leaveMatch}>Leave</Button>
-            <Button onClick={startMatch}>Start</Button>
+            </Box> */}
+            {/* <Button onClick={leaveMatch}>Leave</Button> */}
 
             {currentMatch?.status === MatchStatus.Started && <Text>Started</Text>}
 
