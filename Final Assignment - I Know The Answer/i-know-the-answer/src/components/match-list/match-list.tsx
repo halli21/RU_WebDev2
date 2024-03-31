@@ -1,7 +1,6 @@
 import { 
     List,
     Card,
-    CardBody,
     Text,
     Image,
     Box

@@ -20,6 +20,7 @@ import { User } from "../../types/user";
 import { getMatchById } from "../../services/match-service";
 import { Answer } from "../../types/answer";
 import { themeVars } from "../../themes/theme.css";
+import { Podium } from "../../components/podium/podium";
 
 
 
@@ -35,10 +36,19 @@ interface Score {
 };
 
 export function MatchDetailsView() {  
+
+
+    const stylingStart = true;
+
+    const answerColors = ["#f1f1f1", "#a097ff", "#84ff82", "#fa8585"];
+
+
+
     const [timer, setTimer] = useState<number>(0);
     const [answered, setAnswered] = useState<string[]>([]);
     const [answers, setAnswers] = useState<LiveAnswer[]>([]);
     const [scores, setScores] = useState<Map<string, Score>>(new Map());
+    const [finalScores, setFinalScores] = useState<Score[]>([]);
 
     const user = useSelector((state: IRootState) => state.user);
     const match = useSelector((state: IRootState) => state.match);
@@ -187,14 +197,9 @@ export function MatchDetailsView() {
 
 
         socket.on("finishedgame", (finshedMatch) => {
-            console.log("recieved finishedgame");
-            console.log(finshedMatch);
-
             finshedMatch.answers.map((a: Answer) => {
                 const questionNumber = a.question;
-                console.log(questionNumber);
                 const question = finshedMatch.questions[questionNumber - 1];
-                console.log(question);
                 
                 if (question.options[a.answer].correct === true) {
                     const timeElapsed = 10 - a.secondsLeft;
@@ -208,10 +213,9 @@ export function MatchDetailsView() {
 
             const scoresArray = Array.from(scores.entries());
             scoresArray.sort((a, b) => b[1].points - a[1].points);
-            const sortedScores = new Map(scoresArray);
-            setScores(sortedScores)
-
-            console.log(scores);
+            const finalScoresArray = scoresArray.map(entry => entry[1]);
+            console.log(finalScoresArray)
+            setFinalScores(finalScoresArray);
                 
     
             dispatch(
@@ -237,7 +241,8 @@ export function MatchDetailsView() {
             socket.off("updatetimer");
             socket.off("answer");
             socket.off("answers");
-            socket.off("finishedgame")
+            //socket.off("nextquestion")
+            //socket.off("finishedgame")
         };
 
     }, [dispatch, match.matches]);
@@ -279,81 +284,92 @@ export function MatchDetailsView() {
   
 
     return (
+
+
+
         <Box 
             style={{padding: 50}}
         >
-            <Box
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    paddingBottom: 10
-                }}
-            >
-                <Heading
-                    style={{fontSize: 30}}
-                >
-                    Waiting for players to join
-                </Heading>
-                <Button 
-                    onClick={startMatch}
-                    style={{
-                        borderRadius: 3,
-                        backgroundColor: themeVars.colors.lightBlue,
-                        width: "125px",
-                        fontWeight: 700
-                    }}
-                >
-                    Start
-                </Button>
-            </Box>
-                    
-            <Box
-                style={{
-                    display: "grid",
-                    placeItems: "center",
-                    paddingTop: 40
-                }}
-            >
-                <List 
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(2, 1fr)",
-                        columnGap: 70,
-                        rowGap: 25
-                    }}
-                >
-                    {currentMatch?.players.map((p) => (
-                        <Card 
-                            key={p.id}
+
+
+
+
+            {(currentMatch?.status === MatchStatus.NotStarted) && (!stylingStart) && (
+                <Box>
+                    <Box
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            paddingBottom: 10
+                        }}
+                    >
+                        <Heading
+                            style={{fontSize: 30}}
+                        >
+                            Waiting for players to join
+                        </Heading>
+                        <Button 
+                            onClick={startMatch}
                             style={{
-                                backgroundColor: "#f2f2f2",
-                                width: 300,
-                                height: 275,
-                                display: "grid",
-                                justifyItems: "center",
-                                padding: 40
+                                borderRadius: 3,
+                                backgroundColor: themeVars.colors.lightBlue,
+                                width: "125px",
+                                fontWeight: 700
                             }}
                         >
-                            <Avatar
-                                size='xl'
-                                src={p.avatar}
-                            />
-                            <Text
-                                style={{
-                                    fontWeight: 700,
-                                    fontSize: 24,
-                                    textAlign: "center",
-                                    lineHeight: 1
-                                }}
-                            >
-                                {p.displayName} is in the house!
-                            </Text>
+                            Start
+                        </Button>
+                    </Box>
+                            
+                    <Box
+                        style={{
+                            display: "grid",
+                            placeItems: "center",
+                            paddingTop: 40
+                        }}
+                    >
+                        <List 
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "repeat(2, 1fr)",
+                                columnGap: 70,
+                                rowGap: 25
+                            }}
+                        >
+                            {currentMatch?.players.map((p) => (
+                                <Card 
+                                    key={p.id}
+                                    style={{
+                                        backgroundColor: "#f2f2f2",
+                                        width: 300,
+                                        height: 275,
+                                        display: "grid",
+                                        justifyItems: "center",
+                                        padding: 40
+                                    }}
+                                >
+                                    <Avatar
+                                        size='xl'
+                                        src={p.avatar}
+                                    />
+                                    <Text
+                                        style={{
+                                            fontWeight: 700,
+                                            fontSize: 24,
+                                            textAlign: "center",
+                                            lineHeight: 1
+                                        }}
+                                    >
+                                        {p.displayName} is in the house!
+                                    </Text>
 
-                        </Card>
-                        
-                    ))}
-                </List>
-            </Box>
+                                </Card>
+                                
+                            ))}
+                        </List>
+                    </Box>
+                </Box>
+            )}
 
             {/* <Box>
                 {currentMatch?.players.map((p) => (
@@ -362,30 +378,107 @@ export function MatchDetailsView() {
             </Box> */}
             {/* <Button onClick={leaveMatch}>Leave</Button> */}
 
-            {currentMatch?.status === MatchStatus.Started && <Text>Started</Text>}
 
+            {/* currentMatch?.status === MatchStatus.Started */}
 
-            {currentMatch?.status === MatchStatus.Started && 
-                <Box mt={20}>
-                    <Heading>Question {currentMatch?.currentQuestion}</Heading>
+            {stylingStart && 
+                <Box>
+                    <Box
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <Heading
+                            style={{fontSize: 25, paddingBottom: 20}}
+                        >
+                            Question {currentMatch?.currentQuestion}
+                        </Heading>
+                        <Text
+                            style={{
+                                fontSize: 30,
+                                fontWeight: 700
+                            }}
+                        >
+                            {timer}
+                        </Text>
+                    </Box>
                     <Text>{currentMatch?.questions[currentMatch.currentQuestion - 1].title}</Text>
-                    <Box>
+                    <Box
+                        style={{paddingTop: 20, height: 100}}
+                    >
                         {answered.map((avatar, index) => (
                             <Avatar
                                 key={index}
                                 size='lg'
                                 src={avatar}
+                                style={{
+                                    marginRight: 20
+                                }}
                             />
                         ))}
                     </Box>
 
-                    
+                    <List
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(2, 1fr)",
+                            
+                        }}
+                    >
+                        {currentMatch?.questions[currentMatch.currentQuestion - 1].options.map((o, index) =>(
+                            <Card 
+                                key={index} 
+                                onClick={() => answerQuestion(index)}
+                                style={{
+                                    width: 300,
+                                    height: 175,
+                                    backgroundColor: answerColors[index]
+                                }}
+                            >
+                                <Box
+                                    style={{
+                                        display: "grid",
+                                        height: 75
+                                    }}
+                                >
+                                    {o.correct === true && timer === 0 && 
+                                        <Text
+                                            style={{
+                                                justifySelf: "right",
+                                            }}
+                                        >
+                                            Correct Answer
+                                        </Text>
+                                    }
+                                </Box>
+                              
+                                <Box
+                                    style={{
+                                        display: "grid",
+                                        height: 100
+                                    }}
+                                >
+                                    <Text 
+                                        key={index}
+                                        style={{
+                                            fontSize: 20,
+                                            fontWeight: 700,
+                                            alignSelf: "center",
+                                            justifySelf: "center"
+                                        }}
+                                    >
+                                        {o.value}
+                                    </Text>
+                                </Box>
 
-                    {currentMatch?.questions[currentMatch.currentQuestion - 1].options.map((o, index) =>(
-                        <Card key={index} onClick={() => answerQuestion(index)}>
-                            <CardBody>
-                                <Text key={index}>{o.value}</Text>
-                                <Box>
+
+                                <Box
+                                    style={{
+                                        display: "grid",
+                                        height: 75
+                                    }}
+                                >
                                     {answers.filter(a => a.answer === index).map((a) => (
                                         <Avatar
                                             size='md'
@@ -393,27 +486,91 @@ export function MatchDetailsView() {
                                         />
                                     ))}
                                 </Box>
-                                {o.correct === true && timer === 0 && <Text>Correct Answer</Text>}
-                            </CardBody>
-                        </Card>
-                    ))}
-
-                    <Text>{timer}</Text>
+                        
+                                
+                            </Card>
+                        ))}
+                    </List>
                 </Box>
             }
 
 
+
+
+
+
+
+
             {currentMatch?.status === MatchStatus.Finished && 
                 <Box>
-                    <Heading>Scoreboard</Heading>
-                    {Array.from(scores.entries()).map(([userId, score], index) => (
-                        <Box key={userId}>
-                            <Avatar
-                                key={index}
-                                size='lg'
-                                src={score.user.avatar}
-                            />
-                            {`#${index + 1} ${score.user.displayName} ${score.points} pts`}
+                    <Heading
+                        style={{fontSize: 25, paddingBottom: 40}}
+                    >
+                        Game summary
+                    </Heading>
+                    
+                    <Box
+                        style={{
+                            display: "grid",
+                            justifyContent: "center"
+                        }}
+                    >
+                        <Podium 
+                            firstPlaceAvatar={finalScores[0]?.user.avatar}
+                            secondPlaceAvatar={finalScores[1]?.user.avatar}
+                            thirdPlaceAvatar={finalScores.length > 2 ? finalScores[2]?.user.avatar : ""}
+                        />
+                    </Box>
+
+                    <Heading
+                        style={{fontSize: 20, paddingBottom: 20, paddingTop: 60}}
+                    >
+                        Scoreboard
+                    </Heading>
+
+                    {finalScores?.map((score, index) => (
+                        <Box 
+                            key={score.user.id}
+                            style={{
+                                backgroundColor: "#f2f2f2",
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                paddingTop: 10,
+                                paddingBottom: 10,
+                                alignItems: "center"
+                            }}
+                        >
+                            <Box
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center"
+                                }}
+                            >
+                                <Text
+                                    style={{fontSize: 12, fontWeight: 700, paddingRight: 20, paddingLeft: 20}}
+                                >
+                                    #{index + 1}
+                                </Text>
+                                <Box
+                                    style={{paddingRight: 20}}
+                                >
+                                    <Avatar
+                                        key={index}
+                                        size='md'
+                                        src={score.user.avatar}
+                                    />
+                                </Box>
+                                <Text
+                                    style={{fontSize: 12, fontWeight: 700}}
+                                >
+                                    {score.user.displayName}
+                                </Text>
+                            </Box>
+                            <Text
+                                style={{fontSize: 12, fontWeight: 700, paddingRight: 20}}
+                            >
+                                {score.points} pts
+                            </Text>
                         </Box>
                     ))}
                 </Box>
