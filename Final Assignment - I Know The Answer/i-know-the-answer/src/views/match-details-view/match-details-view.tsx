@@ -26,7 +26,7 @@ import { Podium } from "../../components/podium/podium";
 
 interface LiveAnswer {
     answer: number;
-    user: User;
+    user: Partial<User>;
 };
 
 
@@ -278,6 +278,8 @@ export function MatchDetailsView() {
     
         socket.emit("answer", currentMatch, user, answerIndex, timer);
 
+        //setAnswers([...answers, { answer: answerIndex, user: user }])
+
         setAnswered(user.avatar ? [...answered, user.avatar] : answered);
     }
 
@@ -294,7 +296,7 @@ export function MatchDetailsView() {
 
 
 
-            {(currentMatch?.status === MatchStatus.NotStarted) && (!stylingStart) && (
+            {(currentMatch?.status === MatchStatus.NotStarted) && (
                 <Box>
                     <Box
                         style={{
@@ -381,8 +383,12 @@ export function MatchDetailsView() {
 
             {/* currentMatch?.status === MatchStatus.Started */}
 
-            {stylingStart && 
-                <Box>
+            {currentMatch?.status === MatchStatus.Started && 
+                <Box
+                    style={{
+                        display: "grid"
+                    }}
+                >
                     <Box
                         style={{
                             display: 'flex',
@@ -405,7 +411,7 @@ export function MatchDetailsView() {
                     </Box>
                     <Text>{currentMatch?.questions[currentMatch.currentQuestion - 1].title}</Text>
                     <Box
-                        style={{paddingTop: 20, height: 100}}
+                        style={{paddingTop: 20, paddingBottom: 100, height: 100}}
                     >
                         {answered.map((avatar, index) => (
                             <Avatar
@@ -423,6 +429,8 @@ export function MatchDetailsView() {
                         style={{
                             display: "grid",
                             gridTemplateColumns: "repeat(2, 1fr)",
+                            placeSelf: "center",
+                            gap: 50
                             
                         }}
                     >
@@ -475,14 +483,19 @@ export function MatchDetailsView() {
 
                                 <Box
                                     style={{
-                                        display: "grid",
-                                        height: 75
+                                        display: "flex",
+                                        height: 75,
+                                        paddingLeft: 20,
+                                        paddingBottom: 10
                                     }}
                                 >
                                     {answers.filter(a => a.answer === index).map((a) => (
                                         <Avatar
                                             size='md'
                                             src={a.user.avatar}
+                                            style={{
+                                                marginRight: 10
+                                            }}
                                         />
                                     ))}
                                 </Box>
