@@ -151,7 +151,7 @@ export function MatchCreateView() {
       }
     } else if (!isTitleError && !isTitleImageError && invalidQuestions) {
       toast({
-        title: "Error",
+        title: "Error creating match.",
         description: invalidQuestions,
         status: "error",
         duration: 5000,

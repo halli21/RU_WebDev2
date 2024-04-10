@@ -22,7 +22,7 @@ export function MatchList() {
     dispatch(
       setMatches(
         match.matches.map((m) => {
-          if (m._id == matchId) {
+          if (m._id === matchId) {
             return { ...m, players: [...m.players, user] };
           }
           return m;

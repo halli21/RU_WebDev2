@@ -47,7 +47,7 @@ export function MainLayout() {
           height: "100vh",
           backgroundColor: themeVars.colors.teal,
           color: "white",
-          fontSize: 14,
+          fontSize: 18,
           fontWeight: 700,
           display: "flex",
           flexDirection: "column",

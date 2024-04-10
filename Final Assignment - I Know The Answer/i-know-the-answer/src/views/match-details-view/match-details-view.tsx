@@ -8,6 +8,7 @@ import {
   Avatar,
   List,
   CircularProgress,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,6 +49,7 @@ export function MatchDetailsView() {
   const user = useSelector((state: IRootState) => state.user);
   const match = useSelector((state: IRootState) => state.match);
 
+  const toast = useToast();
   const { matchId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -125,6 +127,13 @@ export function MatchDetailsView() {
     });
 
     socket.on("startmatch", () => {
+      toast({
+        title: "Game has started!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+
       dispatch(
         setMatches(
           match.matches.map((m) => {
@@ -240,8 +249,8 @@ export function MatchDetailsView() {
       socket.off("updatetimer");
       socket.off("answer");
       socket.off("answers");
-      //socket.off("nextquestion")
-      //socket.off("finishedgame")
+      // socket.off("nextquestion");
+      // socket.off("finishedgame");
     };
   }, [dispatch, match.matches]);
 
@@ -264,16 +273,25 @@ export function MatchDetailsView() {
   }
 
   function startMatch() {
-    // TODO needs to meet criteria to start
-
-    socket.emit("startmatch", matchId);
+    if (
+      currentMatch &&
+      currentMatch.players &&
+      currentMatch.players.length > 1
+    ) {
+      socket.emit("startmatch", matchId);
+    } else {
+      toast({
+        title: "Not enough players.",
+        description: "Need at least two players to start game.",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   }
 
   function answerQuestion(answerIndex: number) {
     socket.emit("answer", currentMatch, user, answerIndex, timer);
-
-    //setAnswers([...answers, { answer: answerIndex, user: user }])
-
     setAnswered(user.avatar ? [...answered, user.avatar] : answered);
   }
 
@@ -291,17 +309,33 @@ export function MatchDetailsView() {
             <Heading style={{ fontSize: 30 }}>
               Waiting for players to join
             </Heading>
-            <Button
-              onClick={startMatch}
-              style={{
-                borderRadius: 3,
-                backgroundColor: themeVars.colors.lightBlue,
-                width: "125px",
-                fontWeight: 700,
-              }}
-            >
-              Start
-            </Button>
+            <Box>
+              {currentMatch.owner.id === user.id && (
+                <Button
+                  onClick={startMatch}
+                  style={{
+                    borderRadius: 3,
+                    backgroundColor: themeVars.colors.lightBlue,
+                    width: "125px",
+                    fontWeight: 700,
+                    marginRight: 10,
+                  }}
+                >
+                  Start
+                </Button>
+              )}
+              <Button
+                onClick={leaveMatch}
+                style={{
+                  borderRadius: 3,
+                  backgroundColor: themeVars.colors.lightBlue,
+                  width: "125px",
+                  fontWeight: 700,
+                }}
+              >
+                Leave
+              </Button>
+            </Box>
           </Box>
 
           <Box
