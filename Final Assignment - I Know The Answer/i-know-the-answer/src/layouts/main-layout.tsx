@@ -68,6 +68,7 @@ export function MainLayout() {
       <Box
         style={{
           display: "flex",
+          flex: 1,
           paddingLeft: "250px",
         }}
       >
