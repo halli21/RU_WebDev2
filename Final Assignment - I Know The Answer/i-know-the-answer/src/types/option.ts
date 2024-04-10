@@ -1,4 +1,4 @@
 export interface Option {
-    value: string;
-    correct: boolean;
+  value: string;
+  correct: boolean;
 }
