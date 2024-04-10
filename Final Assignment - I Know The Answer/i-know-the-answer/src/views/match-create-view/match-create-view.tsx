@@ -128,7 +128,7 @@ export function MatchCreateView() {
   }
 
   async function createMatch() {
-    const isTitleError = title.length < 3;
+    const isTitleError = title.length < 3 || title.trim() === "";
     const isTitleImageError = titleImage.length < 1;
 
     setTitleError(isTitleError);
