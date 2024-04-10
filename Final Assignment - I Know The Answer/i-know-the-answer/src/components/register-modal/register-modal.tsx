@@ -11,11 +11,9 @@ import {
   Button,
   Text,
   useToast,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { registerUser } from "../../services/user-service";
-import { themeVars } from "../../themes/theme.css";
 
 interface RegisterModalProps {
   isOpen: boolean;

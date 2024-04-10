@@ -6,13 +6,9 @@ import {
   Input,
   Button,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import {
-  buttonContainer,
-  buttonStyle,
-  inputStyle,
-  loginContainer,
-} from "./style.css";
+import { loginContainer } from "./style.css";
 import { useState } from "react";
 import { themeVars } from "../../themes/theme.css";
 import { useNavigate } from "react-router-dom";
@@ -22,20 +18,23 @@ import { RegisterModal } from "../../components/register-modal/register-modal";
 export function LoginView() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [failedMessage, setFailedMessage] = useState<string>("");
 
+  const toast = useToast();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   async function submitForm() {
-    setFailedMessage("");
-
     const user = await authenticateUser(username, password);
 
     if (user) {
       navigate("/dashboard");
     } else {
-      setFailedMessage("Authentication failed.");
+      toast({
+        title: "Login failed.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   }
 
@@ -120,9 +119,7 @@ export function LoginView() {
             Login
           </Button>
         </Box>
-        <Text color={themeVars.colors.red}>{failedMessage}</Text>
       </form>
-
       <RegisterModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
