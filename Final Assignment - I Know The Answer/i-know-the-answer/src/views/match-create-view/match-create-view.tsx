@@ -10,7 +10,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Question } from "../../types/question";
@@ -23,9 +23,7 @@ import { themeVars } from "../../themes/theme.css";
 export function MatchCreateView() {
   const user = useSelector((state: IRootState) => state.user);
   const [title, setTitle] = useState<string>("");
-  const [titleImage, setTitleImage] = useState<string>(
-    "https://lumiere-a.akamaihd.net/v1/images/image_3e7881c8.jpeg?region=131,0,1338,753"
-  );
+  const [titleImage, setTitleImage] = useState<string | null>(null);
 
   const [titleError, setTitleError] = useState<boolean>(false);
   const [titleImageError, setTitleImageError] = useState<boolean>(false);
@@ -129,7 +127,7 @@ export function MatchCreateView() {
 
   async function createMatch() {
     const isTitleError = title.length < 3 || title.trim() === "";
-    const isTitleImageError = titleImage.length < 1;
+    const isTitleImageError = titleImage === null;
 
     setTitleError(isTitleError);
     setTitleImageError(isTitleImageError);
@@ -151,7 +149,7 @@ export function MatchCreateView() {
           isClosable: true,
         });
       }
-    } else if (invalidQuestions) {
+    } else if (!isTitleError && !isTitleImageError && invalidQuestions) {
       toast({
         title: "Error",
         description: invalidQuestions,
@@ -161,6 +159,20 @@ export function MatchCreateView() {
       });
     }
   }
+
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          const base64String = e.target.result as string;
+          setTitleImage(base64String);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <Box style={{ padding: 50, paddingTop: 10 }}>
@@ -195,21 +207,21 @@ export function MatchCreateView() {
           </FormLabel>
           <Input
             id="title-input"
-            type="text"
-            placeholder="Enter your title image"
-            value={titleImage}
-            onChange={(evt) => setTitleImage(evt.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
             style={{
-              borderRadius: 0,
-              borderColor: "black",
-              borderWidth: 1,
-              fontSize: 11,
+              fontSize: 12,
+              paddingTop: 0,
+              paddingLeft: 0,
+              margin: 0,
+              height: 26,
             }}
           />
           <Text
             style={{ fontSize: 12, color: titleImageError ? "red" : "white" }}
           >
-            Title Image must be provided.
+            Match image must be provided.
           </Text>
         </FormControl>
       </Stack>

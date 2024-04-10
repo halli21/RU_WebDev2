@@ -70,20 +70,36 @@ export function MatchList() {
             style={{
               fontSize: 14,
               fontWeight: 700,
-              paddingBottom: 10,
+              marginBottom: 10,
             }}
           >
             {m.title}
           </Text>
-          <Box boxSize="100%" objectFit="cover">
-            <Image src={m.titleImage} style={{ backgroundColor: "blue" }} />
+
+          <Box
+            style={{
+              backgroundColor: "red",
+              minHeight: 160,
+              display: "flex",
+            }}
+          >
+            <Image
+              src={m.titleImage}
+              style={{
+                height: "100%",
+                width: "100%",
+                alignSelf: "center",
+                placeSelf: "center",
+                objectFit: "cover",
+              }}
+            />
           </Box>
 
           <Text
             style={{
               fontSize: 12,
               fontWeight: 700,
-              paddingBottom: 10,
+              marginTop: 12,
             }}
           >
             {m.players.length}/4 players
@@ -92,6 +108,7 @@ export function MatchList() {
             style={{
               fontSize: 12,
               fontWeight: 700,
+              marginTop: 2,
             }}
           >
             {displayStatus(m.status)}
