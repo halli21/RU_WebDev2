@@ -1,11 +1,11 @@
-import { Container, Flex, Box, Text, Avatar } from "@chakra-ui/react";
+import { Container, Flex, Box, Text, Avatar, Button } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { getUser } from "../services/user-service";
+import { getUser, logoutUser } from "../services/user-service";
 import { useSelector } from "react-redux";
 import { IRootState } from "../redux/store";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/features/user/user-slice";
+import { setLogout, setUser } from "../redux/features/user/user-slice";
 import { themeVars } from "../themes/theme.css";
 import { getMatches } from "../redux/features/match/match-slice";
 import { ThunkDispatch } from "@reduxjs/toolkit";
@@ -38,6 +38,18 @@ export function MainLayout() {
     validateUserSession();
   }, [dispatch, navigate, user]);
 
+  async function logout() {
+    try {
+      await logoutUser();
+
+      dispatch(setLogout());
+
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  }
+
   return (
     <Flex height="100%">
       <Box
@@ -63,6 +75,18 @@ export function MainLayout() {
         >
           {user.displayName}
         </Text>
+        <Button
+          onClick={logout}
+          style={{
+            marginTop: 500,
+            borderRadius: 3,
+            backgroundColor: themeVars.colors.lightBlue,
+            width: "125px",
+            fontWeight: 900,
+          }}
+        >
+          Logout
+        </Button>
       </Box>
 
       <Box
