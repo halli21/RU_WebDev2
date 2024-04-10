@@ -8,6 +8,7 @@ import {
   Button,
   Radio,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +26,6 @@ export function MatchCreateView() {
   const [titleImage, setTitleImage] = useState<string>(
     "https://lumiere-a.akamaihd.net/v1/images/image_3e7881c8.jpeg?region=131,0,1338,753"
   );
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [titleError, setTitleError] = useState<boolean>(false);
   const [titleImageError, setTitleImageError] = useState<boolean>(false);
@@ -41,6 +41,8 @@ export function MatchCreateView() {
   };
 
   const [questions, setQuestions] = useState<Question[]>([initialQuestion]);
+
+  const toast = useToast();
 
   const updateQuestionTitle = (index: number, newTitle: string) => {
     const updatedQuestions = [...questions];
@@ -83,6 +85,48 @@ export function MatchCreateView() {
 
   const navigate = useNavigate();
 
+  function validateQuestions() {
+    if (questions.length === 0) {
+      return "No questions provided.";
+    }
+
+    for (
+      let questionIndex = 0;
+      questionIndex < questions.length;
+      questionIndex++
+    ) {
+      const question = questions[questionIndex];
+      const options = question.options;
+
+      if (!question.title || question.title.trim() === "") {
+        return `Missing title for question ${questionIndex + 1}.`;
+      }
+
+      let correctAnswer = false;
+
+      for (let optionIndex = 0; optionIndex < options.length; optionIndex++) {
+        const option = options[optionIndex];
+        if (!option.value || option.value.trim() === "") {
+          return `Missing value for answer ${optionIndex + 1} in question ${
+            questionIndex + 1
+          }.`;
+        }
+
+        if (option.correct) {
+          correctAnswer = true;
+        }
+      }
+
+      if (!correctAnswer) {
+        return `Missing right answer for question ${
+          questionIndex + 1
+        }. Please choose a right answer.`;
+      }
+    }
+
+    return;
+  }
+
   async function createMatch() {
     const isTitleError = title.length < 3;
     const isTitleImageError = titleImage.length < 1;
@@ -90,15 +134,31 @@ export function MatchCreateView() {
     setTitleError(isTitleError);
     setTitleImageError(isTitleImageError);
 
-    if (!isTitleError && !isTitleImageError) {
+    const invalidQuestions = validateQuestions();
+
+    if (!isTitleError && !isTitleImageError && !invalidQuestions) {
       const match = { title, titleImage, questions, owner: user! };
       const newMatch = await createNewMatch(match);
 
       if (newMatch) {
         navigate("/dashboard");
-      } else {
-        setErrorMessage("Failed to create the match.");
+
+        toast({
+          title: "Match created.",
+          description: "We've created the match for you.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
       }
+    } else if (invalidQuestions) {
+      toast({
+        title: "Error",
+        description: invalidQuestions,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   }
 
@@ -297,7 +357,6 @@ export function MatchCreateView() {
           Save
         </Button>
       </Box>
-      <Text>{errorMessage}</Text>
     </Box>
   );
 }
