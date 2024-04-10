@@ -480,9 +480,30 @@ export function MatchDetailsView() {
 
       {currentMatch?.status === MatchStatus.Finished && (
         <Box>
-          <Heading style={{ fontSize: 25, paddingBottom: 40 }}>
-            Game summary
-          </Heading>
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              paddingBottom: 10,
+            }}
+          >
+            <Heading style={{ fontSize: 25, paddingBottom: 40 }}>
+              Game summary
+            </Heading>
+            <Button
+              onClick={() => navigate("/dashboard")}
+              style={{
+                backgroundColor: themeVars.colors.lightBlue,
+                width: 200,
+                color: "black",
+                fontSize: 18,
+                fontWeight: 700,
+                borderRadius: 2,
+              }}
+            >
+              Back to Dashboard
+            </Button>
+          </Box>
 
           <Box
             style={{
@@ -513,6 +534,7 @@ export function MatchDetailsView() {
                 paddingTop: 10,
                 paddingBottom: 10,
                 alignItems: "center",
+                marginBottom: "3px",
               }}
             >
               <Box
