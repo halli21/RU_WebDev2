@@ -7,6 +7,7 @@ import {
   CardBody,
   Avatar,
   List,
+  CircularProgress,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -372,14 +373,29 @@ export function MatchDetailsView() {
             <Heading style={{ fontSize: 25, paddingBottom: 20 }}>
               Question {currentMatch?.currentQuestion}
             </Heading>
-            <Text
+            <Box
               style={{
-                fontSize: 30,
+                position: "relative",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: 24,
                 fontWeight: 700,
               }}
             >
-              {timer}
-            </Text>
+              <CircularProgress
+                value={(10 - timer) * 10}
+                size="72px"
+                color={themeVars.colors.teal}
+              />
+              <span
+                style={{
+                  position: "absolute",
+                }}
+              >
+                {timer}
+              </span>
+            </Box>
           </Box>
           <Text>
             {currentMatch?.questions[currentMatch.currentQuestion - 1].title}
