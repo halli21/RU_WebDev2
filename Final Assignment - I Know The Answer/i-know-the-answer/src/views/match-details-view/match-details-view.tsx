@@ -21,6 +21,7 @@ import { getMatchById } from "../../services/match-service";
 import { Answer } from "../../types/answer";
 import { themeVars } from "../../themes/theme.css";
 import { Podium } from "../../components/podium/podium";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 
 interface LiveAnswer {
   answer: number;
@@ -420,16 +421,18 @@ export function MatchDetailsView() {
                   style={{
                     display: "grid",
                     height: 75,
+                    alignItems: "center",
+                    justifyContent: "end",
                   }}
                 >
                   {o.correct === true && timer === 0 && (
-                    <Text
+                    <IoIosCheckmarkCircle
                       style={{
-                        justifySelf: "right",
+                        color: "#1fff1d",
+                        fontSize: "64px",
+                        padding: "12px",
                       }}
-                    >
-                      Correct Answer
-                    </Text>
+                    />
                   )}
                 </Box>
 

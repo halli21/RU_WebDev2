@@ -12,7 +12,6 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 
 export function MainLayout() {
   const user = useSelector((state: IRootState) => state.user);
-  const match = useSelector((state: IRootState) => state.match);
 
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -42,7 +41,6 @@ export function MainLayout() {
   return (
     <Flex height="100%">
       <Box
-        overflowY="auto"
         style={{
           position: "fixed",
           width: 225,
@@ -67,8 +65,18 @@ export function MainLayout() {
         </Text>
       </Box>
 
-      <Box pl="250px" flex="1">
-        <Container maxW="container.xl" height="100%">
+      <Box
+        style={{
+          display: "flex",
+          paddingLeft: "250px",
+        }}
+      >
+        <Container
+          style={{
+            maxWidth: "100%",
+            height: "100%",
+          }}
+        >
           <Outlet />
         </Container>
       </Box>
