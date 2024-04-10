@@ -27,6 +27,9 @@ export function MatchCreateView() {
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  const [titleError, setTitleError] = useState<boolean>(false);
+  const [titleImageError, setTitleImageError] = useState<boolean>(false);
+
   const initialAnswer: Option = {
     value: "",
     correct: false,
@@ -74,21 +77,28 @@ export function MatchCreateView() {
 
   const removeQuestion = (questionIndex: number) => {
     setQuestions((prevQuestions) =>
-      prevQuestions.filter((questoin, index) => index !== questionIndex)
+      prevQuestions.filter((question, index) => index !== questionIndex)
     );
   };
 
   const navigate = useNavigate();
 
   async function createMatch() {
-    setErrorMessage("");
-    const match = { title, titleImage, questions, owner: user! };
-    const newMatch = await createNewMatch(match);
+    const isTitleError = title.length < 3;
+    const isTitleImageError = titleImage.length < 1;
 
-    if (newMatch) {
-      navigate("/dashboard");
-    } else {
-      setErrorMessage("Failed to create the match.");
+    setTitleError(isTitleError);
+    setTitleImageError(isTitleImageError);
+
+    if (!isTitleError && !isTitleImageError) {
+      const match = { title, titleImage, questions, owner: user! };
+      const newMatch = await createNewMatch(match);
+
+      if (newMatch) {
+        navigate("/dashboard");
+      } else {
+        setErrorMessage("Failed to create the match.");
+      }
     }
   }
 
@@ -115,6 +125,9 @@ export function MatchCreateView() {
               fontSize: 11,
             }}
           />
+          <Text style={{ fontSize: 12, color: titleError ? "red" : "white" }}>
+            Title must be provided and at least 3 characters long.
+          </Text>
         </FormControl>
         <FormControl style={{ paddingBottom: 10 }}>
           <FormLabel style={{ fontSize: 12, fontWeight: 700 }}>
@@ -133,6 +146,11 @@ export function MatchCreateView() {
               fontSize: 11,
             }}
           />
+          <Text
+            style={{ fontSize: 12, color: titleImageError ? "red" : "white" }}
+          >
+            Title Image must be provided.
+          </Text>
         </FormControl>
       </Stack>
 
