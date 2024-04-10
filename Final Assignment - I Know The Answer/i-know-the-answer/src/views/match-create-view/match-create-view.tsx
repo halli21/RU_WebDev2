@@ -342,9 +342,21 @@ export function MatchCreateView() {
       <Box
         style={{
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
+          marginTop: "20px",
         }}
       >
+        <Button
+          onClick={() => navigate("/dashboard")}
+          style={{
+            backgroundColor: themeVars.colors.lightBlue,
+            width: 100,
+            fontSize: 12,
+            fontWeight: 700,
+          }}
+        >
+          Cancel
+        </Button>
         <Button
           onClick={createMatch}
           style={{
