@@ -9,16 +9,18 @@ import { setLogout, setUser } from "../redux/features/user/user-slice";
 import { themeVars } from "../themes/theme.css";
 import { getMatches } from "../redux/features/match/match-slice";
 import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useLocation } from "react-router-dom";
 
 export function MainLayout() {
   const user = useSelector((state: IRootState) => state.user);
 
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   useEffect(() => {
     dispatch(getMatches());
-  }, [dispatch]);
+  }, [dispatch, location]);
 
   useEffect(() => {
     async function validateUserSession() {
@@ -27,8 +29,6 @@ export function MainLayout() {
       }
 
       const session = await getUser();
-
-      console.log(session);
 
       if (!session) {
         navigate("/");

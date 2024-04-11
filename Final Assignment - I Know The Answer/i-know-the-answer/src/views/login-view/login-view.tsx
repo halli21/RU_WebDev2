@@ -2,13 +2,11 @@ import {
   Box,
   Heading,
   FormControl,
-  Text,
   Input,
   Button,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { loginContainer } from "./style.css";
 import { useState } from "react";
 import { themeVars } from "../../themes/theme.css";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +37,16 @@ export function LoginView() {
   }
 
   return (
-    <Box className={loginContainer}>
+    <Box
+      style={{
+        backgroundColor: themeVars.colors.teal,
+        display: "grid",
+        alignContent: "center",
+        justifyContent: "center",
+        height: "100%",
+        gap: 20,
+      }}
+    >
       <Heading color={themeVars.colors.white} fontWeight={300} fontSize={64}>
         I Know the Answer!
       </Heading>
@@ -71,6 +78,7 @@ export function LoginView() {
         </FormControl>
         <FormControl>
           <Input
+            type="password"
             style={{
               color: "black",
               borderRadius: "0px",
@@ -81,7 +89,6 @@ export function LoginView() {
               width: "400px",
             }}
             id="password-input"
-            type="text"
             placeholder="Enter your password"
             value={password}
             onChange={(evt) => setPassword(evt.target.value)}

@@ -92,7 +92,9 @@ export function MatchSummaryView() {
           paddingBottom: 10,
         }}
       >
-        <Heading style={{ fontSize: 25, paddingBottom: 40 }}>
+        <Heading
+          style={{ fontSize: 25, paddingBottom: 40, alignSelf: "center" }}
+        >
           Game summary
         </Heading>
         <Button

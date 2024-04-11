@@ -67,8 +67,6 @@ export function MatchCreateView() {
 
     updatedQuestions[questionIndex].options[optionIndex].correct = true;
     setQuestions(updatedQuestions);
-
-    console.log(updatedQuestions);
   };
 
   const addNewQuestion = () => {

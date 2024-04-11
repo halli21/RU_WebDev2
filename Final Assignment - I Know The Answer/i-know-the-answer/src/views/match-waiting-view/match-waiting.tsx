@@ -112,14 +112,6 @@ export function MatchWaitingView() {
         setMatches(
           match.matches.map((m) => {
             if (m._id === matchId) {
-              //   const initialScores = new Map<string, Score>(
-              //     m.players.map((player) => [
-              //       player.id,
-              //       { user: player, points: 0 },
-              //     ])
-              //   );
-              //   setScores(initialScores);
-
               return {
                 ...m,
                 status: MatchStatus.Started,

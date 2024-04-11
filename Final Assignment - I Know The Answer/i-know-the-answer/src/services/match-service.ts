@@ -24,11 +24,7 @@ export async function getAllMatches() {
   const response = await fetchWithCredentials("matches");
 
   if (response.ok) {
-    const jso = await response.json();
-
-    console.log(jso);
-
-    return jso;
+    return await response.json();
   }
 }
 
