@@ -62,6 +62,14 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
           isClosable: true,
         });
       }
+    } else {
+      toast({
+        title: "Register failed.",
+        description: "Insufficient information.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   }
 
