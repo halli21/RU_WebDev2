@@ -28,6 +28,8 @@ export function MainLayout() {
 
       const session = await getUser();
 
+      console.log(session);
+
       if (!session) {
         navigate("/");
       } else {
@@ -39,15 +41,9 @@ export function MainLayout() {
   }, [dispatch, navigate, user]);
 
   async function logout() {
-    try {
-      await logoutUser();
-
-      dispatch(setLogout());
-
-      navigate("/");
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
+    await logoutUser();
+    dispatch(setLogout());
+    navigate("/");
   }
 
   return (

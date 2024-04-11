@@ -4,7 +4,6 @@ import {
   Text,
   Button,
   Card,
-  CardBody,
   Avatar,
   List,
   CircularProgress,
@@ -24,6 +23,7 @@ import { Answer } from "../../types/answer";
 import { themeVars } from "../../themes/theme.css";
 import { Podium } from "../../components/podium/podium";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { setLeaveMatch } from "../../redux/features/session/session-slice";
 
 interface LiveAnswer {
   answer: number;
@@ -269,6 +269,7 @@ export function MatchDetailsView() {
         })
       )
     );
+    //dispatch(setLeaveMatch());
     navigate("/dashboard");
   }
 
@@ -382,15 +383,6 @@ export function MatchDetailsView() {
           </Box>
         </Box>
       )}
-
-      {/* <Box>
-                {currentMatch?.players.map((p) => (
-                    <Text key={p.id}>{p.displayName}</Text>
-                ))}
-            </Box> */}
-      {/* <Button onClick={leaveMatch}>Leave</Button> */}
-
-      {/* currentMatch?.status === MatchStatus.Started */}
 
       {currentMatch?.status === MatchStatus.Started && (
         <Box

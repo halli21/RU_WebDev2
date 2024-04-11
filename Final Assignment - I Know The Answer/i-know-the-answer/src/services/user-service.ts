@@ -3,8 +3,17 @@ import { fetchWithCredentials } from "../utilities/fetch-utilites";
 export async function getUser() {
   const response = await fetchWithCredentials("user/info");
 
-  if (response.ok && response.headers.get("Content-Length") !== "0") {
-    return await response.json();
+  const text = await response.text();
+
+  if (response.ok) {
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      return null;
+    }
+  } else {
+    console.error("Response status:", response.status);
+    return null;
   }
 }
 
@@ -48,16 +57,7 @@ export async function registerUser(
 }
 
 export async function logoutUser() {
-  const response = await fetchWithCredentials("logout", {
+  await fetchWithCredentials("logout", {
     method: "POST",
   });
-
-  if (response.ok) {
-    // Handle successful logout
-    console.log("User logged out successfully");
-    // Optionally clear any client-side storage or state here if needed
-  } else {
-    // Handle failed logout attempt
-    console.error("Logout failed", response.status);
-  }
 }
