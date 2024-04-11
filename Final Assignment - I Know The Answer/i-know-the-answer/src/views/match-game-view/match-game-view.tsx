@@ -128,7 +128,7 @@ export function MatchGameView() {
     });
 
     return () => {
-      socket.off("updatetimer");
+      //socket.off("updatetimer");
       socket.off("answer");
       socket.off("answers");
       // socket.off("nextquestion");

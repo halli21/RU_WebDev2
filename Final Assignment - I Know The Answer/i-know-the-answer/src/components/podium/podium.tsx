@@ -22,17 +22,31 @@ export function Podium({
       {thirdPlaceAvatar !== "" && (
         <Box
           style={{
-            backgroundColor: "#f2f2f2",
-            borderRadius: 6,
             display: "grid",
-            placeContent: "center",
-            fontSize: 30,
-            fontWeight: 700,
-            width: 200,
-            height: 150,
+            justifyItems: "center",
           }}
         >
-          3
+          <Box
+            style={{
+              paddingBottom: 10,
+            }}
+          >
+            <Avatar size="xl" src={thirdPlaceAvatar} />
+          </Box>
+          <Box
+            style={{
+              backgroundColor: "#f2f2f2",
+              borderRadius: 6,
+              display: "grid",
+              placeContent: "center",
+              fontSize: 30,
+              fontWeight: 700,
+              width: 200,
+              height: 150,
+            }}
+          >
+            3
+          </Box>
         </Box>
       )}
 
