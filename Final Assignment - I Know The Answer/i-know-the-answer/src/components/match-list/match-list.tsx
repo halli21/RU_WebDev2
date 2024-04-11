@@ -48,7 +48,7 @@ export function MatchList() {
         isClosable: true,
       });
       return;
-    } else if (thisMatch.status !== MatchStatus.NotStarted) {
+    } else if (thisMatch.status === MatchStatus.Started) {
       toast({
         title: "Error joining match.",
         description: "Game already started.",
@@ -56,6 +56,9 @@ export function MatchList() {
         duration: 5000,
         isClosable: true,
       });
+      return;
+    } else if (thisMatch.status === MatchStatus.Finished) {
+      navigate(`/game-summary/${matchId}`);
       return;
     }
 
