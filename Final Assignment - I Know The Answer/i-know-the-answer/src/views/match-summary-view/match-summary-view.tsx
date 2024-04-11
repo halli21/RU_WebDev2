@@ -27,10 +27,6 @@ export function MatchSummaryView() {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   useEffect(() => {
-    if (Object.keys(user).length === 0) {
-      return;
-    }
-
     if (!matchId) {
       return;
     }

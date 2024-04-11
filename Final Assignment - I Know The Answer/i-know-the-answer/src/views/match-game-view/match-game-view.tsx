@@ -18,6 +18,7 @@ import { User } from "../../types/user";
 import { getMatchById } from "../../services/match-service";
 import { themeVars } from "../../themes/theme.css";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { Match } from "../../types/match";
 
 interface LiveAnswer {
   answer: number;
@@ -43,18 +44,14 @@ export function MatchGameView() {
   );
 
   useEffect(() => {
-    if (Object.keys(user).length === 0) {
-      return;
-    }
-
     if (!matchId) {
       return;
     }
 
-    async function getMatch() {
-      socket.emit("joinmatch", matchId, user);
+    socket.emit("joinmatch", matchId, user);
 
-      const fetchedMatch = await getMatchById(matchId!);
+    async function getMatch() {
+      const fetchedMatch = (await getMatchById(matchId!)) as Match;
 
       dispatch(
         setMatches(

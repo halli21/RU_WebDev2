@@ -35,10 +35,6 @@ export function MatchWaitingView() {
   );
 
   useEffect(() => {
-    if (Object.keys(user).length === 0) {
-      return;
-    }
-
     if (!matchId) {
       return;
     }
