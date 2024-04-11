@@ -14,7 +14,7 @@ import { IRootState } from "../../redux/store";
 
 import { themeVars } from "../../themes/theme.css";
 import { redirect, useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { getMatchById } from "../../services/match-service";
 import { setMatches } from "../../redux/features/match/match-slice";
@@ -22,6 +22,7 @@ import { socket } from "../../services/socket-service";
 import { MatchStatus } from "../../types/match-status";
 import { getUser } from "../../services/user-service";
 import { setUser } from "../../redux/features/user/user-slice";
+import { Match } from "../../types/match";
 
 export function MatchWaitingView() {
   const user = useSelector((state: IRootState) => state.user);
@@ -30,16 +31,20 @@ export function MatchWaitingView() {
   const { matchId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-  const currentMatch = useSelector((state: IRootState) =>
-    state.match.matches.find((m) => m._id === matchId)
+  const [currentMatch, setCurrentMatch] = useState<Match | undefined>(
+    undefined
   );
 
   useEffect(() => {
+    console.log("waiting room mounting");
+
     if (!matchId) {
       return;
     }
+
     async function getMatch() {
       const fetchedMatch = await getMatchById(matchId!);
+      setCurrentMatch(fetchedMatch);
 
       dispatch(
         setMatches(

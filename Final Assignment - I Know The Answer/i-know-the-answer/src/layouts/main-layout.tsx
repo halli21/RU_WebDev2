@@ -19,10 +19,12 @@ export function MainLayout() {
 
   useEffect(() => {
     dispatch(getMatches());
-  }, [dispatch]);
+  }, [dispatch, location]);
 
   useEffect(() => {
     async function validateUserSession() {
+      console.log("main-layout", user);
+
       if (Object.keys(user).length > 0) {
         return;
       }
@@ -31,10 +33,8 @@ export function MainLayout() {
 
       if (!session) {
         navigate("/");
-        return;
       } else {
         dispatch(setUser(session));
-        return;
       }
     }
 
