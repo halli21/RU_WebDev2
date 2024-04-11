@@ -17,7 +17,6 @@ interface Score {
 }
 
 export function MatchSummaryView() {
-  const [calcScores, setCalcScores] = useState<Map<string, Score>>(new Map());
   const [finalScores, setFinalScores] = useState<Score[]>([]);
 
   const user = useSelector((state: IRootState) => state.user);
@@ -41,9 +40,6 @@ export function MatchSummaryView() {
           { user: player, points: 0 },
         ])
       );
-      setCalcScores(initialScores);
-
-      console.log(fetchedMatch);
 
       // calc scores
       const newScores = new Map(initialScores);
