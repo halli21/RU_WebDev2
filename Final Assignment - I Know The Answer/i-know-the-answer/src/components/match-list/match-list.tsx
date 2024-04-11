@@ -73,7 +73,7 @@ export function MatchList() {
 
     //dispatch(setEnterMatch(matchId));
 
-    navigate(`/matches/${matchId}`);
+    navigate(`/waiting-room/${matchId}`);
   }
 
   const displayStatus = (status: MatchStatus) => {

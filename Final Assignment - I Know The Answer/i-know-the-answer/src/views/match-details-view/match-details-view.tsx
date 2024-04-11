@@ -129,7 +129,7 @@ export function MatchDetailsView() {
     socket.on("startmatch", () => {
       toast({
         title: "Game has started!",
-        status: "success",
+        status: "info",
         duration: 5000,
         isClosable: true,
       });
