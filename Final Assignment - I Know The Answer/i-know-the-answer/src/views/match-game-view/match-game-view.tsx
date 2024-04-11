@@ -2,7 +2,6 @@ import {
   Heading,
   Box,
   Text,
-  Button,
   Card,
   Avatar,
   List,
@@ -16,10 +15,8 @@ import { socket } from "../../services/socket-service";
 import { useEffect, useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { setMatches } from "../../redux/features/match/match-slice";
-import { MatchStatus } from "../../types/match-status";
 import { User } from "../../types/user";
 import { getMatchById } from "../../services/match-service";
-import { Answer } from "../../types/answer";
 import { themeVars } from "../../themes/theme.css";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 
@@ -38,7 +35,6 @@ export function MatchGameView() {
   const user = useSelector((state: IRootState) => state.user);
   const match = useSelector((state: IRootState) => state.match);
 
-  const toast = useToast();
   const { matchId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -48,6 +44,8 @@ export function MatchGameView() {
   );
 
   useEffect(() => {
+    socket.emit("joinmatch", matchId, user);
+
     if (!matchId) {
       return;
     }
@@ -122,8 +120,6 @@ export function MatchGameView() {
     });
 
     socket.on("finishedgame", (finshedMatch) => {
-      console.log("game-view socket recieved: ");
-      console.log(finshedMatch);
       navigate(`/game-summary/${matchId}`);
     });
 
@@ -230,7 +226,7 @@ export function MatchGameView() {
                 {o.correct === true && timer === 0 && (
                   <IoIosCheckmarkCircle
                     style={{
-                      color: "#1fff1d",
+                      color: "green",
                       fontSize: "64px",
                       padding: "12px",
                     }}

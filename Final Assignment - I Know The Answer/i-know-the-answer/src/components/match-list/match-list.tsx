@@ -8,17 +8,10 @@ import { setMatches } from "../../redux/features/match/match-slice";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { getMatchById } from "../../services/match-service";
 import { Match } from "../../types/match";
-import { setEnterMatch } from "../../redux/features/session/session-slice";
-import { themeClass, themeVars } from "../../themes/theme.css";
 
 export function MatchList() {
   const user = useSelector((state: IRootState) => state.user);
   const match = useSelector((state: IRootState) => state.match);
-
-  const { inMatch, currentGameId } = useSelector((state: IRootState) => ({
-    inMatch: state.session.inMatch,
-    currentGameId: state.session.currentGameId,
-  }));
 
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const toast = useToast();
@@ -28,17 +21,40 @@ export function MatchList() {
     const response = await getMatchById(matchId);
     const thisMatch: Match = response;
 
-    console.log("currentGameId", currentGameId);
-    console.log("matchId", matchId);
+    let inOtherMatch = false;
+    let inThisMatch = false;
 
-    // if (inMatch && currentGameId !== matchId) {
-    //   toast({
-    //     title: "Error joining match.",
-    //     description: "You are already in a match.",
-    //     status: "error",
-    //     duration: 5000,
-    //     isClosable: true,
-    //   });
+    match.matches.map((m) => {
+      m.players.map((p) => {
+        if (
+          user.id === p.id &&
+          m._id !== thisMatch._id &&
+          m.status !== MatchStatus.Finished
+        ) {
+          inOtherMatch = true;
+        } else if (
+          user.id === p.id &&
+          m._id === thisMatch._id &&
+          m.status !== MatchStatus.Finished
+        ) {
+          inThisMatch = true;
+        }
+      });
+    });
+
+    if (inOtherMatch) {
+      console.log("inOtherMatch");
+      toast({
+        title: "Error joining match.",
+        description:
+          "You must leave your current match before entering another one.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
     if (thisMatch.players.length === 4) {
       toast({
         title: "Error joining match.",
@@ -48,7 +64,7 @@ export function MatchList() {
         isClosable: true,
       });
       return;
-    } else if (thisMatch.status === MatchStatus.Started) {
+    } else if (thisMatch.status === MatchStatus.Started && !inThisMatch) {
       toast({
         title: "Error joining match.",
         description: "Game already started.",
@@ -62,20 +78,23 @@ export function MatchList() {
       return;
     }
 
-    socket.emit("joinmatch", matchId, user);
+    if (!inThisMatch) {
+      socket.emit("joinmatch", matchId, user);
 
-    dispatch(
-      setMatches(
-        match.matches.map((m) => {
-          if (m._id === matchId) {
-            return { ...m, players: [...m.players, user] };
-          }
-          return m;
-        })
-      )
-    );
-
-    //dispatch(setEnterMatch(matchId));
+      dispatch(
+        setMatches(
+          match.matches.map((m) => {
+            if (m._id === matchId) {
+              return { ...m, players: [...m.players, user] };
+            }
+            return m;
+          })
+        )
+      );
+    } else if (inThisMatch && thisMatch.status === MatchStatus.Started) {
+      navigate(`/game/${matchId}`);
+      return;
+    }
 
     navigate(`/waiting-room/${matchId}`);
   }
