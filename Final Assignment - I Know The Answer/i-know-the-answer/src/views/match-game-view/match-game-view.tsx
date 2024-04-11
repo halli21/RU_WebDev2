@@ -31,6 +31,7 @@ interface LiveAnswer {
 export function MatchGameView() {
   const answerColors = ["#f1f1f1", "#a097ff", "#84ff82", "#fa8585"];
   const [timer, setTimer] = useState<number>(10);
+  const [givenAnswer, setGivenAnswer] = useState<boolean>(false);
   const [answered, setAnswered] = useState<string[]>([]);
   const [answers, setAnswers] = useState<LiveAnswer[]>([]);
 
@@ -102,6 +103,7 @@ export function MatchGameView() {
     });
 
     socket.on("nextquestion", (nextQuestion) => {
+      setGivenAnswer(false);
       setAnswered([]);
       setAnswers([]);
       dispatch(
@@ -119,55 +121,27 @@ export function MatchGameView() {
       );
     });
 
-    // socket.on("finishedgame", (finshedMatch) => {
-    //   finshedMatch.answers.map((a: Answer) => {
-    //     const questionNumber = a.question;
-    //     const question = finshedMatch.questions[questionNumber - 1];
-
-    //     if (question.options[a.answer].correct === true) {
-    //       const timeElapsed = 10 - a.secondsLeft;
-    //       const points = (10 - timeElapsed) * 10;
-    //       console.log(points);
-    //       const currentScore = scores.get(a.user.id)?.points || 0;
-    //       scores.set(a.user.id, {
-    //         user: a.user,
-    //         points: currentScore + points,
-    //       });
-    //     }
-    //   });
-
-    //   const scoresArray = Array.from(scores.entries());
-    //   scoresArray.sort((a, b) => b[1].points - a[1].points);
-    //   const finalScoresArray = scoresArray.map((entry) => entry[1]);
-    //   console.log(finalScoresArray);
-    //   setFinalScores(finalScoresArray);
-
-    //   dispatch(
-    //     setMatches(
-    //       match.matches.map((m) => {
-    //         if (m._id === matchId) {
-    //           return {
-    //             ...finshedMatch,
-    //           };
-    //         }
-    //         return m;
-    //       })
-    //     )
-    //   );
-    // });
+    socket.on("finishedgame", (finshedMatch) => {
+      console.log("game-view socket recieved: ");
+      console.log(finshedMatch);
+      navigate(`/game-summary/${matchId}`);
+    });
 
     return () => {
       socket.off("updatetimer");
       socket.off("answer");
       socket.off("answers");
-      socket.off("nextquestion");
+      // socket.off("nextquestion");
       // socket.off("finishedgame");
     };
   }, [dispatch, match.matches]);
 
   function answerQuestion(answerIndex: number) {
-    socket.emit("answer", currentMatch, user, answerIndex, timer);
-    setAnswered(user.avatar ? [...answered, user.avatar] : answered);
+    if (!givenAnswer) {
+      socket.emit("answer", currentMatch, user, answerIndex, timer);
+      setAnswered(user.avatar ? [...answered, user.avatar] : answered);
+      setGivenAnswer(true);
+    }
   }
 
   return (

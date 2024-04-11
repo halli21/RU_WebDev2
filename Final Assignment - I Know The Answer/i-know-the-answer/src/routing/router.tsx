@@ -11,6 +11,7 @@ import { MatchCreateView } from "../views/match-create-view/match-create-view";
 import { MatchDetailsView } from "../views/match-details-view/match-details-view";
 import { MatchWaitingView } from "../views/match-waiting-view/match-waiting";
 import { MatchGameView } from "../views/match-game-view/match-game-view";
+import { MatchSummaryView } from "../views/match-summary-view/match-summary-view";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
         <Route path="matches/:matchId" element={<MatchDetailsView />} />
         <Route path="waiting-room/:matchId" element={<MatchWaitingView />} />
         <Route path="game/:matchId" element={<MatchGameView />} />
+        <Route path="game-summary/:matchId" element={<MatchSummaryView />} />
       </Route>
     </>
   )
