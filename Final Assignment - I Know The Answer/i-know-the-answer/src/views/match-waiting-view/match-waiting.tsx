@@ -20,6 +20,8 @@ import { getMatchById } from "../../services/match-service";
 import { setMatches } from "../../redux/features/match/match-slice";
 import { socket } from "../../services/socket-service";
 import { MatchStatus } from "../../types/match-status";
+import { getUser } from "../../services/user-service";
+import { setUser } from "../../redux/features/user/user-slice";
 
 export function MatchWaitingView() {
   const user = useSelector((state: IRootState) => state.user);
@@ -33,6 +35,10 @@ export function MatchWaitingView() {
   );
 
   useEffect(() => {
+    if (Object.keys(user).length === 0) {
+      return;
+    }
+
     if (!matchId) {
       return;
     }

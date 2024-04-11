@@ -7,19 +7,43 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { themeVars } from "../../themes/theme.css";
 import { useNavigate } from "react-router-dom";
-import { authenticateUser } from "../../services/user-service";
+import { authenticateUser, getUser } from "../../services/user-service";
 import { RegisterModal } from "../../components/register-modal/register-modal";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../../redux/store";
+import { setUser } from "../../redux/features/user/user-slice";
+import { ThunkDispatch } from "@reduxjs/toolkit";
 
 export function LoginView() {
+  const user = useSelector((state: IRootState) => state.user);
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const toast = useToast();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+  useEffect(() => {
+    async function validateUserSession() {
+      if (Object.keys(user).length > 0) {
+        return;
+      }
+
+      const session = await getUser();
+
+      if (session) {
+        dispatch(setUser(session));
+        navigate("/dashboard");
+      }
+    }
+
+    validateUserSession();
+  }, [dispatch, navigate, user]);
 
   async function submitForm() {
     const user = await authenticateUser(username, password);
@@ -130,4 +154,7 @@ export function LoginView() {
       <RegisterModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
+}
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
 }

@@ -1,5 +1,5 @@
 import { Container, Flex, Box, Text, Avatar, Button } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { getUser, logoutUser } from "../services/user-service";
 import { useSelector } from "react-redux";
@@ -13,14 +13,13 @@ import { useLocation } from "react-router-dom";
 
 export function MainLayout() {
   const user = useSelector((state: IRootState) => state.user);
-
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   useEffect(() => {
     dispatch(getMatches());
-  }, [dispatch, location]);
+  }, [dispatch]);
 
   useEffect(() => {
     async function validateUserSession() {
@@ -32,8 +31,10 @@ export function MainLayout() {
 
       if (!session) {
         navigate("/");
+        return;
       } else {
         dispatch(setUser(session));
+        return;
       }
     }
 

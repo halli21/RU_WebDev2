@@ -43,12 +43,17 @@ export function MatchGameView() {
   );
 
   useEffect(() => {
-    socket.emit("joinmatch", matchId, user);
+    if (Object.keys(user).length === 0) {
+      return;
+    }
 
     if (!matchId) {
       return;
     }
+
     async function getMatch() {
+      socket.emit("joinmatch", matchId, user);
+
       const fetchedMatch = await getMatchById(matchId!);
 
       dispatch(

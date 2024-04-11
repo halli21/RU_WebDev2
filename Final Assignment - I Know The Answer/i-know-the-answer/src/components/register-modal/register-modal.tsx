@@ -21,27 +21,27 @@ interface RegisterModalProps {
 }
 
 export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
-  const [fullName, setFullName] = useState<string>("");
+  const [displayName, setDisplayName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [fullNameError, setFullNameError] = useState<boolean>(false);
+  const [displayNameError, setDisplayNameError] = useState<boolean>(false);
   const [usernameError, setUsernameError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
 
   const toast = useToast();
 
   async function submitForm() {
-    const isFullNameError = fullName.length < 3;
-    const isUsernameError = username.length < 3;
-    const isPasswordError = password.length < 8;
+    const isDisplayNameError = displayName.length < 4;
+    const isUsernameError = username.length < 4;
+    const isPasswordError = password.length < 9;
 
-    setFullNameError(isFullNameError);
+    setDisplayNameError(isDisplayNameError);
     setUsernameError(isUsernameError);
     setPasswordError(isPasswordError);
 
-    if (!isFullNameError && !isUsernameError && !isPasswordError) {
-      const success = await registerUser(username, fullName, password);
+    if (!isDisplayNameError && !isUsernameError && !isPasswordError) {
+      const success = await registerUser(username, displayName, password);
 
       if (success) {
         onClose();
@@ -96,14 +96,14 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
           <ModalBody>
             <FormControl style={{ paddingBottom: 5 }}>
               <FormLabel style={{ fontSize: 12, fontWeight: 700 }}>
-                Full name
+                Display name
               </FormLabel>
               <Input
                 id="fullname-input"
                 type="text"
                 placeholder="Enter full name"
-                value={fullName}
-                onChange={(evt) => setFullName(evt.target.value)}
+                value={displayName}
+                onChange={(evt) => setDisplayName(evt.target.value)}
                 style={{
                   borderRadius: 0,
                   borderColor: "black",
@@ -113,9 +113,13 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
               />
 
               <Text
-                style={{ fontSize: 12, color: fullNameError ? "red" : "white" }}
+                style={{
+                  fontSize: 12,
+                  color: displayNameError ? "red" : "white",
+                }}
               >
-                Full name must be provided and at least 3 characters long.
+                Display name must be provided and more than 3 characters in
+                length.
               </Text>
             </FormControl>
 
@@ -139,7 +143,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
               <Text
                 style={{ fontSize: 12, color: usernameError ? "red" : "white" }}
               >
-                Username must be provided and at least 3 characters long.
+                Username must be provided and more than 3 characters in length.
               </Text>
             </FormControl>
 
@@ -164,7 +168,7 @@ export const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
               <Text
                 style={{ fontSize: 12, color: passwordError ? "red" : "white" }}
               >
-                Password must be provided and at least 8 characters long.
+                Password must be provided and more than 8 characters in length.
               </Text>
             </FormControl>
           </ModalBody>
