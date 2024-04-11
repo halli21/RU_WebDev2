@@ -30,7 +30,7 @@ export function LoginView() {
       navigate("/dashboard");
     } else {
       toast({
-        title: "Login failed.",
+        title: "Invalid credentials.",
         status: "error",
         duration: 5000,
         isClosable: true,

@@ -13,12 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../redux/store";
 
 import { themeVars } from "../../themes/theme.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { getMatchById } from "../../services/match-service";
 import { setMatches } from "../../redux/features/match/match-slice";
 import { socket } from "../../services/socket-service";
+import { MatchStatus } from "../../types/match-status";
 
 export function MatchWaitingView() {
   const user = useSelector((state: IRootState) => state.user);
@@ -54,6 +55,90 @@ export function MatchWaitingView() {
 
     getMatch();
   }, []);
+
+  useEffect(() => {
+    socket.on("joinmatch", (newUser) => {
+      if (user.id === newUser.id) {
+        return;
+      }
+
+      dispatch(
+        setMatches(
+          match.matches.map((m) => {
+            if (m._id === matchId) {
+              return {
+                ...m,
+                players: [...m.players, newUser],
+              };
+            }
+            return m;
+          })
+        )
+      );
+    });
+
+    socket.on("leavematch", (leaveingUser) => {
+      if (user.id === leaveingUser.id) {
+        return;
+      }
+
+      dispatch(
+        setMatches(
+          match.matches.map((m) => {
+            if (m._id === matchId) {
+              const updatedPlayers = m.players.filter(
+                (p) => p.id !== leaveingUser.id
+              );
+              return {
+                ...m,
+                players: updatedPlayers,
+              };
+            }
+            return m;
+          })
+        )
+      );
+    });
+
+    socket.on("startmatch", () => {
+      toast({
+        title: "Game has started!",
+        status: "info",
+        duration: 5000,
+        isClosable: true,
+      });
+
+      dispatch(
+        setMatches(
+          match.matches.map((m) => {
+            if (m._id === matchId) {
+              //   const initialScores = new Map<string, Score>(
+              //     m.players.map((player) => [
+              //       player.id,
+              //       { user: player, points: 0 },
+              //     ])
+              //   );
+              //   setScores(initialScores);
+
+              return {
+                ...m,
+                status: MatchStatus.Started,
+              };
+            }
+            return m;
+          })
+        )
+      );
+
+      navigate(`/game/${matchId}`);
+    });
+
+    return () => {
+      socket.off("joinmatch");
+      socket.off("leavematch");
+      socket.off("startmatch");
+    };
+  }, [dispatch, match.matches]);
 
   function leaveMatch() {
     socket.emit("leavematch", matchId, user);
