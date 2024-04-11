@@ -12,10 +12,12 @@ export function DashboardView() {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          paddingBottom: 10,
+          paddingBottom: 15,
         }}
       >
-        <Heading style={{ fontSize: 20 }}>Matchrooms</Heading>
+        <Heading style={{ fontSize: 20, alignSelf: "center" }}>
+          Matchrooms
+        </Heading>
 
         <Button
           onClick={() => navigate("/matches/create")}

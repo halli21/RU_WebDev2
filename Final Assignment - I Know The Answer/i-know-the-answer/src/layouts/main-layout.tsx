@@ -74,7 +74,7 @@ export function MainLayout() {
         <Button
           onClick={logout}
           style={{
-            marginTop: 500,
+            marginTop: 480,
             borderRadius: 3,
             backgroundColor: themeVars.colors.lightBlue,
             width: "125px",

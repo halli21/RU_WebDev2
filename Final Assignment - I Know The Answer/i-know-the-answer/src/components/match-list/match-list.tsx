@@ -9,6 +9,7 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import { getMatchById } from "../../services/match-service";
 import { Match } from "../../types/match";
 import { setEnterMatch } from "../../redux/features/session/session-slice";
+import { themeClass, themeVars } from "../../themes/theme.css";
 
 export function MatchList() {
   const user = useSelector((state: IRootState) => state.user);
@@ -90,74 +91,50 @@ export function MatchList() {
   };
 
   return (
-    <List
+    <Box
       style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
+        display: "flex",
         gap: 20,
+        overflowX: "scroll",
+        paddingBottom: 20,
       }}
     >
       {match.matches.map((m) => (
-        <Card
+        <Box
           key={m._id}
           onClick={() => navigateToMatch(m._id)}
           style={{
             backgroundColor: "#f2f2f2",
             borderRadius: 0,
             width: "100%",
-            height: 275,
+            maxWidth: "270px",
+            height: 300,
             padding: 20,
+            flex: "none",
+            cursor: "pointer",
           }}
         >
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: 700,
-              marginBottom: 10,
-            }}
-          >
+          <Text fontSize="14px" fontWeight="700" marginBottom="10px">
             {m.title}
           </Text>
 
-          <Box
+          <Image
+            src={m.titleImage}
             style={{
-              backgroundColor: "red",
-              minHeight: 160,
-              display: "flex",
+              height: 180,
+              width: "100%",
+              objectFit: "cover",
             }}
-          >
-            <Image
-              src={m.titleImage}
-              style={{
-                height: "100%",
-                width: "100%",
-                alignSelf: "center",
-                placeSelf: "center",
-                objectFit: "cover",
-              }}
-            />
-          </Box>
+          />
 
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              marginTop: 12,
-            }}
-          >
+          <Text fontSize="12px" fontWeight="700" marginTop="12px">
             {m.players.length}/4 players
           </Text>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              marginTop: 2,
-            }}
-          >
+          <Text fontSize="12px" fontWeight="700" marginTop="2px">
             {displayStatus(m.status)}
           </Text>
-        </Card>
+        </Box>
       ))}
-    </List>
+    </Box>
   );
 }
