@@ -6,7 +6,6 @@ import {
   Avatar,
   List,
   CircularProgress,
-  useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -127,13 +126,11 @@ export function MatchGameView() {
       socket.off("updatetimer");
       socket.off("answer");
       socket.off("answers");
-      // socket.off("nextquestion");
-      // socket.off("finishedgame");
     };
   }, [dispatch, match.matches]);
 
   function answerQuestion(answerIndex: number) {
-    if (!givenAnswer) {
+    if (!givenAnswer && timer > 0) {
       socket.emit("answer", currentMatch, user, answerIndex, timer);
       setAnswered(user.avatar ? [...answered, user.avatar] : answered);
       setGivenAnswer(true);

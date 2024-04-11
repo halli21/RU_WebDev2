@@ -22,6 +22,7 @@ export function MatchList() {
     const thisMatch: Match = response;
 
     let inOtherMatch = false;
+    let otherMatchStatus = "";
     let inThisMatch = false;
 
     match.matches.map((m) => {
@@ -32,6 +33,7 @@ export function MatchList() {
           m.status !== MatchStatus.Finished
         ) {
           inOtherMatch = true;
+          otherMatchStatus = m.status;
         } else if (
           user.id === p.id &&
           m._id === thisMatch._id &&
@@ -42,8 +44,7 @@ export function MatchList() {
       });
     });
 
-    if (inOtherMatch) {
-      console.log("inOtherMatch");
+    if (inOtherMatch && otherMatchStatus === MatchStatus.NotStarted) {
       toast({
         title: "Error joining match.",
         description:
@@ -53,9 +54,23 @@ export function MatchList() {
         isClosable: true,
       });
       return;
+    } else if (inOtherMatch && otherMatchStatus === MatchStatus.Started) {
+      toast({
+        title: "Error joining match.",
+        description:
+          "You are already in active match. Rejoin match to play or wait for match to finish.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
     }
 
-    if (thisMatch.players.length === 4) {
+    if (
+      thisMatch.players.length === 4 &&
+      !inThisMatch &&
+      thisMatch.status === MatchStatus.Started
+    ) {
       toast({
         title: "Error joining match.",
         description: "Game is full.",
@@ -113,50 +128,54 @@ export function MatchList() {
   };
 
   return (
-    <Box
-      style={{
-        display: "flex",
-        gap: 20,
-        overflowX: "scroll",
-        paddingBottom: 20,
-      }}
-    >
-      {match.matches.map((m) => (
+    <Box>
+      {match.matches.length > 0 && (
         <Box
-          key={m._id}
-          onClick={() => navigateToMatch(m._id)}
           style={{
-            backgroundColor: "#f2f2f2",
-            borderRadius: 0,
-            width: "100%",
-            maxWidth: "270px",
-            height: 300,
-            padding: 20,
-            flex: "none",
-            cursor: "pointer",
+            display: "flex",
+            gap: 20,
+            overflowX: "scroll",
+            paddingBottom: 20,
           }}
         >
-          <Text fontSize="14px" fontWeight="700" marginBottom="10px">
-            {m.title}
-          </Text>
+          {match.matches.map((m) => (
+            <Box
+              key={m._id}
+              onClick={() => navigateToMatch(m._id)}
+              style={{
+                backgroundColor: "#f2f2f2",
+                borderRadius: 0,
+                width: "100%",
+                maxWidth: "270px",
+                height: 300,
+                padding: 20,
+                flex: "none",
+                cursor: "pointer",
+              }}
+            >
+              <Text fontSize="14px" fontWeight="700" marginBottom="10px">
+                {m.title}
+              </Text>
 
-          <Image
-            src={m.titleImage}
-            style={{
-              height: 180,
-              width: "100%",
-              objectFit: "cover",
-            }}
-          />
+              <Image
+                src={m.titleImage}
+                style={{
+                  height: 180,
+                  width: "100%",
+                  objectFit: "cover",
+                }}
+              />
 
-          <Text fontSize="12px" fontWeight="700" marginTop="12px">
-            {m.players.length}/4 players
-          </Text>
-          <Text fontSize="12px" fontWeight="700" marginTop="2px">
-            {displayStatus(m.status)}
-          </Text>
+              <Text fontSize="12px" fontWeight="700" marginTop="12px">
+                {m.players.length}/4 players
+              </Text>
+              <Text fontSize="12px" fontWeight="700" marginTop="2px">
+                {displayStatus(m.status)}
+              </Text>
+            </Box>
+          ))}
         </Box>
-      ))}
+      )}
     </Box>
   );
 }
