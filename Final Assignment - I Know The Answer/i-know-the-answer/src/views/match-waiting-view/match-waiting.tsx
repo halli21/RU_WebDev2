@@ -33,21 +33,23 @@ export function MatchWaitingView() {
     undefined
   );
 
-  // const isUserInPlayers = fetchedMatch.players.some(
-  //   (player: { id: string | undefined }) => player.id === user.id
-  // );
-
   useEffect(() => {
-    console.log("waiting room mounting");
-
     if (!matchId) {
       return;
     }
 
-    socket.emit("joinmatch", matchId, user);
-
     async function getMatch() {
       const fetchedMatch = await getMatchById(matchId!);
+      const isUserInPlayers = fetchedMatch.players.some(
+        (player: { id: string | undefined }) => player.id === user.id
+      );
+      if (!isUserInPlayers) {
+        console.log("not in this game");
+
+        navigate("/dashboard");
+      } else {
+        socket.emit("joinmatch", matchId, user);
+      }
       setCurrentMatch(fetchedMatch);
     }
 

@@ -25,8 +25,6 @@ export function MainLayout() {
 
   useEffect(() => {
     async function validateUserSession() {
-      //console.log("main-layout", user);
-
       if (Object.keys(user).length > 0) {
         return;
       }

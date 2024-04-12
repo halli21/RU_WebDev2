@@ -27,13 +27,7 @@ export function MatchSummaryView() {
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const status = useSelector((state: IRootState) => state.match.status);
-
   useEffect(() => {
-    if (status !== "idle") {
-      return;
-    }
-
     if (!matchId) {
       return;
     }
@@ -85,7 +79,7 @@ export function MatchSummaryView() {
     }
 
     getMatch();
-  }, [status]);
+  }, []);
 
   return (
     <Box

@@ -52,6 +52,14 @@ export function MatchGameView() {
 
     async function getMatch() {
       const fetchedMatch = await getMatchById(matchId!);
+      const isUserInPlayers = fetchedMatch.players.some(
+        (player: { id: string | undefined }) => player.id === user.id
+      );
+      if (!isUserInPlayers) {
+        console.log("not in this game");
+
+        navigate("/dashboard");
+      }
       setCurrentMatch(fetchedMatch);
     }
 
