@@ -115,6 +115,8 @@ export function MatchGameView() {
       socket.off("updatetimer");
       socket.off("answer");
       socket.off("answers");
+      socket.off("nextquestion");
+      socket.off("finishedgame");
     };
   }, [dispatch, currentMatch]);
 

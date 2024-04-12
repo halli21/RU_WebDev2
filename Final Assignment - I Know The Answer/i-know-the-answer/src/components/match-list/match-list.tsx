@@ -66,11 +66,12 @@ export function MatchList() {
       return;
     }
 
-    if (
-      thisMatch.players.length === 4 &&
-      !inThisMatch &&
-      thisMatch.status === MatchStatus.Started
-    ) {
+    if (thisMatch.status === MatchStatus.Finished) {
+      navigate(`/game-summary/${matchId}`);
+      return;
+    }
+
+    if (thisMatch.players.length === 4 && !inThisMatch) {
       toast({
         title: "Error joining match.",
         description: "Game is full.",
@@ -87,9 +88,6 @@ export function MatchList() {
         duration: 5000,
         isClosable: true,
       });
-      return;
-    } else if (thisMatch.status === MatchStatus.Finished) {
-      navigate(`/game-summary/${matchId}`);
       return;
     }
 
