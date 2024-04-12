@@ -8,10 +8,8 @@ import {
   List,
   useToast,
 } from "@chakra-ui/react";
-
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../redux/store";
-
 import { themeVars } from "../../themes/theme.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -44,8 +42,6 @@ export function MatchWaitingView() {
         (player: { id: string | undefined }) => player.id === user.id
       );
       if (!isUserInPlayers) {
-        console.log("not in this game");
-
         navigate("/dashboard");
       } else {
         socket.emit("joinmatch", matchId, user);

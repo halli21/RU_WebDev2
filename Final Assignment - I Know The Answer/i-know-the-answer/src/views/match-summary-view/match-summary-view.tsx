@@ -20,8 +20,6 @@ interface Score {
 
 export function MatchSummaryView() {
   const [finalScores, setFinalScores] = useState<Score[]>([]);
-
-  const user = useSelector((state: IRootState) => state.user);
   const match = useSelector((state: IRootState) => state.match);
 
   const { matchId } = useParams();

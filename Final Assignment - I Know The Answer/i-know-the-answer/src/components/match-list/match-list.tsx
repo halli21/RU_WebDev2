@@ -1,4 +1,4 @@
-import { List, Card, Text, Image, Box, useToast } from "@chakra-ui/react";
+import { Text, Image, Box, useToast } from "@chakra-ui/react";
 import { MatchStatus } from "../../types/match-status";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

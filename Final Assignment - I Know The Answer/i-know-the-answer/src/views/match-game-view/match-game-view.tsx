@@ -13,7 +13,6 @@ import { IRootState } from "../../redux/store";
 import { socket } from "../../services/socket-service";
 import { useEffect, useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { setMatches } from "../../redux/features/match/match-slice";
 import { User } from "../../types/user";
 import { getMatchById } from "../../services/match-service";
 import { themeVars } from "../../themes/theme.css";
@@ -81,8 +80,6 @@ export function MatchGameView() {
         (player: { id: string | undefined }) => player.id === user.id
       );
       if (!isUserInPlayers) {
-        console.log("not in this game");
-
         navigate("/dashboard");
       } else {
         socket.emit("joinmatch", matchId, user);
