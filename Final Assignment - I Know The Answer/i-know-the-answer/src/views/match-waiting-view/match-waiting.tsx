@@ -13,17 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../redux/store";
 
 import { themeVars } from "../../themes/theme.css";
-import { redirect, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { getMatchById } from "../../services/match-service";
 import { setMatches } from "../../redux/features/match/match-slice";
 import { socket } from "../../services/socket-service";
 import { MatchStatus } from "../../types/match-status";
-import { getUser } from "../../services/user-service";
-import { setUser } from "../../redux/features/user/user-slice";
 import { Match } from "../../types/match";
-import { User } from "../../types/user";
 
 export function MatchWaitingView() {
   const user = useSelector((state: IRootState) => state.user);
@@ -65,7 +62,6 @@ export function MatchWaitingView() {
 
       if (currentMatch && currentMatch.players) {
         if (currentMatch.players.some((user) => user.id === newUser.id)) {
-          console.log("already in match");
           return;
         }
 
@@ -145,7 +141,6 @@ export function MatchWaitingView() {
         })
       )
     );
-    //dispatch(setLeaveMatch());
     navigate("/dashboard");
   }
 

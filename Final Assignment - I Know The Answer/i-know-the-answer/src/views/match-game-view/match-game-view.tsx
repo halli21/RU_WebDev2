@@ -39,8 +39,8 @@ export function MatchGameView() {
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const currentMatch = useSelector((state: IRootState) =>
-    state.match.matches.find((m) => m._id === matchId)
+  const [currentMatch, setCurrentMatch] = useState<Match | undefined>(
+    undefined
   );
 
   useEffect(() => {
@@ -51,20 +51,8 @@ export function MatchGameView() {
     socket.emit("joinmatch", matchId, user);
 
     async function getMatch() {
-      const fetchedMatch = (await getMatchById(matchId!)) as Match;
-
-      dispatch(
-        setMatches(
-          match.matches.map((m) => {
-            if (m._id === matchId) {
-              return {
-                ...fetchedMatch,
-              };
-            }
-            return m;
-          })
-        )
-      );
+      const fetchedMatch = await getMatchById(matchId!);
+      setCurrentMatch(fetchedMatch);
     }
 
     getMatch();
@@ -85,39 +73,30 @@ export function MatchGameView() {
     socket.on("answers", (answers) => {
       setAnswers(answers);
 
-      dispatch(
-        setMatches(
-          match.matches.map((m) => {
-            if (m._id === matchId) {
-              const updatedAnswers = [...m.answers, ...answers];
-              return {
-                ...m,
-                answers: updatedAnswers,
-              };
-            }
-            return m;
-          })
-        )
-      );
+      if (currentMatch) {
+        const updatedAnswers = [...currentMatch.answers, ...answers];
+        const updatedMatch = {
+          ...currentMatch,
+          answers: updatedAnswers,
+        };
+
+        setCurrentMatch(updatedMatch);
+      }
     });
 
     socket.on("nextquestion", (nextQuestion) => {
       setGivenAnswer(false);
       setAnswered([]);
       setAnswers([]);
-      dispatch(
-        setMatches(
-          match.matches.map((m) => {
-            if (m._id === matchId) {
-              return {
-                ...m,
-                currentQuestion: nextQuestion,
-              };
-            }
-            return m;
-          })
-        )
-      );
+
+      if (currentMatch) {
+        const updatedMatch = {
+          ...currentMatch,
+          currentQuestion: nextQuestion,
+        };
+
+        setCurrentMatch(updatedMatch);
+      }
     });
 
     socket.on("finishedgame", (finshedMatch) => {
@@ -129,7 +108,7 @@ export function MatchGameView() {
       socket.off("answer");
       socket.off("answers");
     };
-  }, [dispatch, match.matches]);
+  }, [dispatch, currentMatch]);
 
   function answerQuestion(answerIndex: number) {
     if (!givenAnswer && timer > 0) {
