@@ -50,6 +50,22 @@ export function MatchGameView() {
     async function getMatch() {
       const fetchedMatch = await getMatchById(matchId!);
 
+      if (fetchedMatch.answers) {
+        let hasAnswered = false;
+        const avatars = [];
+
+        for (const answer of fetchedMatch.answers) {
+          if (answer.question === fetchedMatch.currentQuestion) {
+            avatars.push(answer.user.avatar);
+            if (answer.user.id === user.id) {
+              hasAnswered = true;
+            }
+          }
+        }
+        setAnswered(avatars);
+        setGivenAnswer(hasAnswered);
+      }
+
       setAnswered(
         fetchedMatch.answers
           ? fetchedMatch.answers
