@@ -33,7 +33,6 @@ export function MatchGameView() {
   const [answers, setAnswers] = useState<LiveAnswer[]>([]);
 
   const user = useSelector((state: IRootState) => state.user);
-  const match = useSelector((state: IRootState) => state.match);
 
   const { matchId } = useParams();
   const navigate = useNavigate();
@@ -50,6 +49,18 @@ export function MatchGameView() {
 
     async function getMatch() {
       const fetchedMatch = await getMatchById(matchId!);
+
+      setAnswered(
+        fetchedMatch.answers
+          ? fetchedMatch.answers
+              .filter(
+                (answer: { question: number }) =>
+                  answer.question === (fetchedMatch.currentQuestion || 1)
+              )
+              .map((answer: { user: User }) => answer.user.avatar)
+          : []
+      );
+
       const isUserInPlayers = fetchedMatch.players.some(
         (player: { id: string | undefined }) => player.id === user.id
       );
