@@ -23,6 +23,7 @@ import { MatchStatus } from "../../types/match-status";
 import { getUser } from "../../services/user-service";
 import { setUser } from "../../redux/features/user/user-slice";
 import { Match } from "../../types/match";
+import { User } from "../../types/user";
 
 export function MatchWaitingView() {
   const user = useSelector((state: IRootState) => state.user);
@@ -35,6 +36,10 @@ export function MatchWaitingView() {
     undefined
   );
 
+  // const isUserInPlayers = fetchedMatch.players.some(
+  //   (player: { id: string | undefined }) => player.id === user.id
+  // );
+
   useEffect(() => {
     console.log("waiting room mounting");
 
@@ -42,22 +47,11 @@ export function MatchWaitingView() {
       return;
     }
 
+    socket.emit("joinmatch", matchId, user);
+
     async function getMatch() {
       const fetchedMatch = await getMatchById(matchId!);
       setCurrentMatch(fetchedMatch);
-
-      dispatch(
-        setMatches(
-          match.matches.map((m) => {
-            if (m._id === matchId) {
-              return {
-                ...fetchedMatch,
-              };
-            }
-            return m;
-          })
-        )
-      );
     }
 
     getMatch();
@@ -69,19 +63,21 @@ export function MatchWaitingView() {
         return;
       }
 
-      dispatch(
-        setMatches(
-          match.matches.map((m) => {
-            if (m._id === matchId) {
-              return {
-                ...m,
-                players: [...m.players, newUser],
-              };
-            }
-            return m;
-          })
-        )
-      );
+      if (currentMatch && currentMatch.players) {
+        if (currentMatch.players.some((user) => user.id === newUser.id)) {
+          console.log("already in match");
+          return;
+        }
+
+        const updatedPlayers = [...currentMatch.players, newUser];
+
+        const updatedMatch = {
+          ...currentMatch,
+          players: updatedPlayers,
+        };
+
+        setCurrentMatch(updatedMatch);
+      }
     });
 
     socket.on("leavematch", (leaveingUser) => {
@@ -89,22 +85,17 @@ export function MatchWaitingView() {
         return;
       }
 
-      dispatch(
-        setMatches(
-          match.matches.map((m) => {
-            if (m._id === matchId) {
-              const updatedPlayers = m.players.filter(
-                (p) => p.id !== leaveingUser.id
-              );
-              return {
-                ...m,
-                players: updatedPlayers,
-              };
-            }
-            return m;
-          })
-        )
-      );
+      if (currentMatch && currentMatch.players) {
+        const updatedPlayers = currentMatch.players.filter(
+          (user) => user.id !== leaveingUser.id
+        );
+
+        const updatedMatch: Match = {
+          ...currentMatch,
+          players: updatedPlayers,
+        };
+        setCurrentMatch(updatedMatch);
+      }
     });
 
     socket.on("startmatch", () => {
@@ -137,7 +128,7 @@ export function MatchWaitingView() {
       socket.off("leavematch");
       socket.off("startmatch");
     };
-  }, [dispatch, match.matches]);
+  }, [dispatch, currentMatch]);
 
   function leaveMatch() {
     socket.emit("leavematch", matchId, user);

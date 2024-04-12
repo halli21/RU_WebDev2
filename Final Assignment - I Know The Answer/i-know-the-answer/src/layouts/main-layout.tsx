@@ -17,13 +17,15 @@ export function MainLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
+  const [finished, setFinshed] = useState<boolean>(false);
+
   useEffect(() => {
     dispatch(getMatches());
   }, [dispatch, location]);
 
   useEffect(() => {
     async function validateUserSession() {
-      console.log("main-layout", user);
+      //console.log("main-layout", user);
 
       if (Object.keys(user).length > 0) {
         return;
@@ -35,6 +37,7 @@ export function MainLayout() {
         navigate("/");
       } else {
         dispatch(setUser(session));
+        setFinshed(true);
       }
     }
 
@@ -99,7 +102,7 @@ export function MainLayout() {
             height: "100%",
           }}
         >
-          <Outlet />
+          {finished && <Outlet />}
         </Container>
       </Box>
     </Flex>

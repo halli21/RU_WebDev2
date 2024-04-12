@@ -10,6 +10,7 @@ import { themeVars } from "../../themes/theme.css";
 import { Podium } from "../../components/podium/podium";
 import { User } from "../../types";
 import { Answer } from "../../types/answer";
+import { Match } from "../../types/match";
 
 interface Score {
   points: number;
@@ -26,12 +27,18 @@ export function MatchSummaryView() {
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
+  const status = useSelector((state: IRootState) => state.match.status);
+
   useEffect(() => {
+    if (status !== "idle") {
+      return;
+    }
+
     if (!matchId) {
       return;
     }
     async function getMatch() {
-      const fetchedMatch = await getMatchById(matchId!);
+      const fetchedMatch = (await getMatchById(matchId!)) as Match;
 
       // create empty map
       const initialScores = new Map<string, Score>(
@@ -78,7 +85,7 @@ export function MatchSummaryView() {
     }
 
     getMatch();
-  }, []);
+  }, [status]);
 
   return (
     <Box
