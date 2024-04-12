@@ -48,8 +48,6 @@ export function MatchGameView() {
       return;
     }
 
-    socket.emit("joinmatch", matchId, user);
-
     async function getMatch() {
       const fetchedMatch = await getMatchById(matchId!);
       const isUserInPlayers = fetchedMatch.players.some(
@@ -59,6 +57,8 @@ export function MatchGameView() {
         console.log("not in this game");
 
         navigate("/dashboard");
+      } else {
+        socket.emit("joinmatch", matchId, user);
       }
       setCurrentMatch(fetchedMatch);
     }

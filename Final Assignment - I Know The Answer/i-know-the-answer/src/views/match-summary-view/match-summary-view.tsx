@@ -11,6 +11,7 @@ import { Podium } from "../../components/podium/podium";
 import { User } from "../../types";
 import { Answer } from "../../types/answer";
 import { Match } from "../../types/match";
+import { MatchStatus } from "../../types/match-status";
 
 interface Score {
   points: number;
@@ -33,6 +34,11 @@ export function MatchSummaryView() {
     }
     async function getMatch() {
       const fetchedMatch = (await getMatchById(matchId!)) as Match;
+
+      if (fetchedMatch.status !== MatchStatus.Finished) {
+        navigate("/dashboard");
+        return;
+      }
 
       // create empty map
       const initialScores = new Map<string, Score>(
